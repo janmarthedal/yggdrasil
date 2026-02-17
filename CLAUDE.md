@@ -15,6 +15,10 @@ It should offer functionality such as:
 ## Environment
 - Use uv for package management
 
+## Running tests and examples
+- Tests: `uv run pytest`
+- Examples: `uv run --group examples python examples/<path>.py`
+
 ## Packages
 Use SciPy and NumPy as the foundation for all computations.
 The functionality should otherwise be self-contained.
