@@ -19,13 +19,21 @@ It should offer functionality such as:
 - Tests: `uv run pytest`
 - Examples: `uv run --group examples python examples/<path>.py`
 
+## File structure
+- `yggdrasil/` — library source
+  - `domains/` — reference domain definitions (line, triangle, quadrilateral, tetrahedron, hexahedron) with quadrature rules
+  - `elements/` — reference element implementations (shape functions and gradients) for each supported element type
+  - `mapping.py` — Jacobian, physical-space gradients, and mapped quadrature utilities
+  - `mesh.py` — `Mesh` class for storing nodes, connectivity, and auxiliary data
+- `tests/` — pytest test suite
+- `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
+- `web/`
+  - `pages/` — interactive web-based visualizations (standalone HTML using Three.js)
+  - `posts/` — markdown posts describing the theoretical foundation of the library code
+
 ## Packages
-Use SciPy and NumPy as the foundation for all computations.
-The functionality should otherwise be self-contained.
-
-Feel free to suggest packages for generating visualizations of elements, meshes, solutions, etc.
-
-Feel free to suggest packages for testing and other development-related parts of the project.
+SciPy and NumPy are used as the foundation for all computations.
+The functionality is otherwise self-contained.
 
 ## Technical specifications
 
