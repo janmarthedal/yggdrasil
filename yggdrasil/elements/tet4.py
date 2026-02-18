@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -50,3 +52,13 @@ class Tet4(ReferenceElement):
         grad[:, 3, 1] = 0.0
         grad[:, 3, 2] = 1.0
         return grad
+
+    @property
+    def faces(self) -> tuple[tuple[int, ...], ...]:
+        return ((0, 2, 1), (0, 1, 3), (1, 2, 3), (0, 3, 2))
+
+    @property
+    def face_element(self) -> ReferenceElement:
+        from .tri3 import Tri3
+
+        return Tri3()

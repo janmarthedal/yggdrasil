@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -103,3 +105,13 @@ class Quad9(ReferenceElement):
             grad[:, i, 1] = lxi * dlyj
 
         return grad
+
+    @property
+    def faces(self) -> tuple[tuple[int, ...], ...]:
+        return ((0, 1, 4), (1, 2, 5), (2, 3, 6), (3, 0, 7))
+
+    @property
+    def face_element(self) -> ReferenceElement:
+        from .line3 import Line3
+
+        return Line3()

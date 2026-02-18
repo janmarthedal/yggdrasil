@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -32,3 +34,13 @@ class Line2(ReferenceElement):
         grad[:, 0, 0] = -1.0
         grad[:, 1, 0] = 1.0
         return grad
+
+    @property
+    def faces(self) -> tuple[tuple[int, ...], ...]:
+        return ((0,), (1,))
+
+    @property
+    def face_element(self) -> ReferenceElement:
+        from .point1 import Point1
+
+        return Point1()

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -35,4 +37,16 @@ class ReferenceElement(ABC):
 
         xi: (num_points, topo_dim) -> returns (num_points, num_nodes, topo_dim)
         """
+        ...
+
+    @property
+    @abstractmethod
+    def faces(self) -> tuple[tuple[int, ...], ...]:
+        """Local node indices for each face/edge of the element."""
+        ...
+
+    @property
+    @abstractmethod
+    def face_element(self) -> ReferenceElement | None:
+        """The element type used for each face, or None for 0D elements."""
         ...

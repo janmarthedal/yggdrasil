@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -44,3 +46,13 @@ class Tri3(ReferenceElement):
         grad[:, 2, 0] = 0.0
         grad[:, 2, 1] = 1.0
         return grad
+
+    @property
+    def faces(self) -> tuple[tuple[int, ...], ...]:
+        return ((0, 1), (1, 2), (2, 0))
+
+    @property
+    def face_element(self) -> ReferenceElement:
+        from .line2 import Line2
+
+        return Line2()

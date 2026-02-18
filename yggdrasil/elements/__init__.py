@@ -1,4 +1,5 @@
 from .element import ReferenceElement
+from .point1 import Point1
 from .line2 import Line2
 from .line3 import Line3
 from .tri3 import Tri3
@@ -10,6 +11,7 @@ from .hex8 import Hex8
 
 __all__ = [
     "ReferenceElement",
+    "Point1",
     "Line2",
     "Line3",
     "Tri3",
