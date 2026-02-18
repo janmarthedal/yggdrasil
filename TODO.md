@@ -1,2 +1,1 @@
-- Make mesh library function that finds boundary of a mesh
 - Make library function that helps assemble the linear system (e.g., fix value of boundary nodes)

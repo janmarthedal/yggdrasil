@@ -8,15 +8,7 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
 
-from yggdrasil import Mesh, assemble_bilinear_form, assemble_load_vector, unit_square_tri_mesh
-
-
-# TODO: Make mesh library function that finds boundary of a mesh
-def find_boundary_nodes(mesh: Mesh, tol: float = 1e-12) -> np.ndarray:
-    """Find node indices on the boundary of [0,1]²."""
-    x, y = mesh.nodes[:, 0], mesh.nodes[:, 1]
-    on_boundary = (x < tol) | (x > 1 - tol) | (y < tol) | (y > 1 - tol)
-    return np.where(on_boundary)[0]
+from yggdrasil import assemble_bilinear_form, assemble_load_vector, extract_boundary, unit_square_tri_mesh
 
 
 # TODO: Make library function that helps assemble the linear system
@@ -45,7 +37,7 @@ def main():
     b = assemble_load_vector(mesh, f_val=1.0, quadrature_order=1)
 
     # Apply Dirichlet BC (u = 0 on boundary)
-    bc_nodes = find_boundary_nodes(mesh)
+    bc_nodes = extract_boundary(mesh).point_data["original_node_index"]
     K, b = apply_dirichlet_bc(K, b, bc_nodes)
 
     # Solve
