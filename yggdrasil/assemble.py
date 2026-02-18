@@ -67,3 +67,41 @@ def assemble_bilinear_form(
 
     K = sp.coo_matrix((vals, (rows, cols)), shape=(n_dofs, n_dofs))
     return K.tocsr()
+
+
+def assemble_load_vector(
+    mesh: Mesh,
+    f_val: float,
+    quadrature_order: int,
+) -> NDArray[np.float64]:
+    """Assemble the load vector for a constant source term f.
+
+    Parameters
+    ----------
+    mesh : Mesh
+    f_val : float
+        Constant source term value.
+    quadrature_order : int
+        Polynomial order for the quadrature rule.
+
+    Returns
+    -------
+    b : ndarray of shape (num_nodes,)
+    """
+    b = np.zeros(mesh.num_nodes)
+
+    for group in mesh.iter_element_groups():
+        element = group.element
+        xi, weights = element.domain.quadrature(quadrature_order)
+        N = element.shape_functions(xi)
+
+        for e in range(group.num_elements):
+            elem_nodes = group.connectivity[e]
+            phys_coords = mesh.nodes[elem_nodes]
+            _, det_J = compute_physical_gradients(element, xi, phys_coords)
+            jxw = weights * np.abs(det_J)
+
+            be = f_val * np.einsum("qi,q->i", N, jxw)
+            b[elem_nodes] += be
+
+    return b

@@ -8,9 +8,8 @@ import matplotlib.pyplot as plt
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
 
-from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form
+from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector
 from yggdrasil.elements import Tri3
-from yggdrasil.mapping import compute_physical_gradients
 
 
 # TODO: Make into general mesh creation function inside library and use that instead
@@ -36,29 +35,6 @@ def make_unit_square_tri_mesh(n: int) -> Mesh:
     conn = np.array(triangles, dtype=np.intp)
     group = ElementGroup(element=Tri3(), connectivity=conn)
     return Mesh(nodes, [group])
-
-
-# TODO: Make into general function inside the library and use that instead
-def assemble_load_vector(mesh: Mesh, f_val: float, quadrature_order: int) -> np.ndarray:
-    """Assemble the load vector for a constant source term f."""
-    b = np.zeros(mesh.num_nodes)
-
-    for group in mesh.iter_element_groups():
-        element = group.element
-        xi, weights = element.domain.quadrature(quadrature_order)
-        N = element.shape_functions(xi)
-
-        for e in range(group.num_elements):
-            elem_nodes = group.connectivity[e]
-            phys_coords = mesh.nodes[elem_nodes]
-            _, det_J = compute_physical_gradients(element, xi, phys_coords)
-            jxw = weights * np.abs(det_J)
-
-            # be_i = integral(f * N_i) = f * sum_q(N_i(q) * jxw(q))
-            be = f_val * np.einsum("qi,q->i", N, jxw)
-            b[elem_nodes] += be
-
-    return b
 
 
 # TODO: Make mesh library function that finds boundary of a mesh

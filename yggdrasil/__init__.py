@@ -1,4 +1,4 @@
-from .assemble import assemble_bilinear_form
+from .assemble import assemble_bilinear_form, assemble_load_vector
 from .mesh import ElementGroup, Mesh
 
-__all__ = ["ElementGroup", "Mesh", "assemble_bilinear_form"]
+__all__ = ["ElementGroup", "Mesh", "assemble_bilinear_form", "assemble_load_vector"]
