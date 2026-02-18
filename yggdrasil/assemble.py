@@ -4,8 +4,8 @@ import numpy as np
 from numpy.typing import NDArray
 import scipy.sparse as sp
 
-from ..mapping import compute_physical_gradients
-from ..mesh import Mesh
+from .mapping import compute_physical_gradients
+from .mesh import Mesh
 
 
 def assemble_bilinear_form(
