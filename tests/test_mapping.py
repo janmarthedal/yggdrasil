@@ -65,6 +65,28 @@ class TestPhysicalGradients:
         np.testing.assert_allclose(grad_phys[0, 0, 0], -1.0 / L, atol=1e-14)
         np.testing.assert_allclose(grad_phys[0, 1, 0], 1.0 / L, atol=1e-14)
 
+    def test_tri_nonsymmetric_jacobian(self):
+        """Physical gradients for a triangle with non-symmetric Jacobian.
+
+        Triangle (0,0)-(1,0)-(1,1) has J = [[1,1],[0,1]], which is
+        non-symmetric. This catches bugs where J_inv is accidentally
+        transposed in the einsum.
+        """
+        elem = Tri3()
+        xi = np.array([[0.25, 0.25]])
+        phys = np.array([[0.0, 0.0], [1.0, 0.0], [1.0, 1.0]])
+        grad_phys, det_J = compute_physical_gradients(elem, xi, phys)
+        # J = [[1, 1], [0, 1]], det_J = 1
+        np.testing.assert_allclose(det_J, [1.0], atol=1e-14)
+        # J_inv = [[1, -1], [0, 1]]
+        # grad_phys = ref_grad @ J_inv
+        # ref_grad: N0=(-1,-1), N1=(1,0), N2=(0,1)
+        # N0: (-1,-1) @ [[1,-1],[0,1]] = (-1, 0)
+        # N1: (1, 0) @ [[1,-1],[0,1]] = (1, -1)
+        # N2: (0, 1) @ [[1,-1],[0,1]] = (0, 1)
+        expected = np.array([[[-1.0, 0.0], [1.0, -1.0], [0.0, 1.0]]])
+        np.testing.assert_allclose(grad_phys, expected, atol=1e-14)
+
     def test_tri_scaled_gradient(self):
         """For scaled triangle, physical gradients = reference gradients / scale."""
         elem = Tri3()

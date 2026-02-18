@@ -61,8 +61,8 @@ def compute_physical_gradients(
         # Square Jacobian: invert directly
         J_inv = np.linalg.inv(J)  # (num_points, topo_dim, topo_dim)
         det_J = np.linalg.det(J)  # (num_points,)
-        # grad_phys = grad_N @ J_inv^T
-        grad_phys = np.einsum("qnj,qkj->qnk", grad_N, J_inv)
+        # grad_phys = grad_N @ J_inv
+        grad_phys = np.einsum("qnj,qjk->qnk", grad_N, J_inv)
     else:
         # Non-square Jacobian (e.g., 2D surface in 3D): use pseudo-inverse
         # metric tensor g = J^T J
