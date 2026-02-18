@@ -86,7 +86,9 @@ def main():
     mesh = make_unit_square_tri_mesh(n)
 
     # Assemble stiffness matrix
-    stiffness_form = lambda N, grad_N: np.einsum("qia,qja->qij", grad_N, grad_N)
+    def stiffness_form(N, grad_N):
+        return np.einsum("qia,qja->qij", grad_N, grad_N)
+
     K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
 
     # Assemble load vector (f = 1)
@@ -115,7 +117,7 @@ def main():
     plt.show()
 
     print(f"Max solution value: {u.max():.6f}")
-    print(f"(Exact max ≈ 0.0737 at center)")
+    print("(Exact max ≈ 0.0737 at center)")
 
 
 if __name__ == "__main__":

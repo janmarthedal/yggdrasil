@@ -16,6 +16,7 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "pytest>=8.0",
+    "ruff>=0.15.1",
 ]
 examples = [
     "matplotlib>=3.10",
