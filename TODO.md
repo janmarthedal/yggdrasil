@@ -1,4 +1,2 @@
-- Make library helper that can create rectangle mesh of tri3 elements 
-- Make assemble_load_vector assembly function inside library
 - Make mesh library function that finds boundary of a mesh
 - Make library function that helps assemble the linear system (e.g., fix value of boundary nodes)

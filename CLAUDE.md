@@ -26,6 +26,7 @@ It should offer functionality such as:
   - `elements/` — reference element implementations (shape functions and gradients) for each supported element type
   - `mapping.py` — Jacobian, physical-space gradients, and mapped quadrature utilities
   - `mesh.py` — `Mesh` class for storing nodes, connectivity, and auxiliary data
+  - `mesh_generators.py` — helper functions for creating structured meshes
 - `tests/` — pytest test suite
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
 - `web/`
