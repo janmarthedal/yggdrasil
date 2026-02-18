@@ -1,0 +1,21 @@
+{
+  "languages": {
+    "Python": {
+      "language_servers": ["ruff"],
+      "formatter": {
+        "language_server": {
+          "name": "ruff"
+        }
+      }
+    }
+  },
+  "lsp": {
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "interpreter": [".venv/bin/python"]
+        }
+      }
+    }
+  }
+}
