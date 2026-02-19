@@ -83,8 +83,8 @@ Filter boundary_mesh to faces whose centroid satisfies the predicate, renumber n
 
 #### 3. Generalize `assemble_load_vector` to accept callables — DONE
 
-#### 4. Library-level `apply_dirichlet_bc`
-Move `apply_dirichlet_bc` from `examples/poisson.py` into the library. Dirichlet elimination must happen *after* Neumann contributions are added to the RHS.
+#### 4. Library-level `apply_dirichlet_bc` — DONE
+Moved `apply_dirichlet_bc` from `examples/poisson.py` into `yggdrasil/assemble.py`. Dirichlet elimination must happen *after* Neumann contributions are added to the RHS.
 
 #### 5. Outward normal computation (optional)
 For flux-type BCs where g depends on the normal direction. 2D: rotate tangent 90°. 3D: cross product of Jacobian columns.

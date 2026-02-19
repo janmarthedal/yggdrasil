@@ -112,3 +112,38 @@ def assemble_load_vector(
             b[elem_nodes] += be
 
     return b
+
+
+def apply_dirichlet_bc(
+    K: sp.spmatrix,
+    b: NDArray[np.float64],
+    bc_nodes: NDArray[np.intp],
+    bc_val: float = 0.0,
+) -> tuple[sp.csr_matrix, NDArray[np.float64]]:
+    """Apply Dirichlet boundary conditions by zeroing rows/cols and setting diagonal to 1.
+
+    Parameters
+    ----------
+    K : scipy.sparse matrix
+        The global stiffness matrix.
+    b : ndarray of shape (num_nodes,)
+        The global load vector. Modified in place.
+    bc_nodes : ndarray
+        Indices of nodes where the Dirichlet BC is applied.
+    bc_val : float
+        The prescribed value at the boundary nodes.
+
+    Returns
+    -------
+    K : scipy.sparse.csr_matrix
+        The modified stiffness matrix.
+    b : ndarray
+        The modified load vector.
+    """
+    K = K.tolil()
+    for node in bc_nodes:
+        K[node, :] = 0
+        K[:, node] = 0
+        K[node, node] = 1.0
+        b[node] = bc_val
+    return K.tocsr(), b

@@ -5,22 +5,9 @@ Uses Tri3 elements on a structured triangular mesh.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.sparse as sp
 import scipy.sparse.linalg as spla
 
-from yggdrasil import assemble_bilinear_form, assemble_load_vector, extract_boundary, unit_square_tri_mesh
-
-
-# TODO: Make library function that helps assemble the linear system
-def apply_dirichlet_bc(K: sp.csr_matrix, b: np.ndarray, bc_nodes: np.ndarray, bc_val: float = 0.0):
-    """Apply Dirichlet BC by zeroing rows/cols and setting diagonal to 1."""
-    K = K.tolil()
-    for node in bc_nodes:
-        K[node, :] = 0
-        K[:, node] = 0
-        K[node, node] = 1.0
-        b[node] = bc_val
-    return K.tocsr(), b
+from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, unit_square_tri_mesh
 
 
 def main():

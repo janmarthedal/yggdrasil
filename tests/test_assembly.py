@@ -3,7 +3,7 @@
 import numpy as np
 import scipy.sparse as sp
 
-from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector
+from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector
 from yggdrasil.elements import Tri3
 
 
@@ -146,3 +146,67 @@ class TestLoadVector:
         b = assemble_load_vector(mesh, lambda x: x[:, 0], quadrature_order=2)
         # integral of x over [0,1]^2 = 0.5
         np.testing.assert_allclose(b.sum(), 0.5, atol=1e-14)
+
+
+class TestApplyDirichletBC:
+    """Tests for apply_dirichlet_bc."""
+
+    def test_zeroes_bc_rows_and_cols(self):
+        """BC rows and columns should be zeroed with 1 on diagonal."""
+        K = sp.csr_matrix(np.array([
+            [4.0, -1.0, -1.0],
+            [-1.0, 4.0, -1.0],
+            [-1.0, -1.0, 4.0],
+        ]))
+        b = np.array([1.0, 2.0, 3.0])
+        bc_nodes = np.array([0], dtype=np.intp)
+
+        K_mod, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
+
+        K_expected = np.array([
+            [1.0, 0.0, 0.0],
+            [0.0, 4.0, -1.0],
+            [0.0, -1.0, 4.0],
+        ])
+        np.testing.assert_allclose(K_mod.toarray(), K_expected)
+        assert b_mod[0] == 0.0
+
+    def test_nonzero_bc_value(self):
+        """Prescribed nonzero value should appear in the load vector."""
+        K = sp.csr_matrix(np.eye(3))
+        b = np.array([1.0, 2.0, 3.0])
+        bc_nodes = np.array([1], dtype=np.intp)
+
+        _, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=5.0)
+
+        assert b_mod[1] == 5.0
+        # Other entries unchanged
+        assert b_mod[0] == 1.0
+        assert b_mod[2] == 3.0
+
+    def test_multiple_bc_nodes(self):
+        """Multiple BC nodes should all be constrained."""
+        K = sp.csr_matrix(np.array([
+            [4.0, -1.0, -1.0, 0.0],
+            [-1.0, 4.0, 0.0, -1.0],
+            [-1.0, 0.0, 4.0, -1.0],
+            [0.0, -1.0, -1.0, 4.0],
+        ]))
+        b = np.array([1.0, 2.0, 3.0, 4.0])
+        bc_nodes = np.array([0, 3], dtype=np.intp)
+
+        K_mod, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
+
+        # BC rows/cols zeroed, diagonal = 1
+        for node in bc_nodes:
+            row = K_mod[node, :].toarray().ravel()
+            col = K_mod[:, node].toarray().ravel()
+            assert row[node] == 1.0
+            assert np.count_nonzero(row) == 1
+            assert col[node] == 1.0
+            assert np.count_nonzero(col) == 1
+            assert b_mod[node] == 0.0
+
+        # Interior entries unchanged
+        assert K_mod[1, 2] == 0.0
+        assert K_mod[2, 1] == 0.0
