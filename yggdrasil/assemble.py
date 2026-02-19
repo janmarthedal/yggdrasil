@@ -71,16 +71,18 @@ def assemble_bilinear_form(
 
 def assemble_load_vector(
     mesh: Mesh,
-    f_val: float,
+    f: float | Callable[[NDArray], NDArray],
     quadrature_order: int,
 ) -> NDArray[np.float64]:
-    """Assemble the load vector for a constant source term f.
+    """Assemble the load vector for a source term f.
 
     Parameters
     ----------
     mesh : Mesh
-    f_val : float
-        Constant source term value.
+    f : float or callable
+        Source term. Either a constant scalar or a callable with signature
+        f(x) -> array where x has shape (num_quad, spatial_dim) and the
+        return value has shape (num_quad,).
     quadrature_order : int
         Polynomial order for the quadrature rule.
 
@@ -101,7 +103,12 @@ def assemble_load_vector(
             _, det_J = compute_physical_gradients(element, xi, phys_coords)
             jxw = weights * np.abs(det_J)
 
-            be = f_val * np.einsum("qi,q->i", N, jxw)
+            if callable(f):
+                x_phys = N @ phys_coords  # (num_quad, spatial_dim)
+                f_vals = f(x_phys)  # (num_quad,)
+                be = np.einsum("qi,q->i", N, f_vals * jxw)
+            else:
+                be = f * np.einsum("qi,q->i", N, jxw)
             b[elem_nodes] += be
 
     return b

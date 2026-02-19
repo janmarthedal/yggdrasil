@@ -3,7 +3,7 @@
 import numpy as np
 import scipy.sparse as sp
 
-from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form
+from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector
 from yggdrasil.elements import Tri3
 
 
@@ -98,3 +98,51 @@ class TestMultiElementMesh:
         mesh = self._make_two_tri_mesh()
         K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
         assert K.shape == (4, 4)
+
+
+class TestLoadVector:
+    """Tests for assemble_load_vector with scalar and callable source terms."""
+
+    def _make_two_tri_mesh(self):
+        """Two-triangle mesh forming a unit square.
+
+        3---2
+        |T1/|
+        | / |
+        |/T0|
+        0---1
+        """
+        nodes = np.array([
+            [0.0, 0.0],
+            [1.0, 0.0],
+            [1.0, 1.0],
+            [0.0, 1.0],
+        ])
+        conn = np.array([[0, 1, 2], [0, 2, 3]], dtype=np.intp)
+        group = ElementGroup(element=Tri3(), connectivity=conn)
+        return Mesh(nodes, [group])
+
+    def test_scalar_float(self):
+        """Scalar f_val should produce correct load vector."""
+        mesh = self._make_two_tri_mesh()
+        b = assemble_load_vector(mesh, 1.0, quadrature_order=1)
+        # For a unit square with 2 triangles, each of area 0.5,
+        # integral of 1 over the domain = 1.0, so sum(b) = 1.0
+        np.testing.assert_allclose(b.sum(), 1.0, atol=1e-14)
+        assert b.shape == (4,)
+
+    def test_constant_callable_matches_scalar(self):
+        """A callable returning ones should match scalar f=1."""
+        mesh = self._make_two_tri_mesh()
+        b_scalar = assemble_load_vector(mesh, 1.0, quadrature_order=1)
+        b_callable = assemble_load_vector(
+            mesh, lambda x: np.ones(x.shape[0]), quadrature_order=1
+        )
+        np.testing.assert_allclose(b_callable, b_scalar, atol=1e-14)
+
+    def test_spatially_varying(self):
+        """f(x) = x_0 on the unit square should integrate to 0.5."""
+        mesh = self._make_two_tri_mesh()
+        b = assemble_load_vector(mesh, lambda x: x[:, 0], quadrature_order=2)
+        # integral of x over [0,1]^2 = 0.5
+        np.testing.assert_allclose(b.sum(), 0.5, atol=1e-14)
