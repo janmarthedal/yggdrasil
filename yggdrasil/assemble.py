@@ -179,6 +179,11 @@ def project_dirichlet_bc(
         ``(num_quad,)``.
     quadrature_order : int
         Polynomial order for the quadrature rule used on the boundary.
+        Must be at least ``2 * element.polynomial_degree`` for every element
+        type in ``boundary_mesh`` so that the boundary mass matrix is
+        integrated exactly. For example, use ``quadrature_order >= 2`` for
+        linear boundary elements (Line2, Tri3) and ``>= 4`` for quadratic
+        boundary elements (Line3, Tri6).
 
     Returns
     -------
@@ -188,6 +193,14 @@ def project_dirichlet_bc(
         Projected DOF values minimising the L² error on the boundary.
         Suitable for passing directly to ``apply_dirichlet_bc``.
     """
+    for group in boundary_mesh.iter_element_groups():
+        min_order = 2 * group.element.polynomial_degree
+        assert quadrature_order >= min_order, (
+            f"{type(group.element).__name__} elements have polynomial degree "
+            f"{group.element.polynomial_degree}, so the boundary mass matrix "
+            f"requires quadrature_order >= {min_order} "
+            f"(got {quadrature_order})"
+        )
     M = assemble_bilinear_form(
         boundary_mesh,
         lambda N, grad_N: np.einsum("qi,qj->qij", N, N),

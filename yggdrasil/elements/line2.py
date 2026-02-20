@@ -44,3 +44,7 @@ class Line2(ReferenceElement):
         from .point1 import Point1
 
         return Point1()
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 1

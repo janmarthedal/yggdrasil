@@ -50,3 +50,9 @@ class ReferenceElement(ABC):
     def face_element(self) -> ReferenceElement | None:
         """The element type used for each face, or None for 0D elements."""
         ...
+
+    @property
+    @abstractmethod
+    def polynomial_degree(self) -> int:
+        """Polynomial degree of the element's shape functions."""
+        ...

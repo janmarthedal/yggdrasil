@@ -62,3 +62,7 @@ class Tet4(ReferenceElement):
         from .tri3 import Tri3
 
         return Tri3()
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 1

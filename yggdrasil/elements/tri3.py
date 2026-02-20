@@ -56,3 +56,7 @@ class Tri3(ReferenceElement):
         from .line2 import Line2
 
         return Line2()
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 1

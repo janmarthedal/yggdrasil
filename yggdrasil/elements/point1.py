@@ -37,3 +37,7 @@ class Point1(ReferenceElement):
     @property
     def face_element(self) -> ReferenceElement | None:
         return None
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 0

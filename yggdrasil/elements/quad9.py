@@ -115,3 +115,7 @@ class Quad9(ReferenceElement):
         from .line3 import Line3
 
         return Line3()
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 2

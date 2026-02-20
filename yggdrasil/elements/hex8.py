@@ -109,3 +109,7 @@ class Hex8(ReferenceElement):
         from .quad4 import Quad4
 
         return Quad4()
+
+    @property
+    def polynomial_degree(self) -> int:
+        return 1
