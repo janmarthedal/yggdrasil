@@ -3,7 +3,10 @@
     "allow": [
       "Bash(uv run pytest:*)",
       "Bash(ls:*)",
-      "Bash(uv run ruff check:*)"
+      "Bash(uv run ruff check:*)",
+      "Bash(git -C /Users/jamr/repos/janmarthedal/yggdrasil status)",
+      "Bash(git -C /Users/jamr/repos/janmarthedal/yggdrasil diff)",
+      "Bash(git -C /Users/jamr/repos/janmarthedal/yggdrasil log --oneline -5)"
     ]
   }
 }
