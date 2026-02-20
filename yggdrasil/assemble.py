@@ -3,6 +3,7 @@ from collections.abc import Callable
 import numpy as np
 from numpy.typing import NDArray
 import scipy.sparse as sp
+import scipy.sparse.linalg
 
 from .mapping import compute_physical_gradients
 from .mesh import Mesh
@@ -118,7 +119,7 @@ def apply_dirichlet_bc(
     K: sp.spmatrix,
     b: NDArray[np.float64],
     bc_nodes: NDArray[np.intp],
-    bc_val: float = 0.0,
+    bc_val: float | NDArray[np.float64] = 0.0,
 ) -> tuple[sp.csr_matrix, NDArray[np.float64]]:
     """Apply Dirichlet boundary conditions by zeroing rows/cols and setting diagonal to 1.
 
@@ -130,8 +131,9 @@ def apply_dirichlet_bc(
         The global load vector. Modified in place.
     bc_nodes : ndarray
         Indices of nodes where the Dirichlet BC is applied.
-    bc_val : float
-        The prescribed value at the boundary nodes.
+    bc_val : float or ndarray of shape (len(bc_nodes),)
+        The prescribed value(s) at the boundary nodes. Either a single scalar
+        applied to all constrained nodes, or a per-node array.
 
     Returns
     -------
@@ -140,11 +142,58 @@ def apply_dirichlet_bc(
     b : ndarray
         The modified load vector.
     """
-    b -= np.asarray(K.tocsc()[:, bc_nodes] @ np.full(len(bc_nodes), bc_val)).ravel()
+    bc_vals = np.broadcast_to(bc_val, len(bc_nodes))
+    b -= np.asarray(K.tocsc()[:, bc_nodes] @ bc_vals).ravel()
     K = K.tolil()
-    for node in bc_nodes:
+    for i, node in enumerate(bc_nodes):
         K[node, :] = 0
         K[:, node] = 0
         K[node, node] = 1.0
-        b[node] = bc_val
+        b[node] = bc_vals[i]
     return K.tocsr(), b
+
+
+def project_dirichlet_bc(
+    boundary_mesh: Mesh,
+    g: float | Callable[[NDArray], NDArray],
+    quadrature_order: int,
+) -> tuple[NDArray[np.intp], NDArray[np.float64]]:
+    """L² projection of g onto the boundary FE trace space.
+
+    Finds the function g_h in the trace space that minimises
+    ``‖g − g_h‖_{L²(Γ)}``, by solving the boundary mass system
+    ``M_Γ α = b_Γ`` where ``(M_Γ)_ij = ∫_Γ N_i N_j dS`` and
+    ``(b_Γ)_i = ∫_Γ g N_i dS``.
+
+    Parameters
+    ----------
+    boundary_mesh : Mesh
+        A boundary sub-mesh as returned by ``extract_boundary`` or
+        ``select_boundary_faces``. Must have
+        ``point_data["original_node_index"]`` mapping local nodes to
+        global DOF indices.
+    g : float or callable
+        The prescribed boundary function. Either a constant scalar or a
+        callable with signature ``g(x) -> array`` where ``x`` has shape
+        ``(num_quad, spatial_dim)`` and the return value has shape
+        ``(num_quad,)``.
+    quadrature_order : int
+        Polynomial order for the quadrature rule used on the boundary.
+
+    Returns
+    -------
+    bc_nodes : ndarray of shape (num_boundary_nodes,)
+        Global node indices of the boundary nodes.
+    bc_vals : ndarray of shape (num_boundary_nodes,)
+        Projected DOF values minimising the L² error on the boundary.
+        Suitable for passing directly to ``apply_dirichlet_bc``.
+    """
+    M = assemble_bilinear_form(
+        boundary_mesh,
+        lambda N, grad_N: np.einsum("qi,qj->qij", N, N),
+        quadrature_order,
+    )
+    b = assemble_load_vector(boundary_mesh, g, quadrature_order)
+    bc_vals = scipy.sparse.linalg.spsolve(M, b)
+    bc_nodes = boundary_mesh.point_data["original_node_index"]
+    return bc_nodes, bc_vals

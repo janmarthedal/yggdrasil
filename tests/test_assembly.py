@@ -4,7 +4,7 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg
 
-from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector
+from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, project_dirichlet_bc
 from yggdrasil.elements import Tri3
 
 
@@ -253,13 +253,70 @@ class TestApplyDirichletBC:
         K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
         b = assemble_load_vector(mesh, 0.0, quadrature_order=1)
 
-        # All 4 nodes are on the boundary; prescribe u = x-coordinate
+        # All 4 nodes are on the boundary; prescribe u = x-coordinate via array bc_val
         bc_nodes = np.array([0, 1, 2, 3], dtype=np.intp)
         bc_vals = nodes[bc_nodes, 0]  # x-coordinates: [0, 1, 1, 0]
-
-        # Apply each node individually to allow per-node values
-        for node, val in zip(bc_nodes, bc_vals):
-            K, b = apply_dirichlet_bc(K, b, np.array([node], dtype=np.intp), bc_val=val)
+        K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
 
         u = scipy.sparse.linalg.spsolve(K, b)
         np.testing.assert_allclose(u, nodes[:, 0], atol=1e-13)
+
+
+class TestProjectDirichletBC:
+    """Tests for project_dirichlet_bc."""
+
+    def _make_unit_square_mesh(self):
+        nodes = np.array([
+            [0.0, 0.0],
+            [1.0, 0.0],
+            [1.0, 1.0],
+            [0.0, 1.0],
+        ])
+        conn = np.array([[0, 1, 2], [0, 2, 3]], dtype=np.intp)
+        group = ElementGroup(element=Tri3(), connectivity=conn)
+        return Mesh(nodes, [group])
+
+    def test_constant_g_matches_nodal(self):
+        """For constant g, L² projection should recover the constant at every node.
+
+        Note: quadrature_order=2 is required because the boundary mass matrix
+        for Line2 elements integrates products of linear shape functions
+        (quadratic integrands), which 1-point midpoint rule cannot handle.
+        """
+        from yggdrasil import extract_boundary
+        mesh = self._make_unit_square_mesh()
+        bnd = extract_boundary(mesh)
+        bc_nodes, bc_vals = project_dirichlet_bc(bnd, g=3.0, quadrature_order=2)
+        np.testing.assert_allclose(bc_vals, 3.0, atol=1e-13)
+
+    def test_linear_g_matches_nodal(self):
+        """For g=x (affine), L² projection must agree with nodal sampling on linear elements."""
+        from yggdrasil import extract_boundary
+        mesh = self._make_unit_square_mesh()
+        bnd = extract_boundary(mesh)
+        bc_nodes, bc_vals = project_dirichlet_bc(bnd, g=lambda x: x[:, 0], quadrature_order=2)
+        expected = mesh.nodes[bc_nodes, 0]
+        np.testing.assert_allclose(bc_vals, expected, atol=1e-13)
+
+    def test_returns_global_node_indices(self):
+        """bc_nodes must be global indices into the original mesh."""
+        from yggdrasil import extract_boundary
+        mesh = self._make_unit_square_mesh()
+        bnd = extract_boundary(mesh)
+        bc_nodes, _ = project_dirichlet_bc(bnd, g=0.0, quadrature_order=1)
+        assert set(bc_nodes).issubset(set(range(mesh.num_nodes)))
+
+    def test_projection_solves_poisson(self):
+        """project_dirichlet_bc + apply_dirichlet_bc should solve -∇²u=0, u=x correctly."""
+        from yggdrasil import extract_boundary
+        mesh = self._make_unit_square_mesh()
+
+        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        b = assemble_load_vector(mesh, 0.0, quadrature_order=1)
+
+        bnd = extract_boundary(mesh)
+        bc_nodes, bc_vals = project_dirichlet_bc(bnd, g=lambda x: x[:, 0], quadrature_order=2)
+        K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+
+        u = scipy.sparse.linalg.spsolve(K, b)
+        np.testing.assert_allclose(u, mesh.nodes[:, 0], atol=1e-13)
