@@ -140,6 +140,7 @@ def apply_dirichlet_bc(
     b : ndarray
         The modified load vector.
     """
+    b -= np.asarray(K.tocsc()[:, bc_nodes] @ np.full(len(bc_nodes), bc_val)).ravel()
     K = K.tolil()
     for node in bc_nodes:
         K[node, :] = 0
