@@ -31,7 +31,7 @@ It should offer functionality such as:
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
 - `web/`
   - `pages/` — interactive web-based visualizations (standalone HTML using Three.js)
-  - `posts/` — markdown posts describing the theoretical foundation of the library code
+  - `posts/` — markdown posts describing the theoretical foundation of the library code (see `web/posts/CLAUDE.md` for table of contents and publication workflow)
 
 ## Packages
 SciPy and NumPy are used as the foundation for all computations.
