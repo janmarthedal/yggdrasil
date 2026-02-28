@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import MarkdownIt from 'markdown-it';
-import markdownItKatex from '@byronwan/markdown-it-katex';
+import markdownItKatex from '@vscode/markdown-it-katex';
 
 const KATEX_CSS = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
 
@@ -27,7 +27,7 @@ const PAGE_CSS = `
   }
 `;
 
-const md = new MarkdownIt({ html: true }).use(markdownItKatex);
+const md = new MarkdownIt({ html: true }).use(markdownItKatex.default);
 
 const postsDir = 'posts';
 const siteDir = '_site';
