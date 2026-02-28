@@ -1,7 +1,5 @@
----
-title: A More General Formulation
-layout: post
----
+# A More General Formulation
+
 Let us, again, consider a bounded domain $\Omega$ with boundary $\partial\Omega$.
 We now formulate the problem as
 

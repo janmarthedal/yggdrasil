@@ -1,7 +1,5 @@
----
-title: The Poisson Problem
-layout: post
----
+# The Poisson Problem
+
 Let us begin with one of the most fundamental PDEs: the Poisson problem.
 
 Consider a bounded domain $\Omega \subset \mathbb{R}^d$ with boundary $\partial\Omega$,

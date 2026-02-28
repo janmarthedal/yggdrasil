@@ -1,7 +1,5 @@
----
-title: Introduction
-layout: page
----
+# The Finite Element Method
+
 The finite element method is a numerical technique for solving partial differential equations (PDEs).
 Before we can discretize and solve such equations numerically, we must first understand the continuous problem we wish to solve.
 

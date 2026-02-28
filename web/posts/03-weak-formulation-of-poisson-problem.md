@@ -1,7 +1,5 @@
----
-title: Weak Formulation of the Poisson Problem
-layout: post
----
+# Weak Formulation of the Poisson Problem
+
 Let us consider the Poisson problem again, but in a slightly more general version:
 
 $$
