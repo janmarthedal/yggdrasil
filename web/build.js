@@ -32,11 +32,7 @@ const md = new MarkdownIt({ html: true }).use(markdownItKatex);
 const postsDir = 'posts';
 const siteDir = '_site';
 
-fs.mkdirSync(siteDir, { recursive: true });
-
-const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md') && f !== 'CLAUDE.md');
-
-for (const file of files) {
+function buildFile(file) {
   const src = path.join(postsDir, file);
   const basename = path.basename(file, '.md');
   const dest = basename === 'index'
@@ -64,4 +60,23 @@ ${body}
 
   fs.writeFileSync(dest, html);
   console.log(`${src} → ${dest}`);
+}
+
+function buildAll() {
+  fs.mkdirSync(siteDir, { recursive: true });
+  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md') && f !== 'CLAUDE.md');
+  for (const file of files) buildFile(file);
+}
+
+buildAll();
+
+if (process.argv.includes('--watch')) {
+  const { watch } = await import('chokidar');
+  console.log(`Watching ${postsDir}/ for changes...`);
+  watch(postsDir).on('change', file => {
+    const base = path.basename(file);
+    if (!base.endsWith('.md') || base === 'CLAUDE.md') return;
+    console.log(`Changed: ${file}`);
+    buildFile(base);
+  });
 }
