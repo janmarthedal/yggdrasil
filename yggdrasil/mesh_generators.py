@@ -4,6 +4,22 @@ from .elements import Tri3
 from .mesh import ElementGroup, Mesh
 
 
+def transform_mesh(mesh: Mesh, f) -> Mesh:
+    """Return a new Mesh with nodes mapped through f, keeping connectivity.
+
+    Parameters
+    ----------
+    mesh : Mesh
+    f : callable
+        Vectorized function ``(N, d) -> (N, d')`` applied to the node array.
+
+    Returns
+    -------
+    Mesh
+    """
+    return Mesh(f(mesh.nodes), mesh.element_groups, mesh.point_data)
+
+
 def rectangular_tri_mesh(x0: float, x1: float, y0: float, y1: float, nx: int, ny: int) -> Mesh:
     """Create a structured triangular mesh on [x0,x1]×[y0,y1].
 
