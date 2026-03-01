@@ -2,15 +2,15 @@
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "dev": "concurrently \"node build.js --watch\" \"serve _site\""
+    "dev": "concurrently \"node build.js --watch\" \"browser-sync start --server _site --files '_site/**/*' --no-open\""
   },
   "dependencies": {
     "@vscode/markdown-it-katex": "^1.1.2",
     "markdown-it": "^14.0.0"
   },
   "devDependencies": {
+    "browser-sync": "^3.0.4",
     "chokidar": "^4.0.0",
-    "concurrently": "^9.0.0",
-    "serve": "^14.0.0"
+    "concurrently": "^9.0.0"
   }
 }
