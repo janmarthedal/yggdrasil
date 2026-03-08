@@ -13,7 +13,9 @@ uv sync
 ## Running tests
 
 ```bash
-uv run pytest
+uv run pytest                # all tests
+uv run pytest tests/unit/    # unit tests only
+uv run pytest tests/system/  # system tests only
 ```
 
 ## Running examples
