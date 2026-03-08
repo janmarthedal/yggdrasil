@@ -18,7 +18,7 @@ checking that the error drops by a factor of roughly 4 when h is halved.
 import numpy as np
 import scipy.sparse.linalg
 
-from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary
+from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, grad_grad_form
 from yggdrasil.mesh_generators import unit_square_tri_mesh
 
 
@@ -30,15 +30,11 @@ def source(x):
     return 2 * np.pi**2 * np.sin(np.pi * x[:, 0]) * np.sin(np.pi * x[:, 1])
 
 
-def stiffness_form(N, grad_N):
-    return np.einsum("qia,qja->qij", grad_N, grad_N)
-
-
 def solve_poisson(n):
     """Return the max nodal error for a uniform mesh with n subdivisions."""
     mesh = unit_square_tri_mesh(n)
 
-    K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+    K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
     b = assemble_load_vector(mesh, source, quadrature_order=5)
 
     bnd = extract_boundary(mesh)

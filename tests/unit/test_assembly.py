@@ -4,13 +4,8 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg
 
-from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, project_dirichlet_bc
+from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, grad_grad_form, project_dirichlet_bc
 from yggdrasil.elements import Tri3
-
-
-def stiffness_form(N, grad_N):
-    """grad(u) · grad(v) integrand."""
-    return np.einsum("qia,qja->qij", grad_N, grad_N)
 
 
 class TestSingleTriangle:
@@ -28,7 +23,7 @@ class TestSingleTriangle:
         group = ElementGroup(element=Tri3(), connectivity=conn)
         mesh = Mesh(nodes, [group])
 
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
 
         K_expected = 0.5 * np.array([
             [2.0, -1.0, -1.0],
@@ -49,7 +44,7 @@ class TestSingleTriangle:
         group = ElementGroup(element=Tri3(), connectivity=conn)
         mesh = Mesh(nodes, [group])
 
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
 
         # Same as unit triangle: grad scales as 1/s, area as s^2, net is independent of scale
         K_expected = 0.5 * np.array([
@@ -83,21 +78,21 @@ class TestMultiElementMesh:
     def test_symmetry(self):
         """Assembled stiffness matrix should be symmetric."""
         mesh = self._make_two_tri_mesh()
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         diff = K - K.T
         assert sp.linalg.norm(diff) < 1e-14
 
     def test_row_sum_zero(self):
         """Row sums of the stiffness matrix should be zero (constant is in the null space)."""
         mesh = self._make_two_tri_mesh()
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         row_sums = np.array(K.sum(axis=1)).flatten()
         np.testing.assert_allclose(row_sums, 0.0, atol=1e-14)
 
     def test_shape(self):
         """Matrix should be n_nodes x n_nodes."""
         mesh = self._make_two_tri_mesh()
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         assert K.shape == (4, 4)
 
 
@@ -250,7 +245,7 @@ class TestApplyDirichletBC:
         group = ElementGroup(element=Tri3(), connectivity=conn)
         mesh = Mesh(nodes, [group])
 
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         b = assemble_load_vector(mesh, 0.0, quadrature_order=1)
 
         # All 4 nodes are on the boundary; prescribe u = x-coordinate via array bc_val
@@ -320,7 +315,7 @@ class TestProjectDirichletBC:
         from yggdrasil import extract_boundary
         mesh = self._make_unit_square_mesh()
 
-        K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+        K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         b = assemble_load_vector(mesh, 0.0, quadrature_order=1)
 
         bnd = extract_boundary(mesh)

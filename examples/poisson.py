@@ -3,11 +3,10 @@
 Uses Tri3 elements on a structured triangular mesh.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
 import scipy.sparse.linalg as spla
 
-from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, unit_square_tri_mesh
+from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, grad_grad_form, unit_square_tri_mesh
 
 
 def main():
@@ -15,10 +14,7 @@ def main():
     mesh = unit_square_tri_mesh(n)
 
     # Assemble stiffness matrix
-    def stiffness_form(N, grad_N):
-        return np.einsum("qia,qja->qij", grad_N, grad_N)
-
-    K = assemble_bilinear_form(mesh, stiffness_form, quadrature_order=1)
+    K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
 
     # Assemble load vector (f = 1)
     b = assemble_load_vector(mesh, f_val=1.0, quadrature_order=1)
