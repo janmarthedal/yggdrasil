@@ -18,6 +18,12 @@ uv run pytest tests/unit/    # unit tests only
 uv run pytest tests/system/  # system tests only
 ```
 
+## Linting
+
+```bash
+uv run ruff check
+```
+
 ## Running examples
 
 Examples have additional dependencies (e.g. matplotlib) managed via the `examples` dependency group:
