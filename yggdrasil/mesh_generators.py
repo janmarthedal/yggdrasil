@@ -4,7 +4,7 @@ from .elements import Tri3
 from .mesh import ElementGroup, Mesh
 
 
-def transform_mesh(mesh: Mesh, f) -> Mesh:
+def map_mesh_points(mesh: Mesh, f) -> Mesh:
     """Return a new Mesh with nodes mapped through f, keeping connectivity.
 
     Parameters
