@@ -16,7 +16,9 @@ It should offer functionality such as:
 - Use uv for package management
 
 ## Running tests and examples
-- Tests: `uv run pytest`
+- All tests: `uv run pytest`
+- Unit tests: `uv run pytest tests/unit/`
+- System tests: `uv run pytest tests/system/`
 - Examples: `uv run --group examples python examples/<path>.py`
 - Web build: `cd web && npm run build` (outputs to `web/_site/`)
 - Web dev server: `cd web && npm run dev` (live reload via browser-sync)
@@ -30,7 +32,9 @@ It should offer functionality such as:
   - `boundary.py` — boundary mesh extraction (`extract_boundary`) and face selection (`select_boundary_faces`)
   - `mesh.py` — `Mesh` class for storing nodes, connectivity, and auxiliary data
   - `mesh_generators.py` — helper functions for creating structured meshes
-- `tests/` — pytest test suite
+- `tests/`
+  - `unit/` — unit tests for individual modules (mesh, mapping, boundary, quadrature, elements, assembly)
+  - `system/` — full PDE solutions compared against analytical solutions where possible
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
 - `web/`
   - `pages/` — interactive web-based visualizations (standalone HTML using Three.js)
