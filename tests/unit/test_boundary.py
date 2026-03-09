@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.testing as npt
 
-from yggdrasil.boundary import extract_boundary
+from yggdrasil.boundary import extract_boundary, select_boundary_faces, tag_boundary_faces
 from yggdrasil.elements import Hex8, Line2, Point1, Quad4, Tri3, Tet4
 from yggdrasil.mesh import ElementGroup, Mesh
 from yggdrasil.mesh_generators import unit_square_tri_mesh
@@ -139,3 +139,62 @@ def test_boundary_coords_match():
 
     orig_idx = bnd.point_data["original_node_index"]
     npt.assert_array_equal(bnd.nodes, mesh.nodes[orig_idx])
+
+
+# --- tag_boundary_faces / select_boundary_faces ---
+
+def test_tag_boundary_faces_count():
+    """Bottom edges (y≈0) of 2×2 unit-square mesh: exactly 2 tagged faces."""
+    mesh = unit_square_tri_mesh(2)
+    bnd = extract_boundary(mesh)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 0.0), tag=1)
+    bottom = select_boundary_faces(bnd, tag=1)
+    assert bottom.num_elements == 2
+
+
+def test_tag_boundary_faces_coords():
+    """All nodes in the selected sub-mesh lie on the tagged boundary."""
+    mesh = unit_square_tri_mesh(2)
+    bnd = extract_boundary(mesh)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 0.0), tag=1)
+    bottom = select_boundary_faces(bnd, tag=1)
+    assert np.allclose(bottom.nodes[:, 1], 0.0)
+
+
+def test_select_boundary_faces_original_node_index():
+    """original_node_index of the sub-mesh maps correctly to volume-mesh coords."""
+    mesh = unit_square_tri_mesh(2)
+    bnd = extract_boundary(mesh)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 0.0), tag=1)
+    bottom = select_boundary_faces(bnd, tag=1)
+    orig_idx = bottom.point_data["original_node_index"]
+    npt.assert_array_equal(bottom.nodes, mesh.nodes[orig_idx])
+
+
+def test_select_boundary_faces_unmatched_tag_is_empty():
+    """Selecting a tag with no matches returns an empty mesh."""
+    mesh = unit_square_tri_mesh(2)
+    bnd = extract_boundary(mesh)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 0.0), tag=1)
+    empty = select_boundary_faces(bnd, tag=99)
+    assert empty.num_elements == 0
+    assert empty.num_nodes == 0
+
+
+def test_multiple_tags_disjoint():
+    """Bottom (tag=1) and top (tag=2) together cover exactly the tagged faces; left/right remain untagged."""
+    mesh = unit_square_tri_mesh(2)
+    bnd = extract_boundary(mesh)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 0.0), tag=1)
+    bnd = tag_boundary_faces(bnd, lambda x: np.isclose(x[:, 1], 1.0), tag=2)
+
+    bottom = select_boundary_faces(bnd, tag=1)
+    top = select_boundary_faces(bnd, tag=2)
+    untagged = select_boundary_faces(bnd, tag=0)
+
+    assert bottom.num_elements == 2
+    assert top.num_elements == 2
+    assert untagged.num_elements == 4  # left + right sides
+
+    assert np.allclose(bottom.nodes[:, 1], 0.0)
+    assert np.allclose(top.nodes[:, 1], 1.0)
