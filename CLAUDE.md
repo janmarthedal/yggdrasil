@@ -20,6 +20,7 @@ It should offer functionality such as:
 - Unit tests: `uv run pytest tests/unit/`
 - System tests: `uv run pytest tests/system/`
 - Linting: `uv run ruff check`
+- Type checking: `uv run --group dev ty check`
 - Examples: `uv run --group examples python examples/<path>.py`
 - Web build: `cd web && npm run build` (outputs to `web/_site/`)
 - Web dev server: `cd web && npm run dev` (live reload via browser-sync)

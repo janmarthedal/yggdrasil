@@ -5,7 +5,7 @@ Ordered feature suggestions (by applicability-to-effort ratio):
 
 1. **Neumann boundary conditions**. The RHS surface integral ∫_Γ g·v dS is nearly free — assemble_load_vector already runs on boundary meshes (it's used inside project_dirichlet_bc). Just expose it. Unlocks: heat flux, traction BCs, mixed-BC Poisson.
 
-2. **Boundary region splitting/tagging**. Without this, Neumann BCs are only usable on the entire boundary. Add tag-by-geometry to select_boundary_faces (e.g., "select faces where x=0"). Moderate effort, but it's a prerequisite for any realistic multi-BC problem (e.g., insulated vs. heated sides).
+2. **Boundary region splitting/tagging**. (DONE). Without this, Neumann BCs are only usable on the entire boundary. Add tag-by-geometry to select_boundary_faces (e.g., "select faces where x=0"). Moderate effort, but it's a prerequisite for any realistic multi-BC problem (e.g., insulated vs. heated sides).
 
 3. **Export mass form + time-stepping (heat equation)**. mass_form = lambda N, grad_N: np.einsum("qi,qj->qij", N, N) is one line — it's already used inside project_dirichlet_bc. Expose it, add a simple θ-method stepper (backward Euler first), and you can solve the heat equation ∂u/∂t - ∇²u = f. Big unlock for parabolic PDEs.
 

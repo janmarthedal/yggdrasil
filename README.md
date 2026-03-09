@@ -24,6 +24,12 @@ uv run pytest tests/system/  # system tests only
 uv run ruff check
 ```
 
+## Type checking
+
+```bash
+uv run --group dev ty check
+```
+
 ## Running examples
 
 Examples have additional dependencies (e.g. matplotlib) managed via the `examples` dependency group:

@@ -1,7 +1,7 @@
 {
   "languages": {
     "Python": {
-      "language_servers": ["ruff"],
+      "language_servers": ["ty", "ruff"],
       "formatter": {
         "language_server": {
           "name": "ruff"
@@ -10,6 +10,12 @@
     }
   },
   "lsp": {
+    "ty": {
+      "binary": {
+        "path": ".venv/bin/ty",
+        "arguments": ["server"]
+      }
+    },
     "ruff": {
       "initialization_options": {
         "settings": {
