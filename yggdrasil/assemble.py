@@ -104,12 +104,12 @@ def assemble_load_vector(
             _, det_J = compute_physical_gradients(element, xi, phys_coords)
             jxw = weights * np.abs(det_J)
 
-            if callable(f):
+            if isinstance(f, (int, float)):
+                be = f * np.einsum("qi,q->i", N, jxw)
+            else:
                 x_phys = N @ phys_coords  # (num_quad, spatial_dim)
                 f_vals = f(x_phys)  # (num_quad,)
                 be = np.einsum("qi,q->i", N, f_vals * jxw)
-            else:
-                be = f * np.einsum("qi,q->i", N, jxw)
             b[elem_nodes] += be
 
     return b
@@ -198,7 +198,7 @@ def condense_dirichlet_bc(
     n_dofs = K.shape[0]
     free_nodes = np.setdiff1d(np.arange(n_dofs, dtype=np.intp), bc_nodes)
 
-    K_csc = K.tocsc()
+    K_csc = sp.csc_matrix(K)
     K_ff = K_csc[free_nodes][:, free_nodes].tocsr()
     b_f = b[free_nodes] - np.asarray(K_csc[free_nodes][:, bc_nodes] @ bc_vals).ravel()
 

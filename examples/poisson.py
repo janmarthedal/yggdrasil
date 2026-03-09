@@ -4,9 +4,10 @@ Uses Tri3 elements on a structured triangular mesh.
 """
 
 import matplotlib.pyplot as plt
+import matplotlib.tri
 import scipy.sparse.linalg as spla
 
-from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, grad_grad_form, unit_square_tri_mesh
+from yggdrasil import assemble_bilinear_form, assemble_load_vector, condense_dirichlet_bc, extract_boundary, grad_grad_form, unit_square_tri_mesh
 
 
 def main():
@@ -21,13 +22,13 @@ def main():
 
     # Apply Dirichlet BC (u = 0 on boundary)
     bc_nodes = extract_boundary(mesh).point_data["original_node_index"]
-    K, b = apply_dirichlet_bc(K, b, bc_nodes)
+    system = condense_dirichlet_bc(K, b, bc_nodes)
 
     # Solve
-    u = spla.spsolve(K, b)
+    u = system.reconstruct(spla.spsolve(system.K, system.b))
 
     # Plot
-    triangulation = plt.matplotlib.tri.Triangulation(
+    triangulation = matplotlib.tri.Triangulation(
         mesh.nodes[:, 0], mesh.nodes[:, 1],
         mesh.element_groups[0].connectivity,
     )
