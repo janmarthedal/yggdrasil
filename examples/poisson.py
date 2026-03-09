@@ -17,7 +17,7 @@ def main():
     K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
 
     # Assemble load vector (f = 1)
-    b = assemble_load_vector(mesh, f_val=1.0, quadrature_order=1)
+    b = assemble_load_vector(mesh, 1.0, quadrature_order=1)
 
     # Apply Dirichlet BC (u = 0 on boundary)
     bc_nodes = extract_boundary(mesh).point_data["original_node_index"]
