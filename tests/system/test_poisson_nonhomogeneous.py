@@ -18,7 +18,7 @@ P1 elements converge at O(h²) in the maximum nodal error.
 import numpy as np
 import scipy.sparse.linalg
 
-from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, grad_grad_form, project_dirichlet_bc
+from yggdrasil import assemble_bilinear_form, assemble_load_vector, condense_dirichlet_bc, extract_boundary, grad_grad_form, project_dirichlet_bc
 from yggdrasil.mesh_generators import unit_square_tri_mesh
 
 
@@ -35,9 +35,8 @@ def solve_laplace(n):
 
     bnd = extract_boundary(mesh)
     bc_nodes, bc_vals = project_dirichlet_bc(bnd, g=u_exact, quadrature_order=2)
-    K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
-
-    u = scipy.sparse.linalg.spsolve(K, b)
+    system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+    u = system.reconstruct(scipy.sparse.linalg.spsolve(system.K, system.b))
     return np.max(np.abs(u - u_exact(mesh.nodes)))
 
 

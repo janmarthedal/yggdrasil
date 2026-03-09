@@ -18,7 +18,7 @@ checking that the error drops by a factor of roughly 4 when h is halved.
 import numpy as np
 import scipy.sparse.linalg
 
-from yggdrasil import apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, extract_boundary, grad_grad_form
+from yggdrasil import assemble_bilinear_form, assemble_load_vector, condense_dirichlet_bc, extract_boundary, grad_grad_form
 from yggdrasil.mesh_generators import unit_square_tri_mesh
 
 
@@ -39,9 +39,8 @@ def solve_poisson(n):
 
     bnd = extract_boundary(mesh)
     bc_nodes = bnd.point_data["original_node_index"]
-    K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
-
-    u = scipy.sparse.linalg.spsolve(K, b)
+    system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
+    u = system.reconstruct(scipy.sparse.linalg.spsolve(system.K, system.b))
     return np.max(np.abs(u - u_exact(mesh.nodes)))
 
 

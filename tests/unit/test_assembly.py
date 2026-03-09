@@ -4,7 +4,7 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg
 
-from yggdrasil import ElementGroup, Mesh, apply_dirichlet_bc, assemble_bilinear_form, assemble_load_vector, grad_grad_form, project_dirichlet_bc
+from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector, condense_dirichlet_bc, grad_grad_form, project_dirichlet_bc
 from yggdrasil.elements import Tri3
 
 
@@ -144,11 +144,11 @@ class TestLoadVector:
         np.testing.assert_allclose(b.sum(), 0.5, atol=1e-14)
 
 
-class TestApplyDirichletBC:
-    """Tests for apply_dirichlet_bc."""
+class TestCondenseDirichletBC:
+    """Tests for condense_dirichlet_bc and CondensedSystem.reconstruct."""
 
-    def test_zeroes_bc_rows_and_cols(self):
-        """BC rows and columns should be zeroed with 1 on diagonal."""
+    def test_reduced_system_size(self):
+        """Condensed K has shape (n_free, n_free) and b has shape (n_free,)."""
         K = sp.csr_matrix(np.array([
             [4.0, -1.0, -1.0],
             [-1.0, 4.0, -1.0],
@@ -157,31 +157,25 @@ class TestApplyDirichletBC:
         b = np.array([1.0, 2.0, 3.0])
         bc_nodes = np.array([0], dtype=np.intp)
 
-        K_mod, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
 
-        K_expected = np.array([
-            [1.0, 0.0, 0.0],
-            [0.0, 4.0, -1.0],
-            [0.0, -1.0, 4.0],
-        ])
-        np.testing.assert_allclose(K_mod.toarray(), K_expected)
-        assert b_mod[0] == 0.0
+        assert system.K.shape == (2, 2)
+        assert system.b.shape == (2,)
 
-    def test_nonzero_bc_value(self):
-        """Prescribed nonzero value should appear in the load vector."""
+    def test_reconstruct_places_bc_values(self):
+        """Reconstructed solution has the prescribed value at the BC node."""
         K = sp.csr_matrix(np.eye(3))
-        b = np.array([1.0, 2.0, 3.0])
+        b = np.zeros(3)
         bc_nodes = np.array([1], dtype=np.intp)
 
-        _, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=5.0)
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=5.0)
+        u_f = scipy.sparse.linalg.spsolve(system.K, system.b)
+        u = system.reconstruct(u_f)
 
-        assert b_mod[1] == 5.0
-        # Other entries unchanged
-        assert b_mod[0] == 1.0
-        assert b_mod[2] == 3.0
+        assert u[1] == 5.0
 
-    def test_multiple_bc_nodes(self):
-        """Multiple BC nodes should all be constrained."""
+    def test_multiple_bc_nodes_size(self):
+        """Multiple BC nodes reduce the system size correctly."""
         K = sp.csr_matrix(np.array([
             [4.0, -1.0, -1.0, 0.0],
             [-1.0, 4.0, 0.0, -1.0],
@@ -191,27 +185,13 @@ class TestApplyDirichletBC:
         b = np.array([1.0, 2.0, 3.0, 4.0])
         bc_nodes = np.array([0, 3], dtype=np.intp)
 
-        K_mod, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=0.0)
 
-        # BC rows/cols zeroed, diagonal = 1
-        for node in bc_nodes:
-            row = K_mod[node, :].toarray().ravel()
-            col = K_mod[:, node].toarray().ravel()
-            assert row[node] == 1.0
-            assert np.count_nonzero(row) == 1
-            assert col[node] == 1.0
-            assert np.count_nonzero(col) == 1
-            assert b_mod[node] == 0.0
+        assert system.K.shape == (2, 2)
+        assert system.b.shape == (2,)
 
-        # Interior entries unchanged
-        assert K_mod[1, 2] == 0.0
-        assert K_mod[2, 1] == 0.0
-
-    def test_nonzero_bc_subtracts_column_contribution(self):
-        """Column contribution of constrained DOF should be subtracted from unconstrained rows."""
-        # 3-node system: constrain node 0 to value 2.0
-        # K[1,0] = -1, so b[1] should decrease by (-1)*2 = -2, i.e. 2 - (-2) = 4... wait:
-        # b_new[1] = b[1] - K[1,0] * bc_val = 2.0 - (-1.0)*2.0 = 4.0
+    def test_rhs_column_contribution_subtracted(self):
+        """b_f subtracts the K_fc * g column contribution from the free-DOF RHS."""
         K = sp.csr_matrix(np.array([
             [4.0, -1.0, -1.0],
             [-1.0, 4.0, -1.0],
@@ -220,20 +200,21 @@ class TestApplyDirichletBC:
         b = np.array([0.0, 2.0, 3.0])
         bc_nodes = np.array([0], dtype=np.intp)
 
-        _, b_mod = apply_dirichlet_bc(K, b, bc_nodes, bc_val=2.0)
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=2.0)
 
-        # b[1] -= K[1,0] * 2.0 = (-1.0) * 2.0 = -2.0, so b[1] = 2.0 - (-2.0) = 4.0
-        np.testing.assert_allclose(b_mod[1], 4.0, atol=1e-14)
-        # b[2] -= K[2,0] * 2.0 = (-1.0) * 2.0 = -2.0, so b[2] = 3.0 - (-2.0) = 5.0
-        np.testing.assert_allclose(b_mod[2], 5.0, atol=1e-14)
-        # constrained node gets the prescribed value
-        np.testing.assert_allclose(b_mod[0], 2.0, atol=1e-14)
+        # b_f[0] = b[1] - K[1,0]*2 = 2.0 - (-1.0)*2.0 = 4.0
+        # b_f[1] = b[2] - K[2,0]*2 = 3.0 - (-1.0)*2.0 = 5.0
+        np.testing.assert_allclose(system.b[0], 4.0, atol=1e-14)
+        np.testing.assert_allclose(system.b[1], 5.0, atol=1e-14)
 
-    def test_poisson_linear_solution(self):
-        """Solve -∇²u = 0 on [0,1]² with u=x on boundary; exact solution is u=x.
+    def test_poisson_condensed_solve(self):
+        """Condensed solve of -∇²u=0 with node 2 free gives the correct discrete harmonic.
 
-        With correct column elimination, linear elements should reproduce the
-        exact affine solution to machine precision.
+        Mesh: two triangles on [0,1]², nodes 0=(0,0), 1=(1,0), 2=(1,1), 3=(0,1).
+        BCs: u[0]=0, u[1]=1, u[3]=0. Node 2 is free.
+
+        K[2,2]=1, K[2,1]=-0.5, K[2,3]=-0.5 (off-diagonals from the two triangles).
+        b_f = 0 - K[2,1]*1 - K[2,3]*0 = 0.5, so u[2] = 0.5.
         """
         nodes = np.array([
             [0.0, 0.0],
@@ -248,13 +229,14 @@ class TestApplyDirichletBC:
         K = assemble_bilinear_form(mesh, grad_grad_form, quadrature_order=1)
         b = assemble_load_vector(mesh, 0.0, quadrature_order=1)
 
-        # All 4 nodes are on the boundary; prescribe u = x-coordinate via array bc_val
-        bc_nodes = np.array([0, 1, 2, 3], dtype=np.intp)
-        bc_vals = nodes[bc_nodes, 0]  # x-coordinates: [0, 1, 1, 0]
-        K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+        bc_nodes = np.array([0, 1, 3], dtype=np.intp)
+        bc_vals = np.array([0.0, 1.0, 0.0])
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+        u_f = scipy.sparse.linalg.spsolve(system.K, system.b)
+        u = system.reconstruct(u_f)
 
-        u = scipy.sparse.linalg.spsolve(K, b)
-        np.testing.assert_allclose(u, nodes[:, 0], atol=1e-13)
+        np.testing.assert_allclose(u[2], 0.5, atol=1e-13)
+        np.testing.assert_allclose(u[[0, 1, 3]], [0.0, 1.0, 0.0], atol=1e-13)
 
 
 class TestProjectDirichletBC:
@@ -311,7 +293,7 @@ class TestProjectDirichletBC:
             project_dirichlet_bc(bnd, g=3.0, quadrature_order=1)
 
     def test_projection_solves_poisson(self):
-        """project_dirichlet_bc + apply_dirichlet_bc should solve -∇²u=0, u=x correctly."""
+        """project_dirichlet_bc + condense_dirichlet_bc should solve -∇²u=0, u=x correctly."""
         from yggdrasil import extract_boundary
         mesh = self._make_unit_square_mesh()
 
@@ -320,7 +302,7 @@ class TestProjectDirichletBC:
 
         bnd = extract_boundary(mesh)
         bc_nodes, bc_vals = project_dirichlet_bc(bnd, g=lambda x: x[:, 0], quadrature_order=2)
-        K, b = apply_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+        system = condense_dirichlet_bc(K, b, bc_nodes, bc_val=bc_vals)
+        u = system.reconstruct(scipy.sparse.linalg.spsolve(system.K, system.b))
 
-        u = scipy.sparse.linalg.spsolve(K, b)
         np.testing.assert_allclose(u, mesh.nodes[:, 0], atol=1e-13)

@@ -115,42 +115,94 @@ def assemble_load_vector(
     return b
 
 
-def apply_dirichlet_bc(
+class CondensedSystem:
+    """A Dirichlet-condensed linear system ready to solve.
+
+    Attributes
+    ----------
+    K : sp.csr_matrix of shape (n_free, n_free)
+        Reduced stiffness matrix for the free DOFs.
+    b : ndarray of shape (n_free,)
+        Reduced load vector with BC column contributions subtracted.
+    """
+
+    def __init__(
+        self,
+        K: sp.csr_matrix,
+        b: NDArray[np.float64],
+        free_nodes: NDArray[np.intp],
+        bc_nodes: NDArray[np.intp],
+        bc_vals: NDArray[np.float64],
+        n_dofs: int,
+    ):
+        self.K = K
+        self.b = b
+        self._free_nodes = free_nodes
+        self._bc_nodes = bc_nodes
+        self._bc_vals = bc_vals
+        self._n_dofs = n_dofs
+
+    def reconstruct(self, u_f: NDArray[np.float64]) -> NDArray[np.float64]:
+        """Assemble the full solution from the free-DOF solution.
+
+        Parameters
+        ----------
+        u_f : ndarray of shape (n_free,)
+            Solution of the reduced system (e.g. from ``spsolve(system.K, system.b)``).
+
+        Returns
+        -------
+        u : ndarray of shape (n_dofs,)
+            Full solution vector with free and constrained values placed at
+            their correct global indices.
+        """
+        u = np.empty(self._n_dofs)
+        u[self._free_nodes] = u_f
+        u[self._bc_nodes] = self._bc_vals
+        return u
+
+
+def condense_dirichlet_bc(
     K: sp.spmatrix,
     b: NDArray[np.float64],
     bc_nodes: NDArray[np.intp],
     bc_val: float | NDArray[np.float64] = 0.0,
-) -> tuple[sp.csr_matrix, NDArray[np.float64]]:
-    """Apply Dirichlet boundary conditions by zeroing rows/cols and setting diagonal to 1.
+) -> CondensedSystem:
+    """Condense Dirichlet BCs by eliminating constrained DOFs from the system.
+
+    Partitions K and b into free (f) and constrained (c) blocks and returns
+    the reduced system ``K_ff u_f = b_f - K_fc g``, where ``g`` are the
+    prescribed boundary values.
 
     Parameters
     ----------
-    K : scipy.sparse matrix
+    K : scipy.sparse matrix of shape (n_dofs, n_dofs)
         The global stiffness matrix.
-    b : ndarray of shape (num_nodes,)
-        The global load vector. Modified in place.
+    b : ndarray of shape (n_dofs,)
+        The global load vector.
     bc_nodes : ndarray
-        Indices of nodes where the Dirichlet BC is applied.
+        Indices of nodes where Dirichlet BCs are applied.
     bc_val : float or ndarray of shape (len(bc_nodes),)
-        The prescribed value(s) at the boundary nodes. Either a single scalar
-        applied to all constrained nodes, or a per-node array.
+        Prescribed value(s) at the boundary nodes.
 
     Returns
     -------
-    K : scipy.sparse.csr_matrix
-        The modified stiffness matrix.
-    b : ndarray
-        The modified load vector.
+    CondensedSystem
+        Object with ``K`` (shape ``(n_free, n_free)``) and ``b`` (shape
+        ``(n_free,)``), plus a ``reconstruct(u_f)`` method that assembles the
+        full solution vector from the free-DOF solution.
     """
-    bc_vals = np.broadcast_to(bc_val, len(bc_nodes))
-    b -= np.asarray(K.tocsc()[:, bc_nodes] @ bc_vals).ravel()
-    K = K.tolil()
-    for i, node in enumerate(bc_nodes):
-        K[node, :] = 0
-        K[:, node] = 0
-        K[node, node] = 1.0
-        b[node] = bc_vals[i]
-    return K.tocsr(), b
+    bc_nodes = np.asarray(bc_nodes, dtype=np.intp)
+    bc_vals = np.array(np.broadcast_to(bc_val, len(bc_nodes)), dtype=np.float64)
+
+    n_dofs = K.shape[0]
+    free_nodes = np.setdiff1d(np.arange(n_dofs, dtype=np.intp), bc_nodes)
+
+    K_csc = K.tocsc()
+    K_ff = K_csc[free_nodes][:, free_nodes].tocsr()
+    b_f = b[free_nodes] - np.asarray(K_csc[free_nodes][:, bc_nodes] @ bc_vals).ravel()
+
+    return CondensedSystem(K_ff, b_f, free_nodes, bc_nodes, bc_vals, n_dofs)
 
 
 def project_dirichlet_bc(
