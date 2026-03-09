@@ -1,6 +1,6 @@
 import numpy as np
 
-from .elements import Tri3
+from .elements import Tet4, Tri3
 from .mesh import ElementGroup, Mesh
 
 
@@ -52,6 +52,55 @@ def rectangular_tri_mesh(x0: float, x1: float, y0: float, y1: float, nx: int, ny
 
     conn = np.array(triangles, dtype=np.intp)
     return Mesh(nodes, [ElementGroup(element=Tri3(), connectivity=conn)])
+
+
+def unit_cube_tet_mesh(n: int) -> Mesh:
+    """Create a structured tetrahedral mesh of [0, 1]³.
+
+    Creates (n+1)³ equally-spaced nodes and subdivides each axis-aligned cube
+    into 6 tetrahedra using the main-diagonal decomposition, giving 6n³
+    elements total.
+
+    Parameters
+    ----------
+    n : int
+        Number of subdivisions along each axis.
+
+    Returns
+    -------
+    Mesh with a single Tet4 element group.
+    """
+    x = np.linspace(0.0, 1.0, n + 1)
+    xi, yi, zi = np.meshgrid(x, x, x, indexing="ij")
+    nodes = np.column_stack([xi.ravel(), yi.ravel(), zi.ravel()])
+
+    def node_index(i: int, j: int, k: int) -> int:
+        return i * (n + 1) ** 2 + j * (n + 1) + k
+
+    cells = []
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                v000 = node_index(i,     j,     k    )
+                v100 = node_index(i + 1, j,     k    )
+                v010 = node_index(i,     j + 1, k    )
+                v110 = node_index(i + 1, j + 1, k    )
+                v001 = node_index(i,     j,     k + 1)
+                v101 = node_index(i + 1, j,     k + 1)
+                v011 = node_index(i,     j + 1, k + 1)
+                v111 = node_index(i + 1, j + 1, k + 1)
+                # 6-tetrahedra decomposition: all tets share the v000–v111 diagonal
+                cells.extend([
+                    [v000, v100, v110, v111],
+                    [v000, v010, v110, v111],
+                    [v000, v010, v011, v111],
+                    [v000, v001, v011, v111],
+                    [v000, v001, v101, v111],
+                    [v000, v100, v101, v111],
+                ])
+
+    connectivity = np.array(cells, dtype=np.intp)
+    return Mesh(nodes, [ElementGroup(element=Tet4(), connectivity=connectivity)])
 
 
 def unit_square_tri_mesh(n: int) -> Mesh:

@@ -24,4 +24,5 @@ dev = [
 ]
 examples = [
     "matplotlib>=3.10",
+    "meshio",
 ]

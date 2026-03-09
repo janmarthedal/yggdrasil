@@ -3,7 +3,7 @@ from .boundary import extract_boundary, select_boundary_faces, tag_boundary_face
 from .dof_map import DOFMap
 from .forms import grad_grad_form
 from .mesh import ElementGroup, Mesh
-from .mesh_generators import unit_square_tri_mesh
+from .mesh_generators import unit_cube_tet_mesh, unit_square_tri_mesh
 
 __all__ = [
     "CondensedSystem",
@@ -19,5 +19,6 @@ __all__ = [
     "project_dirichlet_bc",
     "select_boundary_faces",
     "tag_boundary_faces",
+    "unit_cube_tet_mesh",
     "unit_square_tri_mesh",
 ]

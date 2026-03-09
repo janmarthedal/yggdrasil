@@ -573,6 +573,7 @@ dev = [
 ]
 examples = [
     { name = "matplotlib" },
+    { name = "meshio" },
 ]
 
 [package.metadata]
@@ -589,4 +590,7 @@ dev = [
     { name = "ruff", specifier = ">=0.15.1" },
     { name = "ty", specifier = ">=0.0.21" },
 ]
-examples = [{ name = "matplotlib", specifier = ">=3.10" }]
+examples = [
+    { name = "matplotlib", specifier = ">=3.10" },
+    { name = "meshio" },
+]
