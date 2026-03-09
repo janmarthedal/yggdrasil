@@ -1,6 +1,10 @@
 """Solve the Poisson equation -Δu = 1 on [0,1]² with u=0 on the boundary.
 
 Uses Tri3 elements on a structured triangular mesh.
+
+This example corresponds to Example 1 of scikit-fem's Gallery of examples,
+https://scikit-fem.readthedocs.io/en/latest/listofexamples.html#example-1-poisson-equation-with-unit-load,
+with source code https://github.com/kinnala/scikit-fem/blob/master/docs/examples/ex01.py
 """
 
 import matplotlib.pyplot as plt
