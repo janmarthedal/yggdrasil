@@ -115,6 +115,41 @@ def assemble_load_vector(
     return b
 
 
+def assemble_neumann_bc(
+    boundary_mesh: Mesh,
+    g: float | Callable[[NDArray[np.float64]], NDArray[np.float64]],
+    quadrature_order: int,
+    n_dofs: int,
+) -> NDArray[np.float64]:
+    """Assemble the Neumann BC contribution ∫_Γ g v dS into the global load vector.
+
+    Add the result to ``b`` before calling ``condense_dirichlet_bc``.
+
+    Parameters
+    ----------
+    boundary_mesh : Mesh
+        Sub-mesh from ``extract_boundary`` or ``select_boundary_faces``.
+        Must have ``point_data["original_node_index"]``.
+    g : float or callable
+        Prescribed flux (∂u/∂n = g on Γ_N).
+        Callable signature: ``g(x) -> ndarray`` where x is (num_quad, spatial_dim).
+    quadrature_order : int
+        Quadrature order; use >= 2 * element.polynomial_degree for exactness.
+    n_dofs : int
+        Total DOFs in the global system (``mesh.num_nodes`` for nodal FEM).
+
+    Returns
+    -------
+    ndarray of shape (n_dofs,)
+        Neumann contribution; scatter-add into the global load vector.
+    """
+    b_local = assemble_load_vector(boundary_mesh, g, quadrature_order)
+    b_global = np.zeros(n_dofs)
+    original_idx = boundary_mesh.point_data["original_node_index"]
+    b_global[original_idx] += b_local
+    return b_global
+
+
 class CondensedSystem:
     """A Dirichlet-condensed linear system ready to solve.
 

@@ -4,7 +4,7 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg
 
-from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector, condense_dirichlet_bc, grad_grad_form, project_dirichlet_bc
+from yggdrasil import ElementGroup, Mesh, assemble_bilinear_form, assemble_load_vector, assemble_neumann_bc, condense_dirichlet_bc, grad_grad_form, project_dirichlet_bc
 from yggdrasil.elements import Tri3
 
 
@@ -306,3 +306,51 @@ class TestProjectDirichletBC:
         u = system.reconstruct(scipy.sparse.linalg.spsolve(system.K, system.b))
 
         np.testing.assert_allclose(u, mesh.nodes[:, 0], atol=1e-13)
+
+
+class TestNeumannBC:
+    """Tests for assemble_neumann_bc."""
+
+    def _make_unit_segment_boundary_mesh(self):
+        """A 1D boundary mesh (two Line2 edges) on the right side of a 2D square.
+
+        Global mesh has 4 nodes; boundary mesh covers nodes 1=(1,0) and 2=(1,1)
+        with one Line2 edge.  original_node_index maps local [0,1] -> global [1,2].
+        """
+        from yggdrasil.elements import Line2
+        # boundary mesh: one Line2 edge with local nodes 0 and 1
+        bnd_nodes = np.array([[1.0, 0.0], [1.0, 1.0]])
+        bnd_conn = np.array([[0, 1]], dtype=np.intp)
+        bnd_group = ElementGroup(element=Line2(), connectivity=bnd_conn)
+        bnd_mesh = Mesh(bnd_nodes, [bnd_group], point_data={"original_node_index": np.array([1, 2], dtype=np.intp)})
+        return bnd_mesh
+
+    def test_shape(self):
+        """Result has shape (n_dofs,)."""
+        bnd_mesh = self._make_unit_segment_boundary_mesh()
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        assert b.shape == (4,)
+
+    def test_constant_g_sum_equals_length(self):
+        """With g=1, sum of Neumann contribution equals the boundary length."""
+        bnd_mesh = self._make_unit_segment_boundary_mesh()
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        # The edge from (1,0) to (1,1) has length 1; ∫_Γ 1 dS = 1.0
+        np.testing.assert_allclose(b.sum(), 1.0, atol=1e-14)
+
+    def test_scattered_to_correct_global_indices(self):
+        """Neumann contribution is nonzero only at the original_node_index positions."""
+        bnd_mesh = self._make_unit_segment_boundary_mesh()
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        # Global nodes 1 and 2 should be nonzero; nodes 0 and 3 should be zero.
+        assert b[0] == 0.0
+        assert b[3] == 0.0
+        assert b[1] > 0.0
+        assert b[2] > 0.0
+
+    def test_callable_g(self):
+        """Callable g integrating to a known value."""
+        bnd_mesh = self._make_unit_segment_boundary_mesh()
+        # g(x) = x[:,1] on the segment (1,0)-(1,1): ∫_0^1 y dy = 0.5
+        b = assemble_neumann_bc(bnd_mesh, g=lambda x: x[:, 1], quadrature_order=2, n_dofs=4)
+        np.testing.assert_allclose(b.sum(), 0.5, atol=1e-14)
