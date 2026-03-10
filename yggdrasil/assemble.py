@@ -1,11 +1,12 @@
 from collections.abc import Callable
 
 import numpy as np
-from numpy.typing import NDArray
 import scipy.sparse as sp
 import scipy.sparse.linalg
+from numpy.typing import NDArray
 
 from .dof_map import DOFMap
+from .forms import mass_form
 from .mapping import compute_physical_gradients
 from .mesh import Mesh
 
@@ -321,7 +322,7 @@ def project_dirichlet_bc(
         )
     M = assemble_bilinear_form(
         boundary_mesh,
-        lambda N, grad_N: np.einsum("qi,qj->qij", N, N),
+        mass_form,
         quadrature_order,
     )
     b = assemble_load_vector(boundary_mesh, g, quadrature_order)
