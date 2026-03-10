@@ -7,11 +7,11 @@ Ordered feature suggestions (by applicability-to-effort ratio):
 
 2. **Robin boundary conditions**. A boundary bilinear form ∫_Γ α u v dS plus an optional load term. It requires ~20 lines reusing the existing boundary mesh infrastructure. This unlocks realistic heat transfer (convection BCs), absorbing boundary conditions for wave problems, and radiation conditions.
 
-3. **L² error norm utility**. A function l2_error(mesh, uh, u_exact, order) that integrates (uh − u_exact)² over elements. Trivial to implement using the existing quadrature/mapping pipeline. Essential for convergence studies, which are the primary way to validate any new feature, so the compounding benefit is high.
+3. **L² error norm utility** (DONE). A function l2_error(mesh, uh, u_exact, order) that integrates (uh − u_exact)² over elements. Trivial to implement using the existing quadrature/mapping pipeline. Essential for convergence studies, which are the primary way to validate any new feature, so the compounding benefit is high.
 
 4. **Transient solver (heat/wave equation)**. A thin time-stepping wrapper (Euler, Crank-Nicolson, Newmark) that takes K, M and advances the solution. No new assembly machinery is needed. Solves the heat equation, wave equation, and parabolic variants of Poisson. Medium effort for broad scope.
 
-5. **Eigenvalue problem solver** (DONE). A function that takes K and M and calls scipy.sparse.linalg.eigsh. Essentially a one-page wrapper. Solves structural vibration, Helmholtz resonance, and stability/buckling problems. High payoff for near-zero effort once the mass matrix exists.
+5. **Eigenvalue problem solver** (example done). A function that takes K and M and calls scipy.sparse.linalg.eigsh. Essentially a one-page wrapper. Solves structural vibration, Helmholtz resonance, and stability/buckling problems. High payoff for near-zero effort once the mass matrix exists.
 
 6. **Linear elasticity (vector-valued problems)**. The DOFMap abstraction already anticipates this. The remaining work is the Lamé bilinear form ∫ σ(u):ε(v) dx and vector load assembly. This is the most broadly useful mechanical PDE and a natural next step after the scalar infrastructure is solid. Moderate effort.
 
