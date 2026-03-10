@@ -1,0 +1,14 @@
+steps:
+  - name: lint
+    image: ghcr.io/astral-sh/uv:python3.13-bookworm
+    commands:
+      - uv sync --group dev
+      - uv run ruff check
+    depends_on: []
+
+  - name: test
+    image: ghcr.io/astral-sh/uv:python3.13-bookworm
+    commands:
+      - uv sync --group dev
+      - uv run pytest
+    depends_on: []
