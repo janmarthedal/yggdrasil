@@ -2,64 +2,25 @@
 
 ## Purpose
 
-These markdown files form a series of posts introducing the finite element method,
-developed alongside the yggdrasil library in this repository. Posts explain the
-mathematical theory and reference the accompanying library code directly.
-
-## Publication workflow
-
-When a post is ready to publish, copy it to the companion repository:
-
-```
-/Users/jamr/repos/janmarthedal/janmr.com/content/posts/finite-element-method/
-```
-
-Update the index there if needed. Do not edit posts in the `janmr.com` repository
-directly — always work here and copy over.
+The markdown files in this folder form a series of posts introducing the finite
+element method, accompanying the `yggdrasil` library in this repository.
+The posts explain the mathematical theory and code constructs and reference the
+accompanying library code in ./yggdrasil/ and possibly also example code in
+./examples/.
+*Every* function and class in the library should be referenced from at least one
+post.
+The posts should be prefixed with 01, 02, and so on, such that they form a
+linear narrative.
+Each post should be of small or medium size and as self-contained as possible.
+Plenty of examples, illustrations and animations should be included.
+The file `index.md` provides an introduction to and overview of the post series.
 
 ## Writing conventions
 
-- Reference library source files by path relative to the repo root, e.g. `yggdrasil/assemble.py`.
+- Reference library source files by path relative to the repo root, e.g.
+  `yggdrasil/assemble.py`.
 - Math is written in LaTeX delimited by `$...$` (inline) and `$$...$$` (display).
 - Mark incomplete sections with `**TODO**`.
-
-## Table of Contents
-
-- [Introduction](index.md)
-- [The Poisson Problem](01-the-poisson-problem.md)
-- [A More General Formulation](02-a-more-general-formulation.md)
-- [Weak Formulation of the Poisson Problem](03-weak-formulation-of-poisson-problem.md)
-- Weak Formulation of General Formulation
-- A finite solution space
-- Elements
-  - 1D
-    - Line2
-    - Line3
-  - 2D
-    - Triangle (Tri3, Tri6)
-    - Quad (Quad4, Quad9)
-  - 3D
-    - Tetrahedron (Tet4)
-    - Hexahedron (Hex8)
-- Meshes
-  - Representation
-  - Well-posedness
-  - Boundaries
-    - Normals
-  - Third-party tools
-    - gmsh
-    - meshio
-- Quadrature
-  - Line
-  - Triangle
-- Assembly
-  - Stiffness matrix
-  - Right-hand side
-  - Boundary conditions
-    - Dirichlet
-    - Neumann
-- Solving
-  - Direct methods
-  - Iterative methods
-- Time-dependent systems
-  - Solvers
+- Prefer SVG over PNG for inline images when the illustration is fit for vector
+  graphics.
+- Consider using [three.js](https://threejs.org/) for 3D illustrations.
