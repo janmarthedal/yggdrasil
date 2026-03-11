@@ -1,6 +1,7 @@
-"""Poisson problem on a square with a circular hole.
+"""Poisson problem on a square with an off-centre circular hole.
 
-Domain:  Ω = [-1, 1]² minus the open disk x² + y² < r²  (r = 0.2)
+Domain:  Ω = [-1, 1]² minus the open disk (x-cx)² + (y-cy)² < r²
+         with hole centre (cx, cy) = (0.3, 0.2) and r = 0.5
 
 Boundary conditions:
     u = 0         on the four sides of the square   ← Dirichlet (homogeneous)
@@ -15,6 +16,7 @@ The mesh is built from scratch using SciPy's Delaunay triangulation:
   4. Remove any triangle whose centroid falls inside the circle.
 """
 
+import meshio
 import matplotlib.pyplot as plt
 import matplotlib.tri
 import numpy as np
@@ -37,7 +39,8 @@ from yggdrasil.elements import Tri3
 
 def make_mesh(
     half_side: float = 1.0,
-    radius: float = 0.2,
+    hole_center: tuple[float, float] = (0.3, 0.2),
+    radius: float = 0.5,
     n_side: int = 24,
     n_circle: int = 36,
     n_interior: int = 1000,
@@ -49,8 +52,10 @@ def make_mesh(
     ----------
     half_side : float
         Half-side length of the square (domain is [-half_side, half_side]²).
+    hole_center : tuple[float, float]
+        (cx, cy) centre of the circular hole.
     radius : float
-        Radius of the circular hole centred at the origin.
+        Radius of the circular hole.
     n_side : int
         Number of nodes per side of the square (corners shared between sides).
     n_circle : int
@@ -60,6 +65,8 @@ def make_mesh(
     rng_seed : int
         Random seed for reproducibility.
     """
+    cx, cy = hole_center
+
     # Square boundary: traverse all four sides, excluding repeated corners
     t = np.linspace(-half_side, half_side, n_side, endpoint=False)
     square_pts = np.vstack([
@@ -71,14 +78,16 @@ def make_mesh(
 
     # Circular boundary
     theta = np.linspace(0.0, 2.0 * np.pi, n_circle, endpoint=False)
-    circle_pts = np.column_stack([radius * np.cos(theta), radius * np.sin(theta)])
+    circle_pts = np.column_stack([cx + radius * np.cos(theta), cy + radius * np.sin(theta)])
 
     # Random interior nodes (outside the circle, with a small clearance)
     rng = np.random.default_rng(rng_seed)
     interior_pts: list[np.ndarray] = []
     while len(interior_pts) < n_interior:
         candidates = rng.uniform(-half_side, half_side, size=(n_interior * 4, 2))
-        keep = np.sum(candidates ** 2, axis=1) > (radius * 1.1) ** 2
+        dx = candidates[:, 0] - cx
+        dy = candidates[:, 1] - cy
+        keep = dx ** 2 + dy ** 2 > (radius * 1.1) ** 2
         interior_pts.extend(candidates[keep])
     interior_pts_arr = np.array(interior_pts[:n_interior])
 
@@ -88,7 +97,9 @@ def make_mesh(
 
     # Drop triangles whose centroid lies inside the circle
     centroids = points[tri.simplices].mean(axis=1)
-    outside = np.sum(centroids ** 2, axis=1) >= radius ** 2
+    dx = centroids[:, 0] - cx
+    dy = centroids[:, 1] - cy
+    outside = dx ** 2 + dy ** 2 >= radius ** 2
     connectivity = tri.simplices[outside].astype(np.intp)
 
     return Mesh(points, [ElementGroup(element=Tri3(), connectivity=connectivity)])
@@ -122,6 +133,19 @@ def main():
     print(f"Nodes: {mesh.num_nodes},  Elements: {mesh.num_elements}")
     print(f"Max u: {u.max():.6f}  (node {u.argmax()})")
 
+    # Save mesh and solution to disk
+    out_path = "poisson_hole.vtu"
+    points_3d = np.column_stack([mesh.nodes, np.zeros(mesh.num_nodes)])
+    meshio.write(
+        out_path,
+        meshio.Mesh(
+            points=points_3d,
+            cells=[("triangle", mesh.element_groups[0].connectivity)],
+            point_data={"u": u},
+        ),
+    )
+    print(f"Saved mesh and solution to {out_path}")
+
     # Plot
     triangulation = matplotlib.tri.Triangulation(
         mesh.nodes[:, 0], mesh.nodes[:, 1],
@@ -130,7 +154,7 @@ def main():
     fig, ax = plt.subplots(figsize=(6, 6))
     tpc = ax.tripcolor(triangulation, u, shading="gouraud", cmap="viridis")
     fig.colorbar(tpc, ax=ax, label="u")
-    ax.set_title("Poisson on square with circular hole  (f = 1, u = 0 on sides)")
+    ax.set_title("Poisson on square with off-centre circular hole  (f = 1, u = 0 on sides)")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.set_aspect("equal")

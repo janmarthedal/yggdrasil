@@ -3,27 +3,35 @@
 ## Purpose
 This folder contains a series of posts introducing the finite element method,
 accompanying the `yggdrasil` library in this repository.
-The posts explain the mathematical theory and code constructs and reference the
-accompanying library code in ./yggdrasil/ and possibly also example code in
-./examples/.
-*Every* function and class in the library are referenced from at least one post.
-Some posts may be purely theoretical or regarding specific library such as
-NumPy or SciPy.
-The posts are prefixed with 01, 02, and so on, such that they form a linear
-narrative.
-Each post is of small or medium size and as self-contained as possible.
-Plenty of examples, illustrations and animations are included.
-The file `index.md` provides an introduction to and overview of the post series.
+The posts explain the mathematical foundation of the finite element method
+and the code constructs that make up the library in relation to the theory.
+There will be little abstract mathematical theory, but references to the
+underlying theory should be included. Resources accessible online are preferred,
+but authoratative books and papars may also be mentioned.
+It is an important goal that every function and class from the library are
+referenced from at least one post at some point.
+
+## Post guidelines
+- Plenty of examples, illustrations and animations should be included.
+- Each post is of small size and as self-contained as possible.
+- Use a shared set of notation, which is listed in `notation.md`.
+  Update this file as posts are written.
 
 ## Writing conventions
-- Use markdown.
-- Reference library source files by path relative to the repo root, e.g.
-  `yggdrasil/assemble.py`.
+- Use markdown syntax.
+- Reference library source files by path relative to `LIBROOT`, e.g.
+  `LIBROOT/assemble.py`.
+- Reference image files by path relative to `MEDIAROOT`.
+- Reference other posts by path relative to `POSTROOT`.
 - Math is written in LaTeX delimited by `$...$` (inline) and `$$...$$` (display).
 - Mark incomplete sections with `**TODO**`.
 - Prefer SVG over PNG for inline images when the illustration is fit for vector
   graphics.
 - Consider using [three.js](https://threejs.org/) for 3D illustrations.
+- The posts are prefixed with 01, 02, and so on, such that they form a linear
+  narrative.
+- Each post has a main heading, but headings should otherwise be kept to a
+  minimum.
 
 ## Overall post structure
 - The continuous problem.
@@ -61,32 +69,5 @@ The file `index.md` provides an introduction to and overview of the post series.
   - MeshIO
   - Paraview
 
-## Table of Contents
-
-- `index.md` — **Introduction**
-  - Overview of the post series, the finite element method, and the yggdrasil library.
-
-- `01-poisson-problem.md` — **The Poisson Problem**
-  - Introduces the Poisson equation as a prototypical elliptic PDE. Defines Dirichlet
-    and Neumann boundary conditions and states basic results on existence, uniqueness,
-    and well-posedness for this specific case.
-
-- `02-elliptic-pdes.md` — **General Elliptic PDEs**
-  - Generalises from Poisson to a broader class of second-order elliptic PDEs.
-    Introduces the abstract operator and bilinear-form setting, and discusses
-    well-posedness via the Lax–Milgram theorem.
-
-- `03-poisson-weak-form.md` — **Weak Formulation of the Poisson Problem**
-  - Derives the weak (variational) formulation of the Poisson equation by multiplying
-    by a test function and integrating by parts. Shows how Neumann conditions enter
-    naturally as boundary integrals.
-
-- `04-elliptic-weak-form.md` — **Weak Formulation of Elliptic PDEs**
-  - Extends the weak formulation to the general elliptic setting. Introduces the
-    abstract bilinear form $a(u, v)$ and linear functional $\ell(v)$, and states
-    coercivity and continuity conditions needed for well-posedness.
-
-- `05-discrete-formulation.md` — **The Discrete Formulation**
-  - Introduces the Galerkin method: restricting the weak problem to a finite-dimensional
-    space spanned by basis functions. Derives the resulting linear system and discusses
-    the optimality of the discrete solution (Céa's lemma).
+See [post specification](./post-specification.md) for a list of media and post
+files and what they depict or contain.
