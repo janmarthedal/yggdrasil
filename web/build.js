@@ -49,7 +49,7 @@ function buildFile(file) {
 
   const markdown = fs.readFileSync(src, 'utf8')
     .replaceAll('MEDIAROOT', '/media')
-    .replaceAll('POSTROOT', '.');
+    .replaceAll('POSTROOT', '');
   const body = md.render(markdown);
 
   const html = `<!DOCTYPE html>

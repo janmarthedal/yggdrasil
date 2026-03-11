@@ -21,3 +21,10 @@
 | $\mathbf{b}$ | Convection field, $\mathbf{b} : \Omega \to \mathbb{R}^n$ |
 | $c$ | Reaction coefficient, $c : \Omega \to \mathbb{R}$ |
 | $\alpha$ | Ellipticity constant |
+| $H^1(\Omega)$ | Sobolev space of square-integrable functions with square-integrable first derivatives |
+| $H^1_0(\Omega)$ | Functions in $H^1(\Omega)$ vanishing on $\partial\Omega$ |
+| $V$ | Trial function space |
+| $V_0$ | Test function space (functions vanishing on $\Gamma_D$) |
+| $v$ | Test function |
+| $\mathrm{d}x$ | Volume integration element in $\Omega$ |
+| $\mathrm{d}s$ | Surface integration element on $\partial\Omega$ |

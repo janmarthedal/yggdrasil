@@ -39,7 +39,19 @@
     but refer to authoratative resources -- preferably accessible online.
 
 - `03-poisson-weak-form.md` — **Weak Formulation of the Poisson Problem**
+  - Derive the weak (variational) formulation of the Poisson equation by
+    multiplying by a test function and integrating by parts.
+  - Show how Neumann conditions enter naturally as boundary integrals.
+  - Link to Wikipedia for the concepts Green's first identity, Sobolev spaces,
+    the Lax-Milgram theorem, and the Poincaré inequality.
 
 - `04-elliptic-weak-form.md` — **Weak Formulation of Elliptic PDEs**
+  - Extend the weak formulation to the general elliptic setting.
+  - Introduce the abstract bilinear form a(u,v) and linear functional ℓ(v)
 
 - `05-discrete-formulation.md` — **The Discrete Formulation**
+  - Introduce the Galerkin method: restricting the weak problem to a
+    finite-dimensional space spanned by basis functions.
+  - Derive the resulting linear system.
+  - Discuss the optimality of the discrete solution (Céa's lemma).
+  
