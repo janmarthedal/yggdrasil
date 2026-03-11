@@ -30,3 +30,10 @@
 | $\mathrm{d}s$ | Surface integration element on $\partial\Omega$ |
 | $a(u, v)$ | Bilinear form |
 | $\ell(v)$ | Linear functional (right-hand side) |
+| $V_h$, $V_{h,0}$ | Discrete trial and test spaces |
+| $N$ | Dimension of the discrete space |
+| $\phi_i$ | Basis functions |
+| $u_h$ | Discrete solution |
+| $K$ | Stiffness matrix, $K_{ij} = a(\phi_j, \phi_i)$ |
+| $\mathbf{u}$ | Vector of unknown coefficients |
+| $\mathbf{f}$ | Load vector, $f_i = \ell(\phi_i)$ |
