@@ -23,11 +23,13 @@
   - Refer to [applications in physics and engineering](https://en.wikipedia.org/wiki/Poisson%27s_equation#Applications_in_physics_and_engineering)
   - Define Dirichlet and Neumann boundary conditions.
   - Provide a 2D example of domain and boundary types and refer to the
-    illustration `poisson-2d-domain.svg`
+    illustration `poisson-2d-domain.svg`. Avoid detailed description of the
+    domain and boundaries.
   - Include a solution to the 2D example and show the solution
     `poisson-2d-solution.png`
   - Describe a 1D Poisson problem with an analytical solution.
     Illustrate using `poisson-1d-solution.svg`
+  - Avoid headings apart from the main title
 
 - `02-elliptic-pdes.md` — **General Elliptic PDEs**
 

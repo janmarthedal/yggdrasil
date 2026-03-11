@@ -30,8 +30,8 @@ referenced from at least one post at some point.
 - Consider using [three.js](https://threejs.org/) for 3D illustrations.
 - The posts are prefixed with 01, 02, and so on, such that they form a linear
   narrative.
-- Each post has a main heading, but headings should otherwise be kept to a
-  minimum.
+- Each post has a main heading, but headings should otherwise be avoided.
+  Let the text flow as continuous prose.
 
 ## Overall post structure
 - The continuous problem.

@@ -31,6 +31,7 @@ const md = new MarkdownIt({ html: true }).use(markdownItKatex.default);
 
 const postsDir = 'posts';
 const siteDir = '_site';
+const IGNORED = new Set(['CLAUDE.md', 'post-specification.md']);
 
 function buildFile(file) {
   const src = path.join(postsDir, file);
@@ -64,7 +65,7 @@ ${body}
 
 function buildAll() {
   fs.mkdirSync(siteDir, { recursive: true });
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md') && f !== 'CLAUDE.md');
+  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md') && !IGNORED.has(f));
   for (const file of files) buildFile(file);
 }
 
@@ -75,7 +76,7 @@ if (process.argv.includes('--watch')) {
   console.log(`Watching ${postsDir}/ for changes...`);
   watch(postsDir).on('change', file => {
     const base = path.basename(file);
-    if (!base.endsWith('.md') || base === 'CLAUDE.md') return;
+    if (!base.endsWith('.md') || IGNORED.has(base)) return;
     console.log(`Changed: ${file}`);
     buildFile(base);
   });
