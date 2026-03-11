@@ -28,3 +28,5 @@
 | $v$ | Test function |
 | $\mathrm{d}x$ | Volume integration element in $\Omega$ |
 | $\mathrm{d}s$ | Surface integration element on $\partial\Omega$ |
+| $a(u, v)$ | Bilinear form |
+| $\ell(v)$ | Linear functional (right-hand side) |

@@ -47,7 +47,7 @@
 
 - `04-elliptic-weak-form.md` — **Weak Formulation of Elliptic PDEs**
   - Extend the weak formulation to the general elliptic setting.
-  - Introduce the abstract bilinear form a(u,v) and linear functional ℓ(v)
+  - Introduce the abstract bilinear form a(u,v) and linear functional ℓ(v).
 
 - `05-discrete-formulation.md` — **The Discrete Formulation**
   - Introduce the Galerkin method: restricting the weak problem to a
