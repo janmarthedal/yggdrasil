@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import MarkdownIt from 'markdown-it';
 import markdownItKatex from '@vscode/markdown-it-katex';
+import MarkdownIt from 'markdown-it';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const KATEX_CSS = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
 
@@ -25,13 +25,19 @@ const PAGE_CSS = `
     padding: 1em;
     overflow-x: auto;
   }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
 `;
 
 const md = new MarkdownIt({ html: true }).use(markdownItKatex.default);
 
 const postsDir = 'posts';
+const mediaDir = 'media';
 const siteDir = '_site';
-const IGNORED = new Set(['CLAUDE.md', 'post-specification.md']);
 
 function buildFile(file) {
   const src = path.join(postsDir, file);
@@ -41,7 +47,7 @@ function buildFile(file) {
     : path.join(siteDir, basename, 'index.html');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
 
-  const markdown = fs.readFileSync(src, 'utf8');
+  const markdown = fs.readFileSync(src, 'utf8').replaceAll('MEDIAROOT', '/media');
   const body = md.render(markdown);
 
   const html = `<!DOCTYPE html>
@@ -63,9 +69,21 @@ ${body}
   console.log(`${src} → ${dest}`);
 }
 
+function copyMedia() {
+  const destDir = path.join(siteDir, mediaDir);
+  fs.mkdirSync(destDir, { recursive: true });
+  for (const file of fs.readdirSync(mediaDir)) {
+    const src = path.join(mediaDir, file);
+    const dest = path.join(destDir, file);
+    fs.copyFileSync(src, dest);
+    console.log(`${src} → ${dest}`);
+  }
+}
+
 function buildAll() {
   fs.mkdirSync(siteDir, { recursive: true });
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md') && !IGNORED.has(f));
+  copyMedia();
+  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
   for (const file of files) buildFile(file);
 }
 
@@ -73,11 +91,15 @@ buildAll();
 
 if (process.argv.includes('--watch')) {
   const { watch } = await import('chokidar');
-  console.log(`Watching ${postsDir}/ for changes...`);
+  console.log(`Watching ${postsDir}/ and ${mediaDir}/ for changes...`);
   watch(postsDir).on('change', file => {
     const base = path.basename(file);
-    if (!base.endsWith('.md') || IGNORED.has(base)) return;
+    if (!base.endsWith('.md')) return;
     console.log(`Changed: ${file}`);
     buildFile(base);
+  });
+  watch(mediaDir).on('all', (event, file) => {
+    console.log(`Media ${event}: ${file}`);
+    copyMedia();
   });
 }

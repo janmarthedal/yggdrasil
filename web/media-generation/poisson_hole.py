@@ -16,6 +16,8 @@ The mesh is built from scratch using SciPy's Delaunay triangulation:
   4. Remove any triangle whose centroid falls inside the circle.
 """
 
+from pathlib import Path
+
 import meshio
 import matplotlib.pyplot as plt
 import matplotlib.tri
@@ -151,7 +153,7 @@ def main():
         mesh.nodes[:, 0], mesh.nodes[:, 1],
         mesh.element_groups[0].connectivity,
     )
-    fig, ax = plt.subplots(figsize=(6, 6))
+    fig, ax = plt.subplots(figsize=(9, 6))
     tpc = ax.tripcolor(triangulation, u, shading="gouraud", cmap="viridis")
     fig.colorbar(tpc, ax=ax, label="u")
     ax.set_title("Poisson on square with off-centre circular hole  (f = 1, u = 0 on sides)")
@@ -159,7 +161,10 @@ def main():
     ax.set_ylabel("y")
     ax.set_aspect("equal")
     plt.tight_layout()
-    plt.show()
+    out_img = Path(__file__).parent.parent / "media" / "poisson-2d-solution.png"
+    out_img.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_img, dpi=150)
+    print(f"Saved solution image to {out_img}")
 
 
 if __name__ == "__main__":

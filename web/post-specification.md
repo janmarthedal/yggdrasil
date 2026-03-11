@@ -4,11 +4,12 @@
 
 - `poisson-2d-domain.svg`
   - An svg illustrating a 2d domain.
-  - See `./examples/poisson_hole.py` for domain specification.
+  - See `./media-generation/poisson_hole.py` for domain specification.
   - Use proper notation for the relevant parts of the illustration.
 - `poisson-2d-solution.png`
   - A solution to the problem shown by `poisson-2d-domain.svg`.
 - `poisson-1d-solution.svg`
+  - A solution to $-u''(x) = 1, \quad x \in (0, 1), \qquad u(0) = u(1) = 0.$
 
 ## Posts
 

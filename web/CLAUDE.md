@@ -1,8 +1,8 @@
-# Posts — Finite Element Method
+# Posts and media on the Finite Element Method and the Yggdrasil project
 
 ## Purpose
-This folder contains a series of posts introducing the finite element method,
-accompanying the `yggdrasil` library in this repository.
+The folder ./posts/ contains a series of posts introducing the finite element
+method, accompanying the `yggdrasil` library in this repository.
 The posts explain the mathematical foundation of the finite element method
 and the code constructs that make up the library in relation to the theory.
 There will be little abstract mathematical theory, but references to the
