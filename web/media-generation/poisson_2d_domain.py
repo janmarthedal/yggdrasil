@@ -9,7 +9,6 @@ from pathlib import Path
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Circle, FancyArrowPatch
 from matplotlib.path import Path as MPath
 
 # Domain parameters (matching poisson_hole.py)
