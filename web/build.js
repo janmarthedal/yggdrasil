@@ -47,7 +47,9 @@ function buildFile(file) {
     : path.join(siteDir, basename, 'index.html');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
 
-  const markdown = fs.readFileSync(src, 'utf8').replaceAll('MEDIAROOT', '/media');
+  const markdown = fs.readFileSync(src, 'utf8')
+    .replaceAll('MEDIAROOT', '/media')
+    .replaceAll('POSTROOT', '.');
   const body = md.render(markdown);
 
   const html = `<!DOCTYPE html>
@@ -92,10 +94,10 @@ buildAll();
 if (process.argv.includes('--watch')) {
   const { watch } = await import('chokidar');
   console.log(`Watching ${postsDir}/ and ${mediaDir}/ for changes...`);
-  watch(postsDir).on('change', file => {
+  watch(postsDir).on('all', (event, file) => {
     const base = path.basename(file);
     if (!base.endsWith('.md')) return;
-    console.log(`Changed: ${file}`);
+    console.log(`Post ${event}: ${file}`);
     buildFile(base);
   });
   watch(mediaDir).on('all', (event, file) => {

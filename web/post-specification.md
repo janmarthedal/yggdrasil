@@ -33,6 +33,10 @@
   - Avoid headings apart from the main title
 
 - `02-elliptic-pdes.md` — **General Elliptic PDEs**
+  - Generalise from Poisson to a broader class of second-order elliptic PDEs.
+  - Introduce the abstract operator $L$ and the formulation $L u = f$.
+  - Outline results related to well-posedness without going into details,
+    but refer to authoratative resources -- preferably accessible online.
 
 - `03-poisson-weak-form.md` — **Weak Formulation of the Poisson Problem**
 

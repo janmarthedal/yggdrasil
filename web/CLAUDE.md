@@ -22,7 +22,8 @@ referenced from at least one post at some point.
 - Reference library source files by path relative to `LIBROOT`, e.g.
   `LIBROOT/assemble.py`.
 - Reference image files by path relative to `MEDIAROOT`.
-- Reference other posts by path relative to `POSTROOT`.
+- Reference other posts by path relative to `POSTROOT`. The post link for file
+  `some-post.md` should be `POSTROOT/some-post/`.
 - Math is written in LaTeX delimited by `$...$` (inline) and `$$...$$` (display).
 - Mark incomplete sections with `**TODO**`.
 - Prefer SVG over PNG for inline images when the illustration is fit for vector
