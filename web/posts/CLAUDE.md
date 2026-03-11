@@ -52,6 +52,14 @@ The file `index.md` provides an introduction to and overview of the post series.
     - Condensation
     - L² projection
   - Neumann contributions
+- Solving time-dependent systems
+  - Heat equation
+  - Wave equation
+- External tools
+  - Gmsh
+  - Matplotlib
+  - MeshIO
+  - Paraview
 
 ## Table of Contents
 

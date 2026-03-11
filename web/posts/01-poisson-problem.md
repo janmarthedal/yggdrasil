@@ -4,6 +4,7 @@ The Poisson equation is one of the simplest and most studied PDEs. It is the nat
 starting point for finite element analysis because it is rich enough to illustrate all
 the key ideas — boundary conditions, well-posedness, weak formulation — while keeping
 the algebra transparent.
+It has several [applications in physics and engineering](https://en.wikipedia.org/wiki/Poisson%27s_equation#Applications_in_physics_and_engineering).
 
 ## The strong form
 
@@ -19,17 +20,6 @@ where $\Delta u = \nabla \cdot \nabla u = \sum_{i=1}^{d} \frac{\partial^2 u}{\pa
 is the Laplacian and $f : \Omega \to \mathbb{R}$ is a given source term.
 
 The minus sign is conventional; it makes the associated operator positive (semi-)definite.
-
-### Physical interpretations
-
-The Poisson equation models many physical phenomena:
-
-| $u$ | $f$ | Setting |
-|---|---|---|
-| Electrostatic potential | Charge density / $\varepsilon_0$ | Electrostatics |
-| Temperature | Heat source | Steady-state heat conduction |
-| Pressure head | Recharge rate | Groundwater flow (Darcy) |
-| Displacement | Body force (1D rod) | Linear elasticity (1D) |
 
 ## Boundary conditions
 
