@@ -35,40 +35,47 @@ referenced from at least one post at some point.
   Let the text flow as continuous prose.
 
 ## Overall post structure
-- The continuous problem.
-  - Present a general formulation, but start with the Poisson problem as an example.
-  - Introduce Dirichlet and Neumann boundary conditions.
-  - Mention basic results on well-posedness of such problems.
-- The weak formulation.
-  - Show how to derive the weak formulation in the Poisson and general case.
-- Discrete formulation
-  - Formulation using basis function.
-  - Optimality of solutions.
+- From Continuous to Discrete
+  - The Poisson Problem
+  - General Elliptic PDEs
+  - Weak Formulation of the Poisson Problem
+  - Weak Formulation of Elliptic PDEs
+  - The Discrete Formulation
 - Elements
-  - Reference domains
-    - Parameterization
-    - Quadrature
-  - Shape functions
-    - Mapping from reference domain to physical domain
-    - Jacobians
+  - From Basis to Shape Functions
+  - Reference Domains and Quadrature. Code: ReferenceDomain
+    - 1D
+      - Line. [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html). Code: LineDomain
+    - 2D
+      - Triangle. Code: TriangleDomain
+      - Quadrilateral. Code: QuadrilateralDomain
+    - 3D
+      - Tetrahedron. Code: TetrahedronDomain
+      - Hexahedron. Code: HexahedronDomain
+  - Shape Functions. Code: ReferenceElement
+    - 1D
+      - Line-2. Code: Line2
+      - Line-3. Code: Line3
+    - 2D
+      - Triangle-3. Code: Tri3
+      - Triangle-6. Code: Tri6
+      - Quadrature-4. Code: Quad4
+      - Quadrature-9. Code: Quad9
+    - 3D
+      - Tetrahedron-4. Code: Tet4
+      - Hexahedron-8. Code: Hex8
 - Meshes
-  - Representation
-  - Boundaries
+  - Representation. Code: Mesh, ElementGroup
+  - Boundaries. Code: extract_boundary
+  - Loading and Saving Meshes. Interoperability with MeshIO
 - Assembly
-  - Global stiffness matrix
-  - Load vector
+  - Computing the Jacobian. Code: compute_physical_gradients
+  - Global stiffness matrix. Code: assemble_bilinear_form
+  - Load vector. Code: assemble_load_vector
   - Dirichlet boundary conditions
-    - Condensation
-    - L² projection
-  - Neumann contributions
-- Solving time-dependent systems
-  - Heat equation
-  - Wave equation
-- External tools
-  - Gmsh
-  - Matplotlib
-  - MeshIO
-  - Paraview
+    - Condensation. Code: CondensedSystem, condense_dirichlet_bc
+    - L² projection. Code: project_dirichlet_bc
+  - Neumann contributions. Code: assemble_neumann_bc
 
 See [post specification](./post-specification.md) for a list of media and post
 files and what they depict or contain.
