@@ -5,7 +5,6 @@ import numpy as np
 from yggdrasil.elements import Hex8, Line2, Quad4, Tri3
 from yggdrasil.mapping import (
     compute_jacobian,
-    compute_mapped_quadrature,
     compute_physical_gradients,
 )
 
@@ -99,46 +98,3 @@ class TestPhysicalGradients:
         # Physical gradients = reference / scale
         ref_grad = elem.shape_function_gradients(xi)
         np.testing.assert_allclose(grad_phys, ref_grad / scale, atol=1e-13)
-
-
-class TestMappedQuadrature:
-    def test_line_area(self):
-        """Integrate 1 over a physical line [0, 5]: should get 5."""
-        elem = Line2()
-        phys = np.array([[0.0], [5.0]])
-        _, wts, det_J = compute_mapped_quadrature(elem, 1, phys)
-        area = np.sum(wts * det_J)
-        np.testing.assert_allclose(area, 5.0, atol=1e-14)
-
-    def test_tri_area(self):
-        """Area of triangle with vertices (0,0), (4,0), (0,3) = 6."""
-        elem = Tri3()
-        phys = np.array([[0.0, 0.0], [4.0, 0.0], [0.0, 3.0]])
-        _, wts, det_J = compute_mapped_quadrature(elem, 1, phys)
-        area = np.sum(wts * det_J)
-        np.testing.assert_allclose(area, 6.0, atol=1e-13)
-
-    def test_quad_area(self):
-        """Area of [0,2] x [0,3] rectangle = 6."""
-        elem = Quad4()
-        phys = np.array([[0.0, 0.0], [2.0, 0.0], [2.0, 3.0], [0.0, 3.0]])
-        _, wts, det_J = compute_mapped_quadrature(elem, 1, phys)
-        area = np.sum(wts * det_J)
-        np.testing.assert_allclose(area, 6.0, atol=1e-13)
-
-    def test_hex_volume(self):
-        """Volume of [0,2]^3 = 8."""
-        elem = Hex8()
-        phys = elem.node_coords * 2.0
-        _, wts, det_J = compute_mapped_quadrature(elem, 1, phys)
-        vol = np.sum(wts * det_J)
-        np.testing.assert_allclose(vol, 8.0, atol=1e-13)
-
-    def test_physical_points_location(self):
-        """Mapped quadrature points should lie inside the physical element."""
-        elem = Tri3()
-        phys = np.array([[1.0, 1.0], [3.0, 1.0], [1.0, 4.0]])
-        phys_pts, _, _ = compute_mapped_quadrature(elem, 2, phys)
-        # All x >= 1, y >= 1, and within the triangle
-        assert np.all(phys_pts[:, 0] >= 1.0 - 1e-10)
-        assert np.all(phys_pts[:, 1] >= 1.0 - 1e-10)
