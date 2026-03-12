@@ -49,7 +49,8 @@ function buildFile(file) {
 
   const markdown = fs.readFileSync(src, 'utf8')
     .replaceAll('MEDIAROOT', '/media')
-    .replaceAll('POSTROOT', '');
+    .replaceAll('POSTROOT', '')
+    .replaceAll('LIBROOT', 'https://github.com/janmarthedal/yggdrasil/tree/main/yggdrasil');
   const body = md.render(markdown);
 
   const html = `<!DOCTYPE html>

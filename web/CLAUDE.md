@@ -19,8 +19,8 @@ referenced from at least one post at some point.
 
 ## Writing conventions
 - Use markdown syntax.
-- Reference library source files by path relative to `LIBROOT`, e.g.
-  `LIBROOT/assemble.py`.
+- Reference library source files using links, e.g., reference
+  yggdrasil/assemble.py as "[`assemble.py`](LIBROOT/assemble.py)".
 - Reference image files by path relative to `MEDIAROOT`.
 - Reference other posts by path relative to `POSTROOT`. The post link for file
   `some-post.md` should be `POSTROOT/some-post/`.
@@ -67,7 +67,7 @@ referenced from at least one post at some point.
 - Meshes
   - Representation. Code: Mesh, ElementGroup
   - Boundaries. Code: extract_boundary
-  - Loading and Saving Meshes. Interoperability with MeshIO
+  - Loading and Saving Meshes Using MeshIO
 - Assembly
   - Computing the Jacobian. Code: compute_physical_gradients
   - Global stiffness matrix. Code: assemble_bilinear_form

@@ -68,3 +68,24 @@
     computed during assembly.
   - Avoid details and introduce as little new notation as possible. The details
     will be described later in dedicated assembly posts.
+
+- `07-reference-domains.md` — **Reference Domains and Quadrature**
+  - Introduce the need for local parametrization of standard elements (domains).
+  - Introduce the concept of integration using sample points and weights.
+  - Refer to the class ReferenceDomain.quadrature.
+  
+- `08-line-domain.md` — **The Line Domain**
+  - Link to [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html)
+  - Refer to the class LineDomain
+  
+- `09-triangle-domain.md` — **The Triangle Domain**
+  - Refer to the class TriangleDomain
+
+- `10-quadrilateral-domain.md` — **The Quadrilateral Domain**
+  - Refer to the class QuadrilateralDomain
+
+- `11-tetrahedron-domain.md` — **The Tetrahedron Domain**
+  - Refer to the class TetrahedronDomain
+
+- `12-hexahedron-domain.md` — **The Hexahedron Domain**
+  - Refer to the class HexahedronDomain
