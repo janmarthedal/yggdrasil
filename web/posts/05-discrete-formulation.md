@@ -2,11 +2,11 @@
 
 The [abstract weak problem](POSTROOT/04-elliptic-weak-form/) — find $u \in V$ such that $a(u,v) = \ell(v)$ for all $v \in V_0$ — is posed in an infinite-dimensional function space and cannot be solved directly on a computer. The **Galerkin method** turns it into a finite-dimensional problem by restricting attention to a subspace.
 
-Choose a finite-dimensional subspace $V_h \subset V$ of dimension $N$, with a corresponding subspace $V_{h,0} = V_h \cap V_0$ for the test functions. The subscript $h$ conventionally denotes a discretisation parameter, typically the mesh size. The discrete problem reads: find $u_h \in V_h$ such that
+Choose a finite-dimensional subspace $V_h \subset V$ of dimension $N$. The subscript $h$ conventionally denotes a discretisation parameter, typically the mesh size. The discrete problem reads: find $u_h \in V_h$ such that
 
-$$a(u_h, v_h) = \ell(v_h) \quad \text{for all } v_h \in V_{h,0}.$$
+$$a(u_h, v_h) = \ell(v_h) \quad \text{for all } v_h \in V_h.$$
 
-This has exactly the same form as the continuous problem, but lives in a space of dimension $N$ instead of an infinite-dimensional one. To turn it into a linear system, let $\{\phi_1, \ldots, \phi_N\}$ be a basis for $V_{h,0}$. Since $a$ is linear in the first argument and $u_h$ lies in the span of the basis, we write
+This has exactly the same form as the continuous problem, but lives in a space of dimension $N$ instead of an infinite-dimensional one. To turn it into a linear system, let $\{\phi_1, \ldots, \phi_N\}$ be a basis for $V_h$. Since $a$ is linear in the first argument and $u_h \in V_h$, we write
 
 $$u_h = \sum_{j=1}^{N} u_j\, \phi_j$$
 
@@ -22,7 +22,7 @@ the discrete problem reduces to the linear system
 
 $$K\mathbf{u} = \mathbf{f},$$
 
-where $\mathbf{u} = (u_1, \ldots, u_N)^T$ is the vector of unknown coefficients. When $a$ is symmetric (as for the Poisson problem), $K$ is symmetric and, under the coercivity condition, positive definite. Non-homogeneous Dirichlet boundary conditions modify the system in a standard way that is the subject of a later post on assembly.
+where $\mathbf{u} = (u_1, \ldots, u_N)^T$ is the vector of unknown coefficients. When $a$ is symmetric (as for the Poisson problem), $K$ is symmetric and, under the coercivity condition, positive definite. The restriction of test functions to the subspace $V_{h,0} = V_h \cap V_0$ — which enforces the Dirichlet boundary conditions — is the subject of a later post on assembly.
 
 The key question is how well $u_h$ approximates the true solution $u$. The relevant measure of error is the $V$-norm, which for $V \subset H^1(\Omega)$ is the $H^1$ norm
 
