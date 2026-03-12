@@ -56,12 +56,15 @@
   - Discuss the optimality of the discrete solution (Céa's lemma).
   
 - `06-basis-to-shape-functions.md` — **From Basis to Shape Functions**
-  - Note how the basis functions from "The Discrete Formulation" will be
-    represented as a linear combination of shape functions.
-  - Note how each shape function has support within exactly one element.
-  - Argue how this means that when evaluating $a(\phi_j, \phi_i)$ it is
-    sufficient to consider shape functions that belong to *the same element*.
-  - Similarly, when evaluating $\ell(\phi_i)$ it is sufficient to consider
-    each element in turn.
+  - Partition the domain into elements and define shape functions as locally
+    supported functions on each element.
+  - Explain how the global space $V_h$ is assembled from local shape functions,
+    noting that both continuous and discontinuous Galerkin methods fit this
+    framework.
+  - Use bilinearity of $a(\cdot,\cdot)$ to decompose the stiffness matrix into
+    element contributions, and note that sparsity follows from the local support
+    of the basis functions.
+  - Introduce element stiffness matrices and element load vectors as the objects
+    computed during assembly.
   - Avoid details and introduce as little new notation as possible. The details
     will be described later in dedicated assembly posts.
