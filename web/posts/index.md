@@ -9,4 +9,4 @@
   - [The Discrete Formulation](POSTROOT/discrete/discrete-formulation/)
   - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
 - Reference domains
-  - [Reference Domains and Quadrature](POSTROOT/domains/introduction/)
+  - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
