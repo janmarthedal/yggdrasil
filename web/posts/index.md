@@ -18,3 +18,8 @@
   - 3D
     - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron-domain/)
     - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron-domain/)
+- Elements
+  - [Shape Functions on Reference Elements](POSTROOT/elements/introduction/)
+  - 1D
+    - [The Line2 Element](POSTROOT/elements/line2/)
+    - [The Line3 Element](POSTROOT/elements/line3/)
