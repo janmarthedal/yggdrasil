@@ -44,7 +44,9 @@ sizes = (wts / wts.max()) * 120
 ax.scatter(pts[:, 0], pts[:, 1], pts[:, 2],
            s=sizes, color=BLUE, zorder=10, depthshade=False)
 
-ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.set_zlim(0, 1)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_zlim(0, 1)
 ax.set_xlabel("x", fontsize=9, labelpad=-4)
 ax.set_ylabel("y", fontsize=9, labelpad=-4)
 ax.set_zlabel("z", fontsize=9, labelpad=-4)

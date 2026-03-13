@@ -70,7 +70,9 @@ for idx, order in enumerate(orders, 1):
     ax.scatter(pts[:, 0], pts[:, 1], pts[:, 2],
                s=sizes, c=colors, zorder=10, depthshade=False)
 
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.set_zlim(0, 1)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_zlim(0, 1)
     ax.set_xlabel("x", fontsize=8, labelpad=-4)
     ax.set_ylabel("y", fontsize=8, labelpad=-4)
     ax.set_zlabel("z", fontsize=8, labelpad=-4)

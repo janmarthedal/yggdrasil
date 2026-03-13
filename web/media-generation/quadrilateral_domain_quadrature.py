@@ -7,8 +7,6 @@ order 7 (4x4 = 16 points). Marker size is proportional to the weight.
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import numpy as np
-
 from yggdrasil.refdomains.quadrilateral import QuadrilateralDomain
 
 out_path = Path(__file__).parent.parent / "media" / "quadrilateral-domain-quadrature.svg"
