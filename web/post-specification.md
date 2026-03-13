@@ -18,6 +18,7 @@
     TriangleDomain.quadrature, for orders 1, 2, 3, 4
 - `quadrilateral-domain-quadrature.svg`
 - `tetrahedron-domain-quadrature.svg`
+- `hexahedron-domain-quadrature.svg`
 
 ## Posts
 
@@ -108,4 +109,10 @@
   - Refer to the class TetrahedronDomain
 
 - `ref-domains/hexahedron-domain.md` — **The Hexahedron Domain**
+  - Note how the points and weights can be obtained by leveraging the line
+    quadrature rules.
+  - No need to derive or write out formulas, but refer to
+    `ref-domains/quadrilateral-domain.md`
+  - Illustrate the points and weights for a *single* order by including
+    `quadrilateral-domain-quadrature.svg`.
   - Refer to the class HexahedronDomain
