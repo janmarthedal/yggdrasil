@@ -10,8 +10,11 @@
   - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
 - Reference domains
   - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
-  - [The Line Domain](POSTROOT/ref-domains/line-domain/)
-  - [The Triangle Domain](POSTROOT/ref-domains/triangle-domain/)
-  - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral-domain/)
-  - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron-domain/)
-  - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron-domain/)
+  - 1D
+    - [The Line Domain](POSTROOT/ref-domains/line-domain/)
+  - 2D
+    - [The Triangle Domain](POSTROOT/ref-domains/triangle-domain/)
+    - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral-domain/)
+  - 3D
+    - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron-domain/)
+    - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron-domain/)

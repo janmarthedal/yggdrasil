@@ -28,3 +28,14 @@ most $p$. The `quadrature(order)` method returns the pair `(points, weights)`,
 where `points` has shape `(Q, topological_dimension)` and `weights` has shape
 `(Q,)`. The caller specifies the required polynomial degree, and the
 implementation returns a rule with enough points to integrate it exactly.
+
+Each element type has a dedicated post describing its reference domain and quadrature rules:
+
+- 1D
+  - [The Line Domain](POSTROOT/ref-domains/line-domain/)
+- 2D
+  - [The Triangle Domain](POSTROOT/ref-domains/triangle-domain/)
+  - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral-domain/)
+- 3D
+  - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron-domain/)
+  - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron-domain/)
