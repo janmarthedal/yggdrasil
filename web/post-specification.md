@@ -116,3 +116,93 @@
   - Illustrate the points and weights for a *single* order by including
     `quadrilateral-domain-quadrature.svg`.
   - Refer to the class HexahedronDomain
+
+- `elements/introduction.md` — **Shape Functions on Reference Elements**
+  - Introduce the abstract class `ReferenceElement` in
+    [`elements/element.py`](LIBROOT/elements/element.py) and its three core
+    methods: `node_coords`, `shape_functions`, and `shape_function_gradients`.
+  - Explain that `node_coords` returns the coordinates of the element's nodes
+    on the reference domain, with shape `(num_nodes, topo_dim)`.
+  - Explain that `shape_functions(xi)` takes points `xi` of shape
+    `(num_points, topo_dim)` and returns an array of shape
+    `(num_points, num_nodes)`, where each row sums to one (partition of unity).
+  - Explain that `shape_function_gradients(xi)` returns an array of shape
+    `(num_points, num_nodes, topo_dim)` containing the reference-domain
+    gradients $\partial N_i / \partial \hat{x}_j$.
+  - Mention that gradients in physical space require the Jacobian of the
+    element mapping (to be covered in a later assembly post).
+  - Provide a list of all concrete element types with links to their posts.
+
+- `elements/line2.md` — **The Line2 Element**
+  - Describe the 2-node linear line element [`Line2`](LIBROOT/elements/line2.py)
+    on $[0, 1]$ with nodes at $\hat{x}_0 = 0$ and $\hat{x}_1 = 1$.
+  - Write out the two shape functions $N_0(\hat{x}) = 1 - \hat{x}$ and
+    $N_1(\hat{x}) = \hat{x}$ and their constant gradients.
+  - Note that the shape functions are the Lagrange basis polynomials of degree 1
+    associated with nodes 0 and 1, and that they form a partition of unity.
+  - Include an illustration of the two shape functions plotted over $[0, 1]$.
+
+- `elements/line3.md` — **The Line3 Element**
+  - Describe the 3-node quadratic line element [`Line3`](LIBROOT/elements/line3.py)
+    on $[0, 1]$ with nodes at $0$, $1$, and $\tfrac{1}{2}$.
+  - Write out the three quadratic Lagrange shape functions:
+    $N_0 = (1 - \hat{x})(1 - 2\hat{x})$, $N_1 = \hat{x}(2\hat{x} - 1)$,
+    $N_2 = 4\hat{x}(1 - \hat{x})$, and their gradients.
+  - Note the characteristic "bubble" shape of $N_2$ and the negative values of
+    $N_0$ and $N_1$ away from their respective nodes.
+  - Include an illustration of the three shape functions plotted over $[0, 1]$.
+
+- `elements/tri3.md` — **The Tri3 Element**
+  - Describe the 3-node linear triangle [`Tri3`](LIBROOT/elements/tri3.py) on
+    the reference triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$.
+  - Introduce barycentric coordinates $L_0 = 1 - x - y$, $L_1 = x$, $L_2 = y$
+    and note that the shape functions are exactly these coordinates.
+  - Write out the constant gradients $\nabla N_i$ on the reference triangle.
+  - Include an illustration showing the reference triangle with its three nodes
+    and, optionally, a surface plot of one shape function.
+
+- `elements/tri6.md` — **The Tri6 Element**
+  - Describe the 6-node quadratic triangle [`Tri6`](LIBROOT/elements/tri6.py)
+    with nodes at the three vertices and the three edge midpoints.
+  - Express the shape functions in terms of the barycentric coordinates
+    $L_0$, $L_1$, $L_2$: vertex nodes use $L_i(2L_i - 1)$ and edge midpoint
+    nodes use $4L_i L_j$.
+  - Write out the gradients of the shape functions.
+  - Include an illustration of the reference triangle with all 6 nodes labelled.
+
+- `elements/quad4.md` — **The Quad4 Element**
+  - Describe the 4-node bilinear quadrilateral [`Quad4`](LIBROOT/elements/quad4.py)
+    on $[0,1]^2$ with nodes at the four corners.
+  - Explain how the shape functions are formed as tensor products of the 1D
+    linear Lagrange functions: $N_i(\hat{x}, \hat{y}) = \ell_i(\hat{x})\,\ell_j(\hat{y})$.
+  - Write out the four shape functions and their gradients.
+  - Include an illustration of the reference square with nodes labelled.
+
+- `elements/quad9.md` — **The Quad9 Element**
+  - Describe the 9-node biquadratic quadrilateral [`Quad9`](LIBROOT/elements/quad9.py)
+    on $[0,1]^2$ with nodes at the four corners, four edge midpoints, and
+    the centre.
+  - Explain that the shape functions are tensor products of the 1D quadratic
+    Lagrange basis (the same polynomials used in `Line3`).
+  - Write out the node ordering and indicate how each shape function is the
+    product of two 1D Lagrange functions.
+  - Include an illustration of the reference square with all 9 nodes labelled.
+
+- `elements/tet4.md` — **The Tet4 Element**
+  - Describe the 4-node linear tetrahedron [`Tet4`](LIBROOT/elements/tet4.py)
+    with vertices $(0,0,0)$, $(1,0,0)$, $(0,1,0)$, $(0,0,1)$.
+  - Introduce the 3D barycentric (volume) coordinates
+    $L_0 = 1 - x - y - z$, $L_1 = x$, $L_2 = y$, $L_3 = z$ and note that the
+    shape functions are exactly these coordinates.
+  - Write out the constant gradients.
+  - Include an illustration of the reference tetrahedron with its four nodes
+    labelled.
+
+- `elements/hex8.md` — **The Hex8 Element**
+  - Describe the 8-node trilinear hexahedron [`Hex8`](LIBROOT/elements/hex8.py)
+    on $[0,1]^3$ with nodes at the eight corners (bottom face first, then top).
+  - Explain that the shape functions are triple tensor products of the 1D linear
+    Lagrange functions: $N_i = \ell_{i_x}(x)\,\ell_{i_y}(y)\,\ell_{i_z}(z)$
+    where each $\ell$ factor is either $1 - t$ or $t$.
+  - Note the analogy with Quad4 in 2D.
+  - Include an illustration of the reference cube with all 8 nodes labelled.
