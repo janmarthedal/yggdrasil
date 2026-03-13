@@ -12,3 +12,4 @@
   - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
   - [The Line Domain](POSTROOT/ref-domains/line-domain/)
   - [The Triangle Domain](POSTROOT/ref-domains/triangle-domain/)
+  - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral-domain/)

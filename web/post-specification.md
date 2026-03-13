@@ -16,6 +16,7 @@
 - `triangle-domain-quadrature.svg`
   - Illustrations of points and weights for the triangle reference domain, using
     TriangleDomain.quadrature, for orders 1, 2, 3, 4
+- `quadrilateral-domain-quadrature.svg`
 
 ## Posts
 
@@ -95,6 +96,10 @@
   - Refer to the class TriangleDomain
 
 - `ref-domains/quadrilateral-domain.md` — **The Quadrilateral Domain**
+  - Explain how the points and weights can be obtained by leveraging the line
+    quadrature rules.
+  - Illustrate the points and weights for a single order by including
+    `quadrilateral-domain-quadrature.svg`.
   - Refer to the class QuadrilateralDomain
 
 - `ref-domains/tetrahedron-domain.md` — **The Tetrahedron Domain**
