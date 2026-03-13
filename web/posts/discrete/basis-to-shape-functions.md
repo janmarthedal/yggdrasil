@@ -1,4 +1,6 @@
-# From Basis to Shape Functions
+---
+title: From Basis to Shape Functions
+---
 
 The [discrete formulation](POSTROOT/discrete/discrete-formulation/) requires choosing
 a basis $\{\phi_1, \ldots, \phi_N\}$ for the space $V_h$ and assembling the
@@ -27,3 +29,4 @@ element by element: for each $T_e$ one computes a small **element stiffness
 matrix** and scatters its entries into the global $K$. The load vector is
 assembled the same way, each element contributing a small **element load vector**
 to $\mathbf{f}$.
+

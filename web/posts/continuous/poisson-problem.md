@@ -1,4 +1,6 @@
-# The Poisson Problem
+---
+title: The Poisson Problem
+---
 
 The **Poisson equation** is one of the most important partial differential equations (PDEs) in applied mathematics. Given a domain $\Omega \subset \mathbb{R}^n$ and a source term $f : \Omega \to \mathbb{R}$, the Poisson equation seeks a function $u : \Omega \to \mathbb{R}$ satisfying
 
@@ -37,3 +39,4 @@ $$u(x) = \frac{x(1 - x)}{2}.$$
 ![Analytical solution to the 1D Poisson problem](MEDIAROOT/poisson-1d-solution.svg)
 
 This simple example will serve as a useful reference throughout the series: it is easy to verify computed approximations against the exact parabolic profile.
+

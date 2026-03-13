@@ -1,4 +1,6 @@
-# The Quad4 Element
+---
+title: The Quad4 Element
+---
 
 The **Quad4** element is the simplest quadrilateral element: 4 nodes, one at
 each corner of the reference square, with bilinear shape functions. It is
@@ -45,3 +47,4 @@ $F_e(\hat{x}) = \sum_{i=0}^3 x_i\,N_i(\hat{x},\hat{y})$. When the physical
 element is not a parallelogram the mapping is genuinely nonlinear, which is why
 the Jacobian must be evaluated numerically at each quadrature point rather than
 once per element.
+

@@ -1,4 +1,6 @@
-# Shape Functions on Reference Elements
+---
+title: Shape Functions on Reference Elements
+---
 
 The [previous posts](POSTROOT/ref-domains/overview/) showed how each element
 type has a fixed reference domain $\hat{T}$ and how integrals over $\hat{T}$ are
@@ -43,3 +45,4 @@ Each element type has a dedicated post:
 - 3D
   - [The Tet4 Element](POSTROOT/elements/tet4/)
   - [The Hex8 Element](POSTROOT/elements/hex8/)
+

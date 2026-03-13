@@ -1,4 +1,6 @@
-# Notation
+---
+title: Notation
+---
 
 | Symbol | Description |
 |--------|-------------|
@@ -37,3 +39,4 @@
 | $K$ | Stiffness matrix, $K_{ij} = a(\phi_j, \phi_i)$ |
 | $\mathbf{u}$ | Vector of unknown coefficients |
 | $\mathbf{f}$ | Load vector, $f_i = \ell(\phi_i)$ |
+

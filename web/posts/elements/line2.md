@@ -1,4 +1,6 @@
-# The Line2 Element
+---
+title: The Line2 Element
+---
 
 The simplest 1D element is the **Line2** element: a 2-node linear element on the
 reference interval $[0, 1]$ with nodes at $\hat{x}_0 = 0$ and $\hat{x}_1 = 1$.
@@ -23,3 +25,4 @@ the mapping $F_e(\hat{x}) = x_0 N_0(\hat{x}) + x_1 N_1(\hat{x}) = x_0 + (x_1 -
 x_0)\hat{x}$, $0 \leq \hat{x} \leq 1$, carries the reference interval to the physical element. The same
 shape functions therefore serve a dual role: they define both the approximation
 space and the isoparametric geometry mapping.
+

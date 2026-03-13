@@ -1,4 +1,6 @@
-# The Tet4 Element
+---
+title: The Tet4 Element
+---
 
 The **Tet4** element is the simplest tetrahedral element: 4 nodes, one at each
 vertex of the reference tetrahedron, with linear shape functions. It is
@@ -44,3 +46,4 @@ the physical tetrahedron, and the Jacobian $J = \partial F_e / \partial
 Tri3 and Line2. The face element is [Tri3](POSTROOT/elements/tri3/), since
 each of the four triangular faces carries three nodes that form a linear
 triangular element.
+

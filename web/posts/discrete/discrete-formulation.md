@@ -1,4 +1,6 @@
-# The Discrete Formulation
+---
+title: The Discrete Formulation
+---
 
 The [abstract weak problem](POSTROOT/continuous/elliptic-weak-form/) — find $u \in V$ such that $a(u,v) = \ell(v)$ for all $v \in V_0$ — is posed in an infinite-dimensional function space and cannot be solved directly on a computer. The **Galerkin method** turns it into a finite-dimensional problem by restricting attention to a subspace.
 
@@ -43,3 +45,4 @@ $$\alpha\, \|u - u_h\|_V^2 \leq a(u - u_h,\, u - u_h) = a(u - u_h,\, u - v_h) \l
 where the first step uses coercivity, the second uses Galerkin orthogonality (adding and subtracting $v_h$), and the third uses continuity. Dividing by $\|u - u_h\|_V$ and taking the infimum over $v_h$ gives the bound. When $a$ is symmetric the ratio $M/\alpha = 1$ and $u_h$ is the best approximation to $u$ from $V_{h,0}$ in the energy norm $\|v\|_a = \sqrt{a(v,v)}$.
 
 Céa's lemma reduces the question of approximation quality entirely to approximation theory: how well can elements of $V_{h,0}$ approximate $u$? This depends on the choice of basis functions and the mesh, which is the topic of the next posts.
+

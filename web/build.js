@@ -39,6 +39,17 @@ const postsDir = 'posts';
 const mediaDir = 'media';
 const siteDir = '_site';
 
+function parseFrontmatter(content) {
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return { title: null, body: content };
+  const meta = {};
+  for (const line of match[1].split('\n')) {
+    const [key, ...rest] = line.split(':');
+    if (key) meta[key.trim()] = rest.join(':').trim();
+  }
+  return { title: meta.title ?? null, body: match[2] };
+}
+
 function buildFile(relPath) {
   const src = path.join(postsDir, relPath);
   const basename = path.basename(relPath, '.md');
@@ -48,23 +59,28 @@ function buildFile(relPath) {
     : path.join(siteDir, dir, basename, 'index.html');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
 
-  const markdown = fs.readFileSync(src, 'utf8')
+  const raw = fs.readFileSync(src, 'utf8');
+  const { title, body: rawBody } = parseFrontmatter(raw);
+  const pageTitle = title ?? basename;
+
+  const markdown = rawBody
     .replaceAll('MEDIAROOT', '/media')
     .replaceAll('POSTROOT', '')
     .replaceAll('LIBROOT', 'https://github.com/janmarthedal/yggdrasil/tree/main/yggdrasil');
-  const body = md.render(markdown);
+  const bodyHtml = md.render(markdown);
 
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${basename}</title>
+  <title>${pageTitle}</title>
   <link rel="stylesheet" href="${KATEX_CSS}">
   <style>${PAGE_CSS}</style>
 </head>
 <body>
-${body}
+<h1>${pageTitle}</h1>
+${bodyHtml}
 </body>
 </html>
 `;
@@ -72,6 +88,7 @@ ${body}
   fs.writeFileSync(dest, html);
   console.log(`${src} → ${dest}`);
 }
+
 
 function getMarkdownFiles(dir, base = '') {
   const files = [];

@@ -1,4 +1,6 @@
-# The Tri6 Element
+---
+title: The Tri6 Element
+---
 
 The **Tri6** element is a 6-node quadratic triangle, implemented in
 [`elements/tri6.py`](LIBROOT/elements/tri6.py) by the class `Tri6`. It lives on
@@ -43,3 +45,4 @@ $$\nabla N_3 = 4\begin{pmatrix}1 - 2\hat{x} - \hat{y}\\-\hat{x}\end{pmatrix}, \q
 The six shape functions form a partition of unity and span the full space of
 quadratic polynomials on the triangle, so Tri6 can represent any quadratic
 function exactly.
+

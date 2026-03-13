@@ -1,4 +1,6 @@
-# General Elliptic PDEs
+---
+title: General Elliptic PDEs
+---
 
 The [Poisson problem](POSTROOT/continuous/poisson-problem/) is a special case of a much broader family of PDEs. A general second-order linear elliptic PDE on a domain $\Omega \subset \mathbb{R}^n$ can be written as
 
@@ -19,3 +21,4 @@ This ensures the problem has a diffusive character in every spatial direction. B
 Well-posedness — existence, uniqueness, and continuous dependence of $u$ on $f$ — is the central question before attempting a numerical solution. Under sufficient conditions on $A$, $\mathbf{b}$, $c$, and the domain, classical results guarantee that the boundary value problem $Lu = f$ has a unique solution that depends stably on the data. The precise hypotheses and proofs are given in Evans, *Partial Differential Equations* (AMS, 2010), Chapter 6, which is the standard graduate reference. A more numerically oriented treatment can be found in Brenner and Scott, *The Mathematical Theory of Finite Element Methods*, Chapter 5.
 
 The precise mechanism by which well-posedness is established — via a weak formulation and the Lax–Milgram theorem — is the subject of the next posts.
+

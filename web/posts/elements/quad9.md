@@ -1,4 +1,6 @@
-# The Quad9 Element
+---
+title: The Quad9 Element
+---
 
 The **Quad9** element is a 9-node biquadratic quadrilateral, implemented in
 [`elements/quad9.py`](LIBROOT/elements/quad9.py) by the class `Quad9`. It
@@ -56,3 +58,4 @@ space $\mathbb{Q}_2 = \mathrm{span}\{1, \hat{x}, \hat{y}, \hat{x}^2,
 exactly and achieves second-order accuracy. The face element is
 [Line3](POSTROOT/elements/line3/), since each edge carries three nodes (two
 corners plus the edge midpoint) that together form a quadratic 1D element.
+

@@ -1,4 +1,6 @@
-# Reference Domains and Quadrature
+---
+title: Reference Domains and Quadrature
+---
 
 Computing the element stiffness matrices and load vectors from the
 [previous post](POSTROOT/discrete/basis-to-shape-functions/) requires evaluating
@@ -39,3 +41,4 @@ Each element type has a dedicated post describing its reference domain and quadr
 - 3D
   - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron/)
   - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron/)
+

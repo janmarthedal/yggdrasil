@@ -1,4 +1,6 @@
-# The Tri3 Element
+---
+title: The Tri3 Element
+---
 
 The **Tri3** element is the simplest triangular element: 3 nodes, one at each
 vertex of the reference triangle, with linear shape functions. It is implemented
@@ -37,3 +39,4 @@ $f = f(\hat{x}_0)\,N_0 + f(\hat{x}_1)\,N_1 + f(\hat{x}_2)\,N_2$. When the
 physical element has vertices $x_0$, $x_1$, $x_2$ in $\mathbb{R}^d$, the same
 combination $F_e(\hat{x}) = x_0 N_0 + x_1 N_1 + x_2 N_2$ gives the affine
 isoparametric mapping from $\hat{T}$ to the physical triangle.
+

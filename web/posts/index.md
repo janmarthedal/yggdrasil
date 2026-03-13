@@ -1,4 +1,6 @@
-# Finite Element Method
+---
+title: Finite Element Method
+---
 
 - Continuous
   - [The Poisson Problem](POSTROOT/continuous/poisson-problem/)
@@ -31,3 +33,4 @@
   - 3D
     - [The Tet4 Element](POSTROOT/elements/tet4/)
     - [The Hex8 Element](POSTROOT/elements/hex8/)
+

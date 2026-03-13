@@ -1,4 +1,6 @@
-# The Hex8 Element
+---
+title: The Hex8 Element
+---
 
 The **Hex8** element is the simplest hexahedral element: 8 nodes, one at each
 corner of the reference cube, with trilinear shape functions. It is implemented
@@ -54,3 +56,4 @@ most one in each variable separately. This includes all linear functions, so
 the element achieves first-order accuracy. The face element is
 [Quad4](POSTROOT/elements/quad4/), since each of the six square faces carries
 four corner nodes forming a bilinear quadrilateral element.
+

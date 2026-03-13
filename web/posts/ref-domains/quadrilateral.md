@@ -1,4 +1,6 @@
-# The Quadrilateral Domain
+---
+title: The Quadrilateral Domain
+---
 
 The reference domain for a quadrilateral element is the unit square $\hat{T} = [0,1]^2$. Every quadrilateral element in a mesh is the image of $\hat{T}$ under a bilinear map $F_e$, so quadrature rules are again defined once on the reference domain.
 
@@ -13,3 +15,4 @@ The figure below shows the order-7 rule, which places a $4 \times 4$ grid of 16 
 ![Tensor-product quadrature points on the reference quadrilateral, order 7](MEDIAROOT/quadrilateral-domain-quadrature.svg)
 
 This construction is implemented in [`refdomains/quadrilateral.py`](LIBROOT/refdomains/quadrilateral.py) by `QuadrilateralDomain`, which delegates to `LineDomain` internally and forms the tensor product using `np.meshgrid`. The `quadrature(order)` method supports any polynomial order for which `LineDomain` has a rule.
+

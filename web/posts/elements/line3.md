@@ -1,4 +1,6 @@
-# The Line3 Element
+---
+title: The Line3 Element
+---
 
 The **Line3** element is a 3-node quadratic element on $[0, 1]$, implemented in
 [`elements/line3.py`](LIBROOT/elements/line3.py) by the class `Line3`. The nodes
@@ -30,3 +32,4 @@ Because Line3 uses the same quadratic Lagrange basis as the 1D building blocks
 of the [Quad9](POSTROOT/elements/quad9/) and [Hex8](POSTROOT/elements/hex8/)
 elements, its shape functions also appear as factors in the tensor-product
 constructions for those higher-dimensional elements.
+

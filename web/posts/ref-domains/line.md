@@ -1,4 +1,6 @@
-# The Line Domain
+---
+title: The Line Domain
+---
 
 The reference domain for a 1D element is the unit interval $\hat{T} = [0, 1]$. Every line element in a mesh is the image of $\hat{T}$ under an affine map $F_e$, so quadrature rules need only be defined once on $[0, 1]$ and then applied to any element by a change of variables.
 
@@ -9,3 +11,4 @@ The figure below shows the quadrature points on $[0, 1]$ for $n = 1, 2, 3, 4$ po
 ![Gauss–Legendre quadrature points on [0,1] for n = 1, 2, 3, 4](MEDIAROOT/line-domain-quadrature.svg)
 
 Given a required polynomial degree $p$, the number of points needed is $n = \lceil (p+1)/2 \rceil$. This is implemented in [`refdomains/line.py`](LIBROOT/refdomains/line.py) by the class `LineDomain`, whose `quadrature(order)` method returns `(points, weights)` for the rule that integrates polynomials of degree `order` exactly.
+

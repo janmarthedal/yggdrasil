@@ -1,4 +1,6 @@
-# Weak Formulation of the Poisson Problem
+---
+title: Weak Formulation of the Poisson Problem
+---
 
 The strong form of the [Poisson problem](POSTROOT/continuous/poisson-problem/) — find $u$ satisfying $-\Delta u = f$ pointwise in $\Omega$ together with boundary conditions on $\partial\Omega$ — requires $u$ to be twice continuously differentiable. This regularity is often unavailable for domains or data that arise in practice, and it is also inconvenient for the finite element method. The **weak formulation** (also called the variational formulation) relaxes this requirement and provides the correct mathematical framework for approximation.
 
@@ -37,3 +39,4 @@ The boundary values $g_D$ are said to be imposed **essentially** (they restrict 
 Well-posedness of this problem — existence and uniqueness of $u \in V$ and continuous dependence on $f$ and $g_N$ — follows from the **[Lax–Milgram theorem](https://en.wikipedia.org/wiki/Lax%E2%80%93Milgram_theorem)**, a fundamental result in functional analysis. The left-hand side is a bounded, coercive bilinear form on $H^1(\Omega)$ and the right-hand side is a bounded linear functional, so the theorem applies. The coercivity here ultimately rests on the **[Poincaré inequality](https://en.wikipedia.org/wiki/Poincar%C3%A9_inequality)**, which guarantees that $\|\nabla v\|_{L^2(\Omega)}$ controls $\|v\|_{H^1(\Omega)}$ for functions vanishing on $\Gamma_D$. A concise account of these results can be found in Evans, *Partial Differential Equations* (AMS, 2010), Chapter 6.
 
 The weak formulation is the starting point for the finite element method. Instead of seeking $u$ in the infinite-dimensional space $V$, we will restrict attention to a finite-dimensional subspace — spanned by carefully chosen basis functions defined on a mesh — and solve the resulting linear system. This is the subject of the next posts.
+
