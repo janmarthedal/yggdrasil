@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.point import PointDomain
+from ..refdomains.point import PointDomain
 from .element import ReferenceElement
 
 

@@ -13,7 +13,7 @@ physical element through $F_e$.
 The reference domain for each element type is a standard, convenient geometric
 shape. A line element maps to the interval $[0, 1]$, a triangle to the right
 triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$, and so on. The class
-`ReferenceDomain` in [`domains/domain.py`](LIBROOT/domains/domain.py) represents such a
+`ReferenceDomain` in [`refdomains/refdomain.py`](LIBROOT/refdomains/refdomain.py) represents such a
 domain and exposes a `quadrature` method; concrete subclasses implement it for
 each element type.
 

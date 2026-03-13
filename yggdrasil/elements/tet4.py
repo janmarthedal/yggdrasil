@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.tetrahedron import TetrahedronDomain
+from ..refdomains.tetrahedron import TetrahedronDomain
 from .element import ReferenceElement
 
 

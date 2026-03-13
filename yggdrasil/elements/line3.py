@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.line import LineDomain
+from ..refdomains.line import LineDomain
 from .element import ReferenceElement
 
 

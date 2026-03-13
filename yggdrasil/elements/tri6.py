@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.triangle import TriangleDomain
+from ..refdomains.triangle import TriangleDomain
 from .element import ReferenceElement
 
 

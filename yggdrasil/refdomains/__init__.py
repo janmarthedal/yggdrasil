@@ -1,4 +1,4 @@
-from .domain import ReferenceDomain
+from .refdomain import ReferenceDomain
 from .line import LineDomain
 from .point import PointDomain
 from .triangle import TriangleDomain

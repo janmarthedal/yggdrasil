@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.typing import NDArray
 
-from .domain import ReferenceDomain
+from .refdomain import ReferenceDomain
 
 
 class TriangleDomain(ReferenceDomain):

@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.domain import ReferenceDomain
+from ..refdomains.refdomain import ReferenceDomain
 
 
 class ReferenceElement(ABC):

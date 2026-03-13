@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from yggdrasil.domains import (
+from yggdrasil.refdomains import (
     HexahedronDomain,
     LineDomain,
     QuadrilateralDomain,

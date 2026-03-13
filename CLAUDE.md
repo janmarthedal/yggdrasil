@@ -28,7 +28,7 @@ It should offer functionality such as:
 ## File structure
 - `yggdrasil/` — library source
   - `assemble.py` — assembling matrices and vectors from (bilinear) functions
-  - `domains/` — reference domain definitions (line, triangle, quadrilateral, tetrahedron, hexahedron) with quadrature rules
+  - `refdomains/` — reference domain definitions (line, triangle, quadrilateral, tetrahedron, hexahedron) with quadrature rules
   - `elements/` — reference element implementations (shape functions and gradients) for each supported element type
   - `mapping.py` — Jacobian, physical-space gradients, and mapped quadrature utilities
   - `boundary.py` — boundary mesh extraction (`extract_boundary`) and face selection (`select_boundary_faces`)

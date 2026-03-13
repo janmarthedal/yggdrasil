@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..domains.quadrilateral import QuadrilateralDomain
+from ..refdomains.quadrilateral import QuadrilateralDomain
 from .element import ReferenceElement
 
 
