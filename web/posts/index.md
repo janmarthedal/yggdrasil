@@ -9,7 +9,7 @@
   - [The Discrete Formulation](POSTROOT/discrete/discrete-formulation/)
   - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
 - Reference domains
-  - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
+  - [Reference Domains and Quadrature](POSTROOT/ref-domains/overview/)
   - 1D
     - [The Line Domain](POSTROOT/ref-domains/line/)
   - 2D
@@ -19,7 +19,7 @@
     - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron/)
     - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron/)
 - Elements
-  - [Shape Functions on Reference Elements](POSTROOT/elements/introduction/)
+  - [Shape Functions on Reference Elements](POSTROOT/elements/overview/)
   - 1D
     - [The Line2 Element](POSTROOT/elements/line2/)
     - [The Line3 Element](POSTROOT/elements/line3/)

@@ -81,7 +81,7 @@
   - Avoid details and introduce as little new notation as possible. The details
     will be described later in dedicated assembly posts.
 
-- `ref-domains/introduction.md` — **Reference Domains and Quadrature**
+- `ref-domains/overview.md` — **Reference Domains and Quadrature**
   - Introduce the need for local parametrization of standard elements (domains).
   - Introduce the concept of integration using sample points and weights.
   - Refer to the class ReferenceDomain.quadrature.
@@ -117,7 +117,7 @@
     `quadrilateral-domain-quadrature.svg`.
   - Refer to the class HexahedronDomain
 
-- `elements/introduction.md` — **Shape Functions on Reference Elements**
+- `elements/overview.md` — **Shape Functions on Reference Elements**
   - Introduce the abstract class `ReferenceElement` in
     [`elements/element.py`](LIBROOT/elements/element.py) and its three core
     methods: `node_coords`, `shape_functions`, and `shape_function_gradients`.

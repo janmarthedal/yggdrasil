@@ -1,6 +1,6 @@
 # Shape Functions on Reference Elements
 
-The [previous posts](POSTROOT/ref-domains/introduction/) showed how each element
+The [previous posts](POSTROOT/ref-domains/overview/) showed how each element
 type has a fixed reference domain $\hat{T}$ and how integrals over $\hat{T}$ are
 evaluated by quadrature. The next ingredient is the set of **shape functions**
 defined on $\hat{T}$: polynomial functions $N_1, \ldots, N_n : \hat{T} \to \mathbb{R}$
