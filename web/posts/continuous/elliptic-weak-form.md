@@ -1,6 +1,6 @@
 # Weak Formulation of Elliptic PDEs
 
-The [weak formulation of the Poisson problem](POSTROOT/03-poisson-weak-form/) extends naturally to the [general elliptic operator](POSTROOT/02-elliptic-pdes/)
+The [weak formulation of the Poisson problem](POSTROOT/continuous/poisson-weak-form/) extends naturally to the [general elliptic operator](POSTROOT/continuous/elliptic-pdes/)
 
 $$Lu = -\nabla \cdot (A \nabla u) + \mathbf{b} \cdot \nabla u + c\, u.$$
 

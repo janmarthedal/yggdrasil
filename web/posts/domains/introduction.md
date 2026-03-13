@@ -1,7 +1,7 @@
 # Reference Domains and Quadrature
 
 Computing the element stiffness matrices and load vectors from the
-[previous post](POSTROOT/06-basis-to-shape-functions/) requires evaluating
+[previous post](POSTROOT/discrete/basis-to-shape-functions/) requires evaluating
 integrals over each element $T_e$. In a general mesh the elements can differ
 in position, size, and orientation, so it is impractical to design shape
 functions and integration rules separately for each one. Instead, every element

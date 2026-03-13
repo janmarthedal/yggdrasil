@@ -1,6 +1,6 @@
 # Weak Formulation of the Poisson Problem
 
-The strong form of the [Poisson problem](POSTROOT/01-poisson-problem/) — find $u$ satisfying $-\Delta u = f$ pointwise in $\Omega$ together with boundary conditions on $\partial\Omega$ — requires $u$ to be twice continuously differentiable. This regularity is often unavailable for domains or data that arise in practice, and it is also inconvenient for the finite element method. The **weak formulation** (also called the variational formulation) relaxes this requirement and provides the correct mathematical framework for approximation.
+The strong form of the [Poisson problem](POSTROOT/continuous/poisson-problem/) — find $u$ satisfying $-\Delta u = f$ pointwise in $\Omega$ together with boundary conditions on $\partial\Omega$ — requires $u$ to be twice continuously differentiable. This regularity is often unavailable for domains or data that arise in practice, and it is also inconvenient for the finite element method. The **weak formulation** (also called the variational formulation) relaxes this requirement and provides the correct mathematical framework for approximation.
 
 The idea is to multiply the equation $-\Delta u = f$ by a smooth **test function** $v$ and integrate over $\Omega$:
 

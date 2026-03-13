@@ -25,12 +25,9 @@ referenced from at least one post at some point.
 - Reference other posts by path relative to `POSTROOT`. The post link for file
   `some-post.md` should be `POSTROOT/some-post/`.
 - Math is written in LaTeX delimited by `$...$` (inline) and `$$...$$` (display).
-- Mark incomplete sections with `**TODO**`.
 - Prefer SVG over PNG for inline images when the illustration is fit for vector
   graphics.
 - Consider using [three.js](https://threejs.org/) for 3D illustrations.
-- The posts are prefixed with 01, 02, and so on, such that they form a linear
-  narrative.
 - Each post has a main heading, but headings should otherwise be avoided.
   Let the text flow as continuous prose.
 

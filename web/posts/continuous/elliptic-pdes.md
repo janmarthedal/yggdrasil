@@ -1,6 +1,6 @@
 # General Elliptic PDEs
 
-The [Poisson problem](POSTROOT/01-poisson-problem/) is a special case of a much broader family of PDEs. A general second-order linear elliptic PDE on a domain $\Omega \subset \mathbb{R}^n$ can be written as
+The [Poisson problem](POSTROOT/continuous/poisson-problem/) is a special case of a much broader family of PDEs. A general second-order linear elliptic PDE on a domain $\Omega \subset \mathbb{R}^n$ can be written as
 
 $$Lu = f \quad \text{in } \Omega,$$
 

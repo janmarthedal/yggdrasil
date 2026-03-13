@@ -1,11 +1,11 @@
 # Finite Element Method
 
 - From Continuous to Discrete
-  - [The Poisson Problem](POSTROOT/01-poisson-problem/)
-  - [General Elliptic PDEs](POSTROOT/02-elliptic-pdes/)
-  - [Weak Formulation of the Poisson Problem](POSTROOT/03-poisson-weak-form/)
-  - [Weak Formulation of Elliptic PDEs](POSTROOT/04-elliptic-weak-form/)
-  - [The Discrete Formulation](POSTROOT/05-discrete-formulation/)
+  - [The Poisson Problem](POSTROOT/continuous/poisson-problem/)
+  - [General Elliptic PDEs](POSTROOT/continuous/elliptic-pdes/)
+  - [Weak Formulation of the Poisson Problem](POSTROOT/continuous/poisson-weak-form/)
+  - [Weak Formulation of Elliptic PDEs](POSTROOT/continuous/elliptic-weak-form/)
+  - [The Discrete Formulation](POSTROOT/discrete/discrete-formulation/)
 - Elements
-  - [From Basis to Shape Functions](POSTROOT/06-basis-to-shape-functions/)
-  - [Reference Domains and Quadrature](POSTROOT/07-reference-domains/)
+  - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
+  - [Reference Domains and Quadrature](POSTROOT/domains/introduction/)
