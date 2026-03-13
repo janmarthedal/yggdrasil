@@ -39,12 +39,13 @@ const postsDir = 'posts';
 const mediaDir = 'media';
 const siteDir = '_site';
 
-function buildFile(file) {
-  const src = path.join(postsDir, file);
-  const basename = path.basename(file, '.md');
-  const dest = basename === 'index'
+function buildFile(relPath) {
+  const src = path.join(postsDir, relPath);
+  const basename = path.basename(relPath, '.md');
+  const dir = path.dirname(relPath);
+  const dest = (basename === 'index' && dir === '.')
     ? path.join(siteDir, 'index.html')
-    : path.join(siteDir, basename, 'index.html');
+    : path.join(siteDir, dir, basename, 'index.html');
   fs.mkdirSync(path.dirname(dest), { recursive: true });
 
   const markdown = fs.readFileSync(src, 'utf8')
@@ -72,6 +73,19 @@ ${body}
   console.log(`${src} → ${dest}`);
 }
 
+function getMarkdownFiles(dir, base = '') {
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const rel = path.join(base, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...getMarkdownFiles(path.join(dir, entry.name), rel));
+    } else if (entry.name.endsWith('.md')) {
+      files.push(rel);
+    }
+  }
+  return files;
+}
+
 function copyMedia() {
   const destDir = path.join(siteDir, mediaDir);
   fs.mkdirSync(destDir, { recursive: true });
@@ -86,8 +100,7 @@ function copyMedia() {
 function buildAll() {
   fs.mkdirSync(siteDir, { recursive: true });
   copyMedia();
-  const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
-  for (const file of files) buildFile(file);
+  for (const file of getMarkdownFiles(postsDir)) buildFile(file);
 }
 
 buildAll();
@@ -96,10 +109,10 @@ if (process.argv.includes('--watch')) {
   const { watch } = await import('chokidar');
   console.log(`Watching ${postsDir}/ and ${mediaDir}/ for changes...`);
   watch(postsDir).on('all', (event, file) => {
-    const base = path.basename(file);
-    if (!base.endsWith('.md')) return;
+    const rel = path.relative(postsDir, file);
+    if (!rel.endsWith('.md')) return;
     console.log(`Post ${event}: ${file}`);
-    buildFile(base);
+    buildFile(rel);
   });
   watch(mediaDir).on('all', (event, file) => {
     console.log(`Media ${event}: ${file}`);
