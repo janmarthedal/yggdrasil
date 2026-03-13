@@ -23,3 +23,6 @@
   - 1D
     - [The Line2 Element](POSTROOT/elements/line2/)
     - [The Line3 Element](POSTROOT/elements/line3/)
+  - 2D
+    - [The Tri3 Element](POSTROOT/elements/tri3/)
+    - [The Tri6 Element](POSTROOT/elements/tri6/)
