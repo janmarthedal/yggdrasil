@@ -11,13 +11,13 @@
 - Reference domains
   - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
   - 1D
-    - [The Line Domain](POSTROOT/ref-domains/line-domain/)
+    - [The Line Domain](POSTROOT/ref-domains/line/)
   - 2D
-    - [The Triangle Domain](POSTROOT/ref-domains/triangle-domain/)
-    - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral-domain/)
+    - [The Triangle Domain](POSTROOT/ref-domains/triangle/)
+    - [The Quadrilateral Domain](POSTROOT/ref-domains/quadrilateral/)
   - 3D
-    - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron-domain/)
-    - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron-domain/)
+    - [The Tetrahedron Domain](POSTROOT/ref-domains/tetrahedron/)
+    - [The Hexahedron Domain](POSTROOT/ref-domains/hexahedron/)
 - Elements
   - [Shape Functions on Reference Elements](POSTROOT/elements/introduction/)
   - 1D

@@ -5,7 +5,7 @@ vertex of the reference triangle, with linear shape functions. It is implemented
 in [`elements/tri3.py`](LIBROOT/elements/tri3.py) by the class `Tri3`. The
 reference domain is the right triangle $\hat{T}$ with vertices
 $\hat{x}_0 = (0,0)$, $\hat{x}_1 = (1,0)$, $\hat{x}_2 = (0,1)$, matching the
-[triangle reference domain](POSTROOT/ref-domains/triangle-domain/).
+[triangle reference domain](POSTROOT/ref-domains/triangle/).
 
 A natural coordinate system on $\hat{T}$ is provided by the **barycentric
 coordinates** $L_0$, $L_1$, $L_2$, defined by

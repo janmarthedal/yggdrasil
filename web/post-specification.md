@@ -86,33 +86,33 @@
   - Introduce the concept of integration using sample points and weights.
   - Refer to the class ReferenceDomain.quadrature.
   
-- `ref-domains/line-domain.md` — **The Line Domain**
+- `ref-domains/line.md` — **The Line Domain**
   - Link to [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html)
   - Refer to the class LineDomain
   - Illustrate points and weights for using `line-domain-quadrature.svg`
   
-- `ref-domains/triangle-domain.md` — **The Triangle Domain**
+- `ref-domains/triangle.md` — **The Triangle Domain**
   - Refer to David Dunavant's paper "High Degree Efficient Symmetrical Gaussian Quadrature Rules for the Triangle"
   - Outline how the points and weights for a triangle can be computed.
   - Illustrate points and weights by including `triangle-domain-quadrature.svg`
   - Refer to the class TriangleDomain
 
-- `ref-domains/quadrilateral-domain.md` — **The Quadrilateral Domain**
+- `ref-domains/quadrilateral.md` — **The Quadrilateral Domain**
   - Explain how the points and weights can be obtained by leveraging the line
     quadrature rules.
   - Illustrate the points and weights for a single order by including
     `quadrilateral-domain-quadrature.svg`.
   - Refer to the class QuadrilateralDomain
 
-- `ref-domains/tetrahedron-domain.md` — **The Tetrahedron Domain**
+- `ref-domains/tetrahedron.md` — **The Tetrahedron Domain**
   - Illustrate points and weights by including `tetrahedron-domain-quadrature.svg`
   - Refer to the class TetrahedronDomain
 
-- `ref-domains/hexahedron-domain.md` — **The Hexahedron Domain**
+- `ref-domains/hexahedron.md` — **The Hexahedron Domain**
   - Note how the points and weights can be obtained by leveraging the line
     quadrature rules.
   - No need to derive or write out formulas, but refer to
-    `ref-domains/quadrilateral-domain.md`
+    `ref-domains/quadrilateral.md`
   - Illustrate the points and weights for a *single* order by including
     `quadrilateral-domain-quadrature.svg`.
   - Refer to the class HexahedronDomain
