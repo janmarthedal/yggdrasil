@@ -10,3 +10,4 @@
   - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
 - Reference domains
   - [Reference Domains and Quadrature](POSTROOT/ref-domains/introduction/)
+  - [The Line Domain](POSTROOT/ref-domains/line-domain/)
