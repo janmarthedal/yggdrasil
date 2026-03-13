@@ -10,6 +10,12 @@
   - A solution to the problem shown by `poisson-2d-domain.svg`.
 - `poisson-1d-solution.svg`
   - A solution to $-u''(x) = 1, \quad x \in (0, 1), \qquad u(0) = u(1) = 0.$
+- `line-domain-quadrature.svg`
+  - Plots of points and weights for the line reference domain, using
+    LineDomain.quadrature, for orders 1, 3, 5, 7
+- `triangle-domain-quadrature.svg`
+  - Illustrations of points and weights for the triangle reference domain, using
+    TriangleDomain.quadrature, for orders 1, 2, 3, 4
 
 ## Posts
 
@@ -80,8 +86,12 @@
 - `ref-domains/line-domain.md` — **The Line Domain**
   - Link to [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html)
   - Refer to the class LineDomain
+  - Illustrate points and weights for using `line-domain-quadrature.svg`
   
 - `ref-domains/triangle-domain.md` — **The Triangle Domain**
+  - Refer to David Dunavant's paper "High Degree Efficient Symmetrical Gaussian Quadrature Rules for the Triangle"
+  - Outline how the points and weights for a triangle can be computed.
+  - Illustrate points and weights by including `triangle-domain-quadrature.svg`
   - Refer to the class TriangleDomain
 
 - `ref-domains/quadrilateral-domain.md` — **The Quadrilateral Domain**
