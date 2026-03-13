@@ -26,3 +26,5 @@
   - 2D
     - [The Tri3 Element](POSTROOT/elements/tri3/)
     - [The Tri6 Element](POSTROOT/elements/tri6/)
+    - [The Quad4 Element](POSTROOT/elements/quad4/)
+    - [The Quad9 Element](POSTROOT/elements/quad9/)
