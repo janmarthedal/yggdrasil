@@ -30,3 +30,4 @@
     - [The Quad9 Element](POSTROOT/elements/quad9/)
   - 3D
     - [The Tet4 Element](POSTROOT/elements/tet4/)
+    - [The Hex8 Element](POSTROOT/elements/hex8/)
