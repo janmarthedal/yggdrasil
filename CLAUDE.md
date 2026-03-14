@@ -28,6 +28,10 @@ It should offer functionality such as:
 ## File structure
 - `yggdrasil/` — library source
   - `assemble.py` — assembling matrices and vectors from (bilinear) functions
+  - `forms.py` — bilinear and linear form definitions (mass, stiffness, load)
+  - `dof_map.py` — DOF mapping for multi-field problems
+  - `error.py` — error computation utilities (L² error, H¹ error)
+  - `io.py` — mesh I/O (reading/writing mesh files)
   - `refdomains/` — reference domain definitions (line, triangle, quadrilateral, tetrahedron, hexahedron) with quadrature rules
   - `elements/` — reference element implementations (shape functions and gradients) for each supported element type
   - `mapping.py` — Jacobian, physical-space gradients, and mapped quadrature utilities
@@ -39,8 +43,9 @@ It should offer functionality such as:
   - `system/` — full PDE solutions compared against analytical solutions where possible
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
 - `web/`
-  - `pages/` — interactive web-based visualizations (standalone HTML using Three.js)
-  - `posts/` — markdown posts describing the theoretical foundation of the library code (see `web/posts/CLAUDE.md` for table of contents and publication workflow)
+  - `posts/` — markdown posts describing the theoretical foundation of the library code (see `web/CLAUDE.md` for writing conventions)
+  - `media/` — images and media files for posts
+  - `media-generation/` — Python scripts that generate SVG/PNG assets for posts (shape functions, quadrature points, domain illustrations, etc.)
 
 ## Packages
 SciPy and NumPy are used as the foundation for all computations.
