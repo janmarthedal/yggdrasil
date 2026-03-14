@@ -206,3 +206,31 @@
     where each $\ell$ factor is either $1 - t$ or $t$.
   - Note the analogy with Quad4 in 2D.
   - Include an illustration of the reference cube with all 8 nodes labelled.
+
+- `meshes/representation.md` (PLANNED) — **Mesh Representation**
+  - Library code: Mesh, ElementGroup
+
+- `meshes/boundaries.md` (PLANNED) — **Mesh Boundaries**
+  - Library code: extract_boundary, tag_boundary_faces
+
+- `meshes/meshio-interop.md` (PLANNED) — **MeshIO Interoperability**
+  - Library code: from_meshio, to_meshio
+
+- `assembly/computing-jacobian.md` (PLANNED) — **Computing the Jacobian**
+  - Library code: compute_physical_gradients
+
+- `assembly/bilinear-form.md` (PLANNED) — **Bilinear Form Assembly**
+  - Library code: assemble_bilinear_form
+
+- `assembly/load-vector.md` (PLANNED) — **Load Vector Assembly**
+  - Library code: assemble_load_vector
+
+- `assembly/dirichlet-bcs.md` (PLANNED) — **Dirichlet Boundary Conditions**
+  - Dirichlet boundary conditions
+  - Condensation. Code: CondensedSystem, condense_dirichlet_bc
+
+- `assembly/l2-projection.md` (PLANNED) — **L² Projection**
+  - L² projection. Code: project_dirichlet_bc
+
+- `assembly/neumann-bcs.md` (PLANNED) — **Neumann Boundary Conditions**
+  - Neumann contributions. Code: assemble_neumann_bc

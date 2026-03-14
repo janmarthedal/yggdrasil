@@ -28,51 +28,10 @@ referenced from at least one post at some point.
 - Prefer SVG over PNG for inline images when the illustration is fit for vector
   graphics.
 - Consider using [three.js](https://threejs.org/) for 3D illustrations.
-- Each post has a main heading, but headings should otherwise be avoided.
-  Let the text flow as continuous prose.
+- Headings should be avoided. Let the text flow as continuous prose.
 
-## Overall post structure
-- From Continuous to Discrete
-  - The Poisson Problem
-  - General Elliptic PDEs
-  - Weak Formulation of the Poisson Problem
-  - Weak Formulation of Elliptic PDEs
-  - The Discrete Formulation
-- Elements
-  - From Basis to Shape Functions
-  - Reference Domains and Quadrature. Code: ReferenceDomain
-    - 1D
-      - Line. [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html). Code: LineDomain
-    - 2D
-      - Triangle. Code: TriangleDomain
-      - Quadrilateral. Code: QuadrilateralDomain
-    - 3D
-      - Tetrahedron. Code: TetrahedronDomain
-      - Hexahedron. Code: HexahedronDomain
-  - Shape Functions. Code: ReferenceElement
-    - 1D
-      - Line-2. Code: Line2
-      - Line-3. Code: Line3
-    - 2D
-      - Triangle-3. Code: Tri3
-      - Triangle-6. Code: Tri6
-      - Quadrature-4. Code: Quad4
-      - Quadrature-9. Code: Quad9
-    - 3D
-      - Tetrahedron-4. Code: Tet4
-      - Hexahedron-8. Code: Hex8
-- Meshes
-  - Representation. Code: Mesh, ElementGroup
-  - Boundaries. Code: extract_boundary
-  - Loading and Saving Meshes Using MeshIO
-- Assembly
-  - Computing the Jacobian. Code: compute_physical_gradients
-  - Global stiffness matrix. Code: assemble_bilinear_form
-  - Load vector. Code: assemble_load_vector
-  - Dirichlet boundary conditions
-    - Condensation. Code: CondensedSystem, condense_dirichlet_bc
-    - L² projection. Code: project_dirichlet_bc
-  - Neumann contributions. Code: assemble_neumann_bc
-
-See [post specification](./post-specification.md) for a list of media and post
-files and what they depict or contain.
+## Post Specification
+The file [post specification](./post-specification.md) contains a list
+of current and planned posts in chronological order.
+In addition to each post's filename and title, it also includes a specification
+of each post's content.
