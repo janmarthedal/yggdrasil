@@ -267,6 +267,49 @@ def condense_dirichlet_bc(
     return CondensedSystem(K_ff, b_f, free_dofs, bc_dofs, bc_vals, n_dofs)
 
 
+def l2_project(
+    mesh: Mesh,
+    g: float | Callable[[NDArray], NDArray],
+    quadrature_order: int,
+) -> NDArray[np.float64]:
+    """L² projection of *g* onto the finite-element space of *mesh*.
+
+    Finds the FE function g_h that minimises ``‖g − g_h‖_{L²}``,
+    by solving the mass system ``M α = b`` where
+    ``M_ij = ∫ N_i N_j`` and ``b_i = ∫ g N_i``.
+
+    Parameters
+    ----------
+    mesh : Mesh
+        The mesh whose element space is projected onto.
+    g : float or callable
+        The function to project. Either a constant scalar or a callable
+        with signature ``g(x) -> array`` where ``x`` has shape
+        ``(num_quad, spatial_dim)`` and the return value has shape
+        ``(num_quad,)``.
+    quadrature_order : int
+        Polynomial order for the quadrature rule. Must be at least
+        ``2 * element.polynomial_degree`` for every element type in
+        *mesh* so that the mass matrix is integrated exactly.
+
+    Returns
+    -------
+    ndarray of shape (num_nodes,)
+        Projected DOF values minimising the L² error.
+    """
+    for group in mesh.iter_element_groups():
+        min_order = 2 * group.element.polynomial_degree
+        assert quadrature_order >= min_order, (
+            f"{type(group.element).__name__} elements have polynomial degree "
+            f"{group.element.polynomial_degree}, so the mass matrix "
+            f"requires quadrature_order >= {min_order} "
+            f"(got {quadrature_order})"
+        )
+    M = assemble_bilinear_form(mesh, mass_form, quadrature_order)
+    b = assemble_load_vector(mesh, g, quadrature_order)
+    return scipy.sparse.linalg.spsolve(M, b)
+
+
 def project_dirichlet_bc(
     boundary_mesh: Mesh,
     g: float | Callable[[NDArray], NDArray],
@@ -296,9 +339,7 @@ def project_dirichlet_bc(
         Polynomial order for the quadrature rule used on the boundary.
         Must be at least ``2 * element.polynomial_degree`` for every element
         type in ``boundary_mesh`` so that the boundary mass matrix is
-        integrated exactly. For example, use ``quadrature_order >= 2`` for
-        linear boundary elements (Line2, Tri3) and ``>= 4`` for quadratic
-        boundary elements (Line3, Tri6).
+        integrated exactly.
     dof_map : DOFMap or None
         When provided, ``dof_map.boundary_dofs`` is used to map boundary
         node indices to global DOF indices.
@@ -312,21 +353,7 @@ def project_dirichlet_bc(
         Projected DOF values minimising the L² error on the boundary.
         Suitable for passing directly to ``condense_dirichlet_bc``.
     """
-    for group in boundary_mesh.iter_element_groups():
-        min_order = 2 * group.element.polynomial_degree
-        assert quadrature_order >= min_order, (
-            f"{type(group.element).__name__} elements have polynomial degree "
-            f"{group.element.polynomial_degree}, so the boundary mass matrix "
-            f"requires quadrature_order >= {min_order} "
-            f"(got {quadrature_order})"
-        )
-    M = assemble_bilinear_form(
-        boundary_mesh,
-        mass_form,
-        quadrature_order,
-    )
-    b = assemble_load_vector(boundary_mesh, g, quadrature_order)
-    bc_vals = scipy.sparse.linalg.spsolve(M, b)
+    bc_vals = l2_project(boundary_mesh, g, quadrature_order)
     original_idx = boundary_mesh.point_data["original_node_index"]
     if dof_map is not None:
         bc_dofs = dof_map.boundary_dofs(original_idx)
