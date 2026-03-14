@@ -7,7 +7,7 @@ from numpy.typing import NDArray
 
 from .dof_map import DOFMap
 from .forms import mass_form
-from .mapping import compute_physical_gradients
+from .mapping import compute_jacobian_det, compute_physical_gradients
 from .mesh import Mesh
 
 
@@ -115,7 +115,7 @@ def assemble_load_vector(
         for e in range(group.num_elements):
             elem_nodes = group.connectivity[e]
             phys_coords = mesh.nodes[elem_nodes]
-            _, det_J = compute_physical_gradients(element, xi, phys_coords)
+            det_J = compute_jacobian_det(element, xi, phys_coords)
             jxw = weights * np.abs(det_J)
 
             if isinstance(f, (int, float)):

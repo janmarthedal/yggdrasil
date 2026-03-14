@@ -31,6 +31,36 @@ def compute_jacobian(
     return np.einsum("ni,qnj->qij", physical_coords, grad_N)
 
 
+def compute_jacobian_det(
+    element: ReferenceElement,
+    xi: NDArray[np.float64],
+    physical_coords: NDArray[np.float64],
+) -> NDArray[np.float64]:
+    """Compute the determinant of the Jacobian (or its metric generalization).
+
+    Parameters
+    ----------
+    element : ReferenceElement
+    xi : (num_points, topo_dim) — evaluation points in reference space
+    physical_coords : (num_nodes, spatial_dim) — physical node coordinates
+
+    Returns
+    -------
+    det_J : (num_points,)
+        Determinant of the Jacobian when topo_dim == spatial_dim,
+        or sqrt(det(J^T J)) when topo_dim < spatial_dim.
+    """
+    J = compute_jacobian(element, xi, physical_coords)
+    topo_dim = element.domain.topological_dimension
+    spatial_dim = physical_coords.shape[1]
+
+    if topo_dim == spatial_dim:
+        return np.linalg.det(J)
+    else:
+        g = np.einsum("qij,qik->qjk", J, J)
+        return np.sqrt(np.abs(np.linalg.det(g)))
+
+
 def compute_physical_gradients(
     element: ReferenceElement,
     xi: NDArray[np.float64],
