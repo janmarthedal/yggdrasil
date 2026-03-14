@@ -22,215 +22,215 @@
 
 ## Posts
 
-- `index.md` — **Introduction**
-  - Short introduction to the finite element method
-  - Short introduction to the yggdrasil library
-  - Overview of the post series with a complete Table of Contents and links
-    to all posts
+1. `index.md` — **Introduction**
+   - Short introduction to the finite element method
+   - Short introduction to the yggdrasil library
+   - Overview of the post series with a complete Table of Contents and links
+     to all posts
 
-- `notation.md` — **Notation**
-  - Table of commonly used notation throughout the posts
+2. `notation.md` — **Notation**
+   - Table of commonly used notation throughout the posts
 
-- `continuous/poisson-problem.md` — **The Poisson Problem**
-  - Introduce the Poisson equation as a prototypical elliptic PDE.
-  - Refer to [applications in physics and engineering](https://en.wikipedia.org/wiki/Poisson%27s_equation#Applications_in_physics_and_engineering)
-  - Define Dirichlet and Neumann boundary conditions.
-  - Provide a 2D example of domain and boundary types and refer to the
-    illustration `poisson-2d-domain.svg`. Avoid detailed description of the
-    domain and boundaries.
-  - Include a solution to the 2D example and show the solution
-    `poisson-2d-solution.png`
-  - Describe a 1D Poisson problem with an analytical solution.
-    Illustrate using `poisson-1d-solution.svg`
-  - Avoid headings apart from the main title
+3. `continuous/poisson-problem.md` — **The Poisson Problem**
+   - Introduce the Poisson equation as a prototypical elliptic PDE.
+   - Refer to [applications in physics and engineering](https://en.wikipedia.org/wiki/Poisson%27s_equation#Applications_in_physics_and_engineering)
+   - Define Dirichlet and Neumann boundary conditions.
+   - Provide a 2D example of domain and boundary types and refer to the
+     illustration `poisson-2d-domain.svg`. Avoid detailed description of the
+     domain and boundaries.
+   - Include a solution to the 2D example and show the solution
+     `poisson-2d-solution.png`
+   - Describe a 1D Poisson problem with an analytical solution.
+     Illustrate using `poisson-1d-solution.svg`
+   - Avoid headings apart from the main title
 
-- `continuous/elliptic-pdes.md` — **General Elliptic PDEs**
-  - Generalise from Poisson to a broader class of second-order elliptic PDEs.
-  - Introduce the abstract operator $L$ and the formulation $L u = f$.
-  - Outline results related to well-posedness without going into details,
-    but refer to authoratative resources -- preferably accessible online.
+4. `continuous/elliptic-pdes.md` — **General Elliptic PDEs**
+   - Generalise from Poisson to a broader class of second-order elliptic PDEs.
+   - Introduce the abstract operator $L$ and the formulation $L u = f$.
+   - Outline results related to well-posedness without going into details,
+     but refer to authoratative resources -- preferably accessible online.
 
-- `continuous/poisson-weak-form.md` — **Weak Formulation of the Poisson Problem**
-  - Derive the weak (variational) formulation of the Poisson equation by
-    multiplying by a test function and integrating by parts.
-  - Show how Neumann conditions enter naturally as boundary integrals.
-  - Link to Wikipedia for the concepts Green's first identity, Sobolev spaces,
-    the Lax-Milgram theorem, and the Poincaré inequality.
+5. `continuous/poisson-weak-form.md` — **Weak Formulation of the Poisson Problem**
+   - Derive the weak (variational) formulation of the Poisson equation by
+     multiplying by a test function and integrating by parts.
+   - Show how Neumann conditions enter naturally as boundary integrals.
+   - Link to Wikipedia for the concepts Green's first identity, Sobolev spaces,
+     the Lax-Milgram theorem, and the Poincaré inequality.
 
-- `continuous/elliptic-weak-form.md` — **Weak Formulation of Elliptic PDEs**
-  - Extend the weak formulation to the general elliptic setting.
-  - Introduce the abstract bilinear form a(u,v) and linear functional ℓ(v).
+6. `continuous/elliptic-weak-form.md` — **Weak Formulation of Elliptic PDEs**
+   - Extend the weak formulation to the general elliptic setting.
+   - Introduce the abstract bilinear form a(u,v) and linear functional ℓ(v).
 
-- `discrete/discrete-formulation.md` — **The Discrete Formulation**
-  - Introduce the Galerkin method: restricting the weak problem to a
-    finite-dimensional space spanned by basis functions.
-  - Derive the resulting linear system.
-  - Discuss the optimality of the discrete solution (Céa's lemma).
-  
-- `discrete/basis-to-shape-functions.md` — **From Basis to Shape Functions**
-  - Partition the domain into elements and define shape functions as locally
-    supported functions on each element.
-  - Explain how the global space $V_h$ is assembled from local shape functions,
-    noting that both continuous and discontinuous Galerkin methods fit this
-    framework.
-  - Use bilinearity of $a(\cdot,\cdot)$ to decompose the stiffness matrix into
-    element contributions, and note that sparsity follows from the local support
-    of the basis functions.
-  - Introduce element stiffness matrices and element load vectors as the objects
-    computed during assembly.
-  - Avoid details and introduce as little new notation as possible. The details
-    will be described later in dedicated assembly posts.
+7. `discrete/discrete-formulation.md` — **The Discrete Formulation**
+   - Introduce the Galerkin method: restricting the weak problem to a
+     finite-dimensional space spanned by basis functions.
+   - Derive the resulting linear system.
+   - Discuss the optimality of the discrete solution (Céa's lemma).
 
-- `ref-domains/overview.md` — **Reference Domains and Quadrature**
-  - Introduce the need for local parametrization of standard elements (domains).
-  - Introduce the concept of integration using sample points and weights.
-  - Refer to the class ReferenceDomain.quadrature.
-  
-- `ref-domains/line.md` — **The Line Domain**
-  - Link to [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html)
-  - Refer to the class LineDomain
-  - Illustrate points and weights for using `line-domain-quadrature.svg`
-  
-- `ref-domains/triangle.md` — **The Triangle Domain**
-  - Refer to David Dunavant's paper "High Degree Efficient Symmetrical Gaussian Quadrature Rules for the Triangle"
-  - Outline how the points and weights for a triangle can be computed.
-  - Illustrate points and weights by including `triangle-domain-quadrature.svg`
-  - Refer to the class TriangleDomain
+8. `discrete/basis-to-shape-functions.md` — **From Basis to Shape Functions**
+   - Partition the domain into elements and define shape functions as locally
+     supported functions on each element.
+   - Explain how the global space $V_h$ is assembled from local shape functions,
+     noting that both continuous and discontinuous Galerkin methods fit this
+     framework.
+   - Use bilinearity of $a(\cdot,\cdot)$ to decompose the stiffness matrix into
+     element contributions, and note that sparsity follows from the local support
+     of the basis functions.
+   - Introduce element stiffness matrices and element load vectors as the objects
+     computed during assembly.
+   - Avoid details and introduce as little new notation as possible. The details
+     will be described later in dedicated assembly posts.
 
-- `ref-domains/quadrilateral.md` — **The Quadrilateral Domain**
-  - Explain how the points and weights can be obtained by leveraging the line
-    quadrature rules.
-  - Illustrate the points and weights for a single order by including
-    `quadrilateral-domain-quadrature.svg`.
-  - Refer to the class QuadrilateralDomain
+9. `ref-domains/overview.md` — **Reference Domains and Quadrature**
+   - Introduce the need for local parametrization of standard elements (domains).
+   - Introduce the concept of integration using sample points and weights.
+   - Refer to the class ReferenceDomain.quadrature.
 
-- `ref-domains/tetrahedron.md` — **The Tetrahedron Domain**
-  - Illustrate points and weights by including `tetrahedron-domain-quadrature.svg`
-  - Refer to the class TetrahedronDomain
+10. `ref-domains/line.md` — **The Line Domain**
+    - Link to [Gauss-Legendre quadrature](https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html)
+    - Refer to the class LineDomain
+    - Illustrate points and weights for using `line-domain-quadrature.svg`
 
-- `ref-domains/hexahedron.md` — **The Hexahedron Domain**
-  - Note how the points and weights can be obtained by leveraging the line
-    quadrature rules.
-  - No need to derive or write out formulas, but refer to
-    `ref-domains/quadrilateral.md`
-  - Illustrate the points and weights for a *single* order by including
-    `quadrilateral-domain-quadrature.svg`.
-  - Refer to the class HexahedronDomain
+11. `ref-domains/triangle.md` — **The Triangle Domain**
+    - Refer to David Dunavant's paper "High Degree Efficient Symmetrical Gaussian Quadrature Rules for the Triangle"
+    - Outline how the points and weights for a triangle can be computed.
+    - Illustrate points and weights by including `triangle-domain-quadrature.svg`
+    - Refer to the class TriangleDomain
 
-- `elements/overview.md` — **Shape Functions on Reference Elements**
-  - Introduce the abstract class `ReferenceElement` in
-    [`elements/element.py`](LIBROOT/elements/element.py) and its three core
-    methods: `node_coords`, `shape_functions`, and `shape_function_gradients`.
-  - Explain that `node_coords` returns the coordinates of the element's nodes
-    on the reference domain, with shape `(num_nodes, topo_dim)`.
-  - Explain that `shape_functions(xi)` takes points `xi` of shape
-    `(num_points, topo_dim)` and returns an array of shape
-    `(num_points, num_nodes)`, where each row sums to one (partition of unity).
-  - Explain that `shape_function_gradients(xi)` returns an array of shape
-    `(num_points, num_nodes, topo_dim)` containing the reference-domain
-    gradients $\partial N_i / \partial \hat{x}_j$.
-  - Mention that gradients in physical space require the Jacobian of the
-    element mapping (to be covered in a later assembly post).
-  - Provide a list of all concrete element types with links to their posts.
+12. `ref-domains/quadrilateral.md` — **The Quadrilateral Domain**
+    - Explain how the points and weights can be obtained by leveraging the line
+      quadrature rules.
+    - Illustrate the points and weights for a single order by including
+      `quadrilateral-domain-quadrature.svg`.
+    - Refer to the class QuadrilateralDomain
 
-- `elements/line2.md` — **The Line2 Element**
-  - Describe the 2-node linear line element [`Line2`](LIBROOT/elements/line2.py)
-    on $[0, 1]$ with nodes at $\hat{x}_0 = 0$ and $\hat{x}_1 = 1$.
-  - Write out the two shape functions $N_0(\hat{x}) = 1 - \hat{x}$ and
-    $N_1(\hat{x}) = \hat{x}$ and their constant gradients.
-  - Note that the shape functions are the Lagrange basis polynomials of degree 1
-    associated with nodes 0 and 1, and that they form a partition of unity.
-  - Include an illustration of the two shape functions plotted over $[0, 1]$.
+13. `ref-domains/tetrahedron.md` — **The Tetrahedron Domain**
+    - Illustrate points and weights by including `tetrahedron-domain-quadrature.svg`
+    - Refer to the class TetrahedronDomain
 
-- `elements/line3.md` — **The Line3 Element**
-  - Describe the 3-node quadratic line element [`Line3`](LIBROOT/elements/line3.py)
-    on $[0, 1]$ with nodes at $0$, $1$, and $\tfrac{1}{2}$.
-  - Write out the three quadratic Lagrange shape functions:
-    $N_0 = (1 - \hat{x})(1 - 2\hat{x})$, $N_1 = \hat{x}(2\hat{x} - 1)$,
-    $N_2 = 4\hat{x}(1 - \hat{x})$, and their gradients.
-  - Note the characteristic "bubble" shape of $N_2$ and the negative values of
-    $N_0$ and $N_1$ away from their respective nodes.
-  - Include an illustration of the three shape functions plotted over $[0, 1]$.
+14. `ref-domains/hexahedron.md` — **The Hexahedron Domain**
+    - Note how the points and weights can be obtained by leveraging the line
+      quadrature rules.
+    - No need to derive or write out formulas, but refer to
+      `ref-domains/quadrilateral.md`
+    - Illustrate the points and weights for a *single* order by including
+      `quadrilateral-domain-quadrature.svg`.
+    - Refer to the class HexahedronDomain
 
-- `elements/tri3.md` — **The Tri3 Element**
-  - Describe the 3-node linear triangle [`Tri3`](LIBROOT/elements/tri3.py) on
-    the reference triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$.
-  - Introduce barycentric coordinates $L_0 = 1 - x - y$, $L_1 = x$, $L_2 = y$
-    and note that the shape functions are exactly these coordinates.
-  - Write out the constant gradients $\nabla N_i$ on the reference triangle.
-  - Include an illustration showing the reference triangle with its three nodes
-    and, optionally, a surface plot of one shape function.
+15. `elements/overview.md` — **Shape Functions on Reference Elements**
+    - Introduce the abstract class `ReferenceElement` in
+      [`elements/element.py`](LIBROOT/elements/element.py) and its three core
+      methods: `node_coords`, `shape_functions`, and `shape_function_gradients`.
+    - Explain that `node_coords` returns the coordinates of the element's nodes
+      on the reference domain, with shape `(num_nodes, topo_dim)`.
+    - Explain that `shape_functions(xi)` takes points `xi` of shape
+      `(num_points, topo_dim)` and returns an array of shape
+      `(num_points, num_nodes)`, where each row sums to one (partition of unity).
+    - Explain that `shape_function_gradients(xi)` returns an array of shape
+      `(num_points, num_nodes, topo_dim)` containing the reference-domain
+      gradients $\partial N_i / \partial \hat{x}_j$.
+    - Mention that gradients in physical space require the Jacobian of the
+      element mapping (to be covered in a later assembly post).
+    - Provide a list of all concrete element types with links to their posts.
 
-- `elements/tri6.md` — **The Tri6 Element**
-  - Describe the 6-node quadratic triangle [`Tri6`](LIBROOT/elements/tri6.py)
-    with nodes at the three vertices and the three edge midpoints.
-  - Express the shape functions in terms of the barycentric coordinates
-    $L_0$, $L_1$, $L_2$: vertex nodes use $L_i(2L_i - 1)$ and edge midpoint
-    nodes use $4L_i L_j$.
-  - Write out the gradients of the shape functions.
-  - Include an illustration of the reference triangle with all 6 nodes labelled.
+16. `elements/line2.md` — **The Line2 Element**
+    - Describe the 2-node linear line element [`Line2`](LIBROOT/elements/line2.py)
+      on $[0, 1]$ with nodes at $\hat{x}_0 = 0$ and $\hat{x}_1 = 1$.
+    - Write out the two shape functions $N_0(\hat{x}) = 1 - \hat{x}$ and
+      $N_1(\hat{x}) = \hat{x}$ and their constant gradients.
+    - Note that the shape functions are the Lagrange basis polynomials of degree 1
+      associated with nodes 0 and 1, and that they form a partition of unity.
+    - Include an illustration of the two shape functions plotted over $[0, 1]$.
 
-- `elements/quad4.md` — **The Quad4 Element**
-  - Describe the 4-node bilinear quadrilateral [`Quad4`](LIBROOT/elements/quad4.py)
-    on $[0,1]^2$ with nodes at the four corners.
-  - Explain how the shape functions are formed as tensor products of the 1D
-    linear Lagrange functions: $N_i(\hat{x}, \hat{y}) = \ell_i(\hat{x})\,\ell_j(\hat{y})$.
-  - Write out the four shape functions and their gradients.
-  - Include an illustration of the reference square with nodes labelled.
+17. `elements/line3.md` — **The Line3 Element**
+    - Describe the 3-node quadratic line element [`Line3`](LIBROOT/elements/line3.py)
+      on $[0, 1]$ with nodes at $0$, $1$, and $\tfrac{1}{2}$.
+    - Write out the three quadratic Lagrange shape functions:
+      $N_0 = (1 - \hat{x})(1 - 2\hat{x})$, $N_1 = \hat{x}(2\hat{x} - 1)$,
+      $N_2 = 4\hat{x}(1 - \hat{x})$, and their gradients.
+    - Note the characteristic "bubble" shape of $N_2$ and the negative values of
+      $N_0$ and $N_1$ away from their respective nodes.
+    - Include an illustration of the three shape functions plotted over $[0, 1]$.
 
-- `elements/quad9.md` — **The Quad9 Element**
-  - Describe the 9-node biquadratic quadrilateral [`Quad9`](LIBROOT/elements/quad9.py)
-    on $[0,1]^2$ with nodes at the four corners, four edge midpoints, and
-    the centre.
-  - Explain that the shape functions are tensor products of the 1D quadratic
-    Lagrange basis (the same polynomials used in `Line3`).
-  - Write out the node ordering and indicate how each shape function is the
-    product of two 1D Lagrange functions.
-  - Include an illustration of the reference square with all 9 nodes labelled.
+18. `elements/tri3.md` — **The Tri3 Element**
+    - Describe the 3-node linear triangle [`Tri3`](LIBROOT/elements/tri3.py) on
+      the reference triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$.
+    - Introduce barycentric coordinates $L_0 = 1 - x - y$, $L_1 = x$, $L_2 = y$
+      and note that the shape functions are exactly these coordinates.
+    - Write out the constant gradients $\nabla N_i$ on the reference triangle.
+    - Include an illustration showing the reference triangle with its three nodes
+      and, optionally, a surface plot of one shape function.
 
-- `elements/tet4.md` — **The Tet4 Element**
-  - Describe the 4-node linear tetrahedron [`Tet4`](LIBROOT/elements/tet4.py)
-    with vertices $(0,0,0)$, $(1,0,0)$, $(0,1,0)$, $(0,0,1)$.
-  - Introduce the 3D barycentric (volume) coordinates
-    $L_0 = 1 - x - y - z$, $L_1 = x$, $L_2 = y$, $L_3 = z$ and note that the
-    shape functions are exactly these coordinates.
-  - Write out the constant gradients.
-  - Include an illustration of the reference tetrahedron with its four nodes
-    labelled.
+19. `elements/tri6.md` — **The Tri6 Element**
+    - Describe the 6-node quadratic triangle [`Tri6`](LIBROOT/elements/tri6.py)
+      with nodes at the three vertices and the three edge midpoints.
+    - Express the shape functions in terms of the barycentric coordinates
+      $L_0$, $L_1$, $L_2$: vertex nodes use $L_i(2L_i - 1)$ and edge midpoint
+      nodes use $4L_i L_j$.
+    - Write out the gradients of the shape functions.
+    - Include an illustration of the reference triangle with all 6 nodes labelled.
 
-- `elements/hex8.md` — **The Hex8 Element**
-  - Describe the 8-node trilinear hexahedron [`Hex8`](LIBROOT/elements/hex8.py)
-    on $[0,1]^3$ with nodes at the eight corners (bottom face first, then top).
-  - Explain that the shape functions are triple tensor products of the 1D linear
-    Lagrange functions: $N_i = \ell_{i_x}(x)\,\ell_{i_y}(y)\,\ell_{i_z}(z)$
-    where each $\ell$ factor is either $1 - t$ or $t$.
-  - Note the analogy with Quad4 in 2D.
-  - Include an illustration of the reference cube with all 8 nodes labelled.
+20. `elements/quad4.md` — **The Quad4 Element**
+    - Describe the 4-node bilinear quadrilateral [`Quad4`](LIBROOT/elements/quad4.py)
+      on $[0,1]^2$ with nodes at the four corners.
+    - Explain how the shape functions are formed as tensor products of the 1D
+      linear Lagrange functions: $N_i(\hat{x}, \hat{y}) = \ell_i(\hat{x})\,\ell_j(\hat{y})$.
+    - Write out the four shape functions and their gradients.
+    - Include an illustration of the reference square with nodes labelled.
 
-- `meshes/representation.md` (PLANNED) — **Mesh Representation**
-  - Library code: Mesh, ElementGroup
+21. `elements/quad9.md` — **The Quad9 Element**
+    - Describe the 9-node biquadratic quadrilateral [`Quad9`](LIBROOT/elements/quad9.py)
+      on $[0,1]^2$ with nodes at the four corners, four edge midpoints, and
+      the centre.
+    - Explain that the shape functions are tensor products of the 1D quadratic
+      Lagrange basis (the same polynomials used in `Line3`).
+    - Write out the node ordering and indicate how each shape function is the
+      product of two 1D Lagrange functions.
+    - Include an illustration of the reference square with all 9 nodes labelled.
 
-- `meshes/boundaries.md` (PLANNED) — **Mesh Boundaries**
-  - Library code: extract_boundary, tag_boundary_faces
+22. `elements/tet4.md` — **The Tet4 Element**
+    - Describe the 4-node linear tetrahedron [`Tet4`](LIBROOT/elements/tet4.py)
+      with vertices $(0,0,0)$, $(1,0,0)$, $(0,1,0)$, $(0,0,1)$.
+    - Introduce the 3D barycentric (volume) coordinates
+      $L_0 = 1 - x - y - z$, $L_1 = x$, $L_2 = y$, $L_3 = z$ and note that the
+      shape functions are exactly these coordinates.
+    - Write out the constant gradients.
+    - Include an illustration of the reference tetrahedron with its four nodes
+      labelled.
 
-- `meshes/meshio-interop.md` (PLANNED) — **MeshIO Interoperability**
-  - Library code: from_meshio, to_meshio
+23. `elements/hex8.md` — **The Hex8 Element**
+    - Describe the 8-node trilinear hexahedron [`Hex8`](LIBROOT/elements/hex8.py)
+      on $[0,1]^3$ with nodes at the eight corners (bottom face first, then top).
+    - Explain that the shape functions are triple tensor products of the 1D linear
+      Lagrange functions: $N_i = \ell_{i_x}(x)\,\ell_{i_y}(y)\,\ell_{i_z}(z)$
+      where each $\ell$ factor is either $1 - t$ or $t$.
+    - Note the analogy with Quad4 in 2D.
+    - Include an illustration of the reference cube with all 8 nodes labelled.
 
-- `assembly/computing-jacobian.md` (PLANNED) — **Computing the Jacobian**
-  - Library code: compute_physical_gradients
+24. `meshes/representation.md` (PLANNED) — **Mesh Representation**
+    - Library code: Mesh, ElementGroup
 
-- `assembly/bilinear-form.md` (PLANNED) — **Bilinear Form Assembly**
-  - Library code: assemble_bilinear_form
+25. `meshes/boundaries.md` (PLANNED) — **Mesh Boundaries**
+    - Library code: extract_boundary, tag_boundary_faces
 
-- `assembly/load-vector.md` (PLANNED) — **Load Vector Assembly**
-  - Library code: assemble_load_vector
+26. `meshes/meshio-interop.md` (PLANNED) — **MeshIO Interoperability**
+    - Library code: from_meshio, to_meshio
 
-- `assembly/dirichlet-bcs.md` (PLANNED) — **Dirichlet Boundary Conditions**
-  - Dirichlet boundary conditions
-  - Condensation. Code: CondensedSystem, condense_dirichlet_bc
+27. `assembly/computing-jacobian.md` (PLANNED) — **Computing the Jacobian**
+    - Library code: compute_physical_gradients
 
-- `assembly/l2-projection.md` (PLANNED) — **L² Projection**
-  - L² projection. Code: project_dirichlet_bc
+28. `assembly/bilinear-form.md` (PLANNED) — **Bilinear Form Assembly**
+    - Library code: assemble_bilinear_form
 
-- `assembly/neumann-bcs.md` (PLANNED) — **Neumann Boundary Conditions**
-  - Neumann contributions. Code: assemble_neumann_bc
+29. `assembly/load-vector.md` (PLANNED) — **Load Vector Assembly**
+    - Library code: assemble_load_vector
+
+30. `assembly/l2-projection.md` (PLANNED) — **L² Projection**
+    - L² projection. Code: project_dirichlet_bc
+
+31. `assembly/dirichlet-bcs.md` (PLANNED) — **Dirichlet Boundary Conditions**
+    - Dirichlet boundary conditions
+    - Condensation. Code: CondensedSystem, condense_dirichlet_bc
+
+32. `assembly/neumann-bcs.md` (PLANNED) — **Neumann Boundary Conditions**
+    - Neumann contributions. Code: assemble_neumann_bc
