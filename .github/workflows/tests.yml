@@ -10,15 +10,18 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           version: "latest"
-      - run: uv sync --group dev
+      - run: uv sync --group dev --python 3.13
       - run: uv run ruff check
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
         with:
           version: "latest"
-      - run: uv sync --group dev
+      - run: uv sync --group dev --python ${{ matrix.python-version }}
       - run: uv run pytest
