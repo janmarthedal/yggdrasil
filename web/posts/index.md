@@ -10,6 +10,7 @@ title: Finite Element Method
 - Discrete
   - [The Discrete Formulation](POSTROOT/discrete/discrete-formulation/)
   - [From Basis to Shape Functions](POSTROOT/discrete/basis-to-shape-functions/)
+  - [Continuous Galerkin](POSTROOT/discrete/continuous-galerkin/)
 - Reference domains
   - [Reference Domains and Quadrature](POSTROOT/ref-domains/overview/)
   - 1D
@@ -33,4 +34,15 @@ title: Finite Element Method
   - 3D
     - [The Tet4 Element](POSTROOT/elements/tet4/)
     - [The Hex8 Element](POSTROOT/elements/hex8/)
+- Meshes
+  - Mesh Representation
+  - Mesh Boundaries
+  - MeshIO Interoperability
+- Assembly
+  - Computing the Jacobian
+  - Bilinear Form Assembly
+  - Load Vector Assembly
+  - L² Projection
+  - Dirichlet Boundary Conditions
+  - Neumann Boundary Conditions
 
