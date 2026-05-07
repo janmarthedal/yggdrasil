@@ -27,6 +27,7 @@ Usage
 
 import math
 import sys
+from dataclasses import dataclass
 
 import numpy as np
 from scipy.optimize import least_squares
@@ -100,7 +101,18 @@ def initial_guess(n0: int, n1: int, seed: int = 0) -> np.ndarray:
     return np.array(x0)
 
 
-def solve(order: int) -> tuple[np.ndarray, np.ndarray]:
+@dataclass
+class CentroidGroup:
+    weight: float
+
+
+@dataclass
+class N1Group:
+    a: float      # free parameter; b = 1 - 2a is implied
+    weight: float
+
+
+def solve(order: int) -> list[CentroidGroup | N1Group]:
     n0, n1 = ORDER_CONFIGS[order]
     f = make_residuals(n0, n1, order)
 
@@ -120,20 +132,26 @@ def solve(order: int) -> tuple[np.ndarray, np.ndarray]:
         raise RuntimeError(f"Solver did not converge after 20 attempts: max residual = {max_res:.2e}")
 
     x = result.x
+    groups: list[CentroidGroup | N1Group] = []
+    for k in range(n0):
+        groups.append(CentroidGroup(weight=float(x[k])))
+    for k in range(n1):
+        groups.append(N1Group(a=float(x[n0 + 2 * k]), weight=float(x[n0 + 2 * k + 1])))
+    return groups
+
+
+def expand_groups(groups: list[CentroidGroup | N1Group]) -> tuple[np.ndarray, np.ndarray]:
+    """Expand symmetry groups into flat (points, weights) arrays."""
     points: list[list[float]] = []
     weights: list[float] = []
-
-    for k in range(n0):
-        points.append([1.0 / 3.0, 1.0 / 3.0])
-        weights.append(float(x[k]))
-
-    for k in range(n1):
-        a = float(x[n0 + 2 * k])
-        w = float(x[n0 + 2 * k + 1])
-        b = 1.0 - 2.0 * a
-        points += [[a, a], [b, a], [a, b]]
-        weights += [w, w, w]
-
+    for g in groups:
+        if isinstance(g, CentroidGroup):
+            points.append([1.0 / 3.0, 1.0 / 3.0])
+            weights.append(g.weight)
+        else:
+            b = 1.0 - 2.0 * g.a
+            points += [[g.a, g.a], [b, g.a], [g.a, b]]
+            weights += [g.weight, g.weight, g.weight]
     return np.array(points), np.array(weights)
 
 
@@ -158,13 +176,26 @@ def main() -> None:
         sys.exit(1)
 
     order = int(sys.argv[1])
-    points, weights = solve(order)
+    groups = solve(order)
+    points, weights = expand_groups(groups)
 
-    print(f"Order {order} triangle quadrature  ({len(points)} points)")
-    print(f"  Sum of weights = {weights.sum():.15f}  (expected 0.5)")
+    n_pts = len(points)
+    print(f"Order {order} triangle quadrature  ({n_pts} points, {len(groups)} groups)")
     print()
+
+    print("Symmetry groups:")
+    for g in groups:
+        if isinstance(g, CentroidGroup):
+            print(f"  n0  (1/3, 1/3)                                     w = {g.weight:+.15f}")
+        else:
+            b = 1.0 - 2.0 * g.a
+            print(f"  n1  a = {g.a:.15f}  b = {b:.15f}   w = {g.weight:+.15f}")
+    print()
+
+    print("Quadrature points and weights:")
+    print(f"  Sum of weights = {weights.sum():.15f}  (expected 0.5)")
     for i, (p, w) in enumerate(zip(points, weights)):
-        print(f"  pt[{i}] = ({p[0]:.15f}, {p[1]:.15f})   w = {w:.15f}")
+        print(f"  pt[{i}] = ({p[0]:.15f}, {p[1]:.15f})   w = {w:+.15f}")
     print()
 
     ok = verify(points, weights, order)
