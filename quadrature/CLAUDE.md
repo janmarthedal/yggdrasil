@@ -2,7 +2,9 @@
 
 ## Goal
 
-Compute quadrature weights and points for the reference elements used by the main yggdrasil library. The initial focus is the triangle element. Output goes into `yggdrasil/refdomains/triangle.py` (and analogous files for other elements).
+**Derive** quadrature weights and points from first principles by solving the moment equations for each reference element — not by copying tables from published sources. The initial focus is the triangle element. Output goes into `yggdrasil/refdomains/triangle.py` (and analogous files for other elements).
+
+The published sources (Dunavant 1985, scikit-fem) serve only as post-hoc verification that the computed rules are correct. See `verification.md`.
 
 ## Reference elements in scope
 
