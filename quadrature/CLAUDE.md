@@ -102,12 +102,21 @@ For a group entry (α=a, β=γ=b):
 - The 3 barycentric permutations are (a,b,b), (b,a,b), (b,b,a)
 - Mapping x=β, y=γ gives Cartesian points: (b,b), (a,b), (b,a)
 
-### Verification checklist
+### Verification
+
+**Primary — exactness test**: a quadrature rule of degree p is correct if and only if it integrates every monomial xⁱ yʲ with i+j ≤ p exactly. The exact value over the reference triangle is:
+
+```
+∫∫ xⁱ yʲ dx dy = i! j! / (i+j+2)!
+```
+
+Passing this test is sufficient; the checks below are provenance aids for diagnosing *where* a discrepancy comes from, not additional correctness criteria.
+
+**Secondary — provenance checks** (confirm numbers were transcribed correctly):
 
 1. **Weights sum**: `sum(weights) == 0.5`
 2. **Dunavant match**: each `w_yggdrasil == 0.5 × w_dunavant` (from Appendix II above)
 3. **scikit-fem match**: values in `get_quadrature_tri` in `skfem/quadrature.py` use the same (x,y) convention and the same weights (sum to 0.5); points are stored as shape `(2, nqp)` vs yggdrasil's `(nqp, 2)`
-4. **Exactness test**: integrate all monomials xⁱ yʲ with i+j ≤ p over the reference triangle using the quadrature rule and compare against the exact value `i! j! / (i+j+2)!` (times the area factor)
 
 ### Known issues in current `triangle.py`
 
