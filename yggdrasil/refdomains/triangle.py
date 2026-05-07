@@ -82,7 +82,7 @@ class TriangleDomain(ReferenceDomain):
             [b2, a2],
             [a2, b2],
         ])
-        # Dunavant weights already sum to triangle area (0.5)
+        # Raw Dunavant weights sum to 1; these are pre-scaled by 0.5
         weights = np.array([w1, w1, w1, w2, w2, w2])
         return points, weights
 
