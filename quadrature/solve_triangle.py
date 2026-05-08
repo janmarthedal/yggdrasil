@@ -185,7 +185,7 @@ class N2Group:
     weight: float
 
 
-def _lm(f, x0: np.ndarray, max_nfev: int = 5000) -> "least_squares result":
+def _lm(f, x0: np.ndarray, max_nfev: int = 5000):
     return least_squares(f, x0, method="lm", ftol=1e-14, xtol=1e-14, gtol=1e-14,
                          max_nfev=max_nfev)
 
