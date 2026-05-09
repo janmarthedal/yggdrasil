@@ -1,0 +1,3 @@
+[submodule "quadrature/witherden–vincent/polyquad"]
+	path = quadrature/witherden–vincent/polyquad
+	url = https://github.com/PyFR/Polyquad
