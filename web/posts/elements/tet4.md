@@ -3,15 +3,17 @@ title: The Tet4 Element
 ---
 
 The **Tet4** element is the simplest tetrahedral element: 4 nodes, one at each
-vertex of the reference tetrahedron, with linear shape functions. It is
-implemented in [`elements/tet4.py`](LIBROOT/elements/tet4.py) by the class
-`Tet4`. The reference domain is the right tetrahedron $\hat{T}$ with vertices
+vertex of the reference tetrahedron, with linear shape functions. The reference
+domain is the right tetrahedron $\hat{T}$ with vertices
 
 $$\hat{x}_0 = (0,0,0), \quad \hat{x}_1 = (1,0,0), \quad
   \hat{x}_2 = (0,1,0), \quad \hat{x}_3 = (0,0,1),$$
 
 matching the
 [tetrahedron reference domain](POSTROOT/ref-domains/tetrahedron/).
+
+In the library, it is implemented in [`elements/tet4.py`](LIBROOT/elements/tet4.py)
+by the class `Tet4`.
 
 ![Nodes of the Tet4 element](MEDIAROOT/tet4-nodes.svg)
 

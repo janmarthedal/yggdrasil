@@ -10,27 +10,30 @@ that form a basis for the local approximation space on the element. Each shape
 function is associated with one node, and is equal to one at that node and zero
 at all others.
 
-The abstract class `ReferenceElement` in
-[`elements/element.py`](LIBROOT/elements/element.py) captures this structure and
-exposes three core methods. `node_coords` is a property returning an array of
-shape `(num_nodes, topo_dim)` with the reference-domain coordinates of each
-node. `shape_functions(xi)` takes an array `xi` of shape
-`(num_points, topo_dim)` and returns an array of shape `(num_points, num_nodes)`;
-the $i$-th column of the result is the $i$-th shape function evaluated at every
-query point. `shape_function_gradients(xi)` returns an array of shape
-`(num_points, num_nodes, topo_dim)`, where entry `[q, i, j]` is
-$\partial N_i / \partial \hat{x}_j$ evaluated at query point $q$.
-
 A key property of shape functions is the **partition of unity**: at every point
 $\hat{x} \in \hat{T}$ the shape functions sum to one,
 
 $$\sum_{i=1}^{n} N_i(\hat{x}) = 1.$$
 
 This ensures that a constant function is represented exactly, which is a
-necessary condition for consistency of the approximation. Gradients are not
-evaluated in physical space here — transforming them from the reference domain to
-a physical element requires the Jacobian of the element mapping $F_e$, which is
-covered in a later assembly post.
+necessary condition for consistency of the approximation.
+
+Beyond the shape function values themselves, the finite element method also needs
+their gradients. On the reference domain these are the partial derivatives
+$\partial N_i / \partial \hat{x}_j$. Transforming them into physical-space
+gradients on an actual element additionally requires the Jacobian of the element
+mapping $F_e$, which is covered in a later assembly post.
+
+In the library, this structure is captured by the abstract class
+`ReferenceElement` in [`elements/element.py`](LIBROOT/elements/element.py), which
+exposes three core methods. `node_coords` is a property returning an array of
+shape `(num_nodes, topo_dim)` with the reference-domain coordinates of each node.
+`shape_functions(xi)` takes an array `xi` of shape `(num_points, topo_dim)` and
+returns an array of shape `(num_points, num_nodes)`; the $i$-th column of the
+result is the $i$-th shape function evaluated at every query point.
+`shape_function_gradients(xi)` returns an array of shape
+`(num_points, num_nodes, topo_dim)`, where entry `[q, i, j]` is
+$\partial N_i / \partial \hat{x}_j$ evaluated at query point $q$.
 
 Each element type has a dedicated post:
 

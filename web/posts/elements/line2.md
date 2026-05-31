@@ -4,8 +4,8 @@ title: The Line2 Element
 
 The simplest 1D element is the **Line2** element: a 2-node linear element on the
 reference interval $[0, 1]$ with nodes at $\hat{x}_0 = 0$ and $\hat{x}_1 = 1$.
-It is implemented in [`elements/line2.py`](LIBROOT/elements/line2.py) by the
-class `Line2`.
+In the library, it is implemented in [`elements/line2.py`](LIBROOT/elements/line2.py)
+by the class `Line2`.
 
 The two shape functions are the linear [Lagrange basis polynomials](https://en.wikipedia.org/wiki/Lagrange_polynomial) on $[0, 1]$:
 

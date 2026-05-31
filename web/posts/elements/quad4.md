@@ -3,15 +3,17 @@ title: The Quad4 Element
 ---
 
 The **Quad4** element is the simplest quadrilateral element: 4 nodes, one at
-each corner of the reference square, with bilinear shape functions. It is
-implemented in [`elements/quad4.py`](LIBROOT/elements/quad4.py) by the class
-`Quad4`. The reference domain is $\hat{Q} = [0,1]^2$ with corners
+each corner of the reference square, with bilinear shape functions. The
+reference domain is $\hat{Q} = [0,1]^2$ with corners
 
 $$\hat{x}_0 = (0,0), \quad \hat{x}_1 = (1,0), \quad
   \hat{x}_2 = (1,1), \quad \hat{x}_3 = (0,1),$$
 
 matching the
 [quadrilateral reference domain](POSTROOT/ref-domains/quadrilateral/).
+
+In the library, it is implemented in [`elements/quad4.py`](LIBROOT/elements/quad4.py)
+by the class `Quad4`.
 
 The shape functions are obtained as tensor products of the two [Line2](POSTROOT/elements/line2/)
 shape functions. Writing $\ell_0(t) = 1 - t$ and $\ell_1(t) = t$ for the

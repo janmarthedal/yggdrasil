@@ -2,8 +2,7 @@
 title: The Quad9 Element
 ---
 
-The **Quad9** element is a 9-node biquadratic quadrilateral, implemented in
-[`elements/quad9.py`](LIBROOT/elements/quad9.py) by the class `Quad9`. It
+The **Quad9** element is a 9-node biquadratic quadrilateral. It
 lives on the same reference square as [Quad4](POSTROOT/elements/quad4/) but
 adds a node at the midpoint of each edge and one at the center, giving four
 corner nodes, four edge-midpoint nodes, and one interior node:
@@ -15,6 +14,9 @@ $$\hat{x}_4 = \bigl(\tfrac{1}{2},0\bigr), \quad
   \hat{x}_6 = \bigl(\tfrac{1}{2},1\bigr), \quad
   \hat{x}_7 = \bigl(0,\tfrac{1}{2}\bigr), \quad
   \hat{x}_8 = \bigl(\tfrac{1}{2},\tfrac{1}{2}\bigr).$$
+
+In the library, it is implemented in [`elements/quad9.py`](LIBROOT/elements/quad9.py)
+by the class `Quad9`.
 
 ![Nodes of the Quad9 element](MEDIAROOT/quad9-nodes.svg)
 

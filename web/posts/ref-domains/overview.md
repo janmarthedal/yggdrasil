@@ -14,10 +14,7 @@ physical element through $F_e$.
 
 The reference domain for each element type is a standard, convenient geometric
 shape. A line element maps to the interval $[0, 1]$, a triangle to the right
-triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$, and so on. The class
-`ReferenceDomain` in [`refdomains/refdomain.py`](LIBROOT/refdomains/refdomain.py) represents such a
-domain and exposes a `quadrature` method; concrete subclasses implement it for
-each element type.
+triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$, and so on.
 
 Integrals over $\hat{T}$ are evaluated numerically by **quadrature**: a rule of
 order $p$ consists of $Q$ sample points $\hat{x}_1, \ldots, \hat{x}_Q \in \hat{T}$
@@ -26,10 +23,14 @@ and associated weights $w_1, \ldots, w_Q$ such that
 $$\int_{\hat{T}} f(\hat{x})\, \mathrm{d}\hat{x} \approx \sum_{q=1}^{Q} w_q\, f(\hat{x}_q),$$
 
 with the approximation being exact whenever $f$ is a polynomial of degree at
-most $p$. The `quadrature(order)` method returns the pair `(points, weights)`,
-where `points` has shape `(Q, topological_dimension)` and `weights` has shape
-`(Q,)`. The caller specifies the required polynomial degree, and the
-implementation returns a rule with enough points to integrate it exactly.
+most $p$. Given a required polynomial degree, one selects a rule with enough
+points to integrate it exactly.
+
+In the library, each reference domain is represented by the `ReferenceDomain`
+class in [`refdomains/refdomain.py`](LIBROOT/refdomains/refdomain.py), with a
+concrete subclass for each element type. Its `quadrature(order)` method returns
+the pair `(points, weights)` for the requested degree, where `points` has shape
+`(Q, topological_dimension)` and `weights` has shape `(Q,)`.
 
 Each element type has a dedicated post describing its reference domain and quadrature rules:
 

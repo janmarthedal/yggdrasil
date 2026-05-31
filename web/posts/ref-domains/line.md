@@ -10,5 +10,7 @@ The figure below shows the quadrature points on $[0, 1]$ for $n = 1, 2, 3, 4$ po
 
 ![Gauss–Legendre quadrature points on [0,1] for n = 1, 2, 3, 4](MEDIAROOT/line-domain-quadrature.svg)
 
-Given a required polynomial degree $p$, the number of points needed is $n = \lceil (p+1)/2 \rceil$. This is implemented in [`refdomains/line.py`](LIBROOT/refdomains/line.py) by the class `LineDomain`, whose `quadrature(order)` method returns `(points, weights)` for the rule that integrates polynomials of degree `order` exactly.
+Given a required polynomial degree $p$, the number of points needed is $n = \lceil (p+1)/2 \rceil$.
+
+In the library, this is implemented in [`refdomains/line.py`](LIBROOT/refdomains/line.py) by the class `LineDomain`, whose `quadrature(order)` method returns `(points, weights)` for the rule that integrates polynomials of degree `order` exactly.
 

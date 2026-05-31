@@ -3,8 +3,7 @@ title: The Hex8 Element
 ---
 
 The **Hex8** element is the simplest hexahedral element: 8 nodes, one at each
-corner of the reference cube, with trilinear shape functions. It is implemented
-in [`elements/hex8.py`](LIBROOT/elements/hex8.py) by the class `Hex8`. The
+corner of the reference cube, with trilinear shape functions. The
 reference domain is $\hat{H} = [0,1]^3$, matching the
 [hexahedron reference domain](POSTROOT/ref-domains/hexahedron/). The 8 nodes
 are ordered bottom face first, then top face, each traversed in the same
@@ -14,6 +13,9 @@ $$\hat{x}_0 = (0,0,0), \quad \hat{x}_1 = (1,0,0), \quad
   \hat{x}_2 = (1,1,0), \quad \hat{x}_3 = (0,1,0),$$
 $$\hat{x}_4 = (0,0,1), \quad \hat{x}_5 = (1,0,1), \quad
   \hat{x}_6 = (1,1,1), \quad \hat{x}_7 = (0,1,1).$$
+
+In the library, it is implemented in [`elements/hex8.py`](LIBROOT/elements/hex8.py)
+by the class `Hex8`.
 
 ![Nodes of the Hex8 element](MEDIAROOT/hex8-nodes.svg)
 

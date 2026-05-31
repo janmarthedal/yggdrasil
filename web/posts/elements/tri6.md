@@ -2,8 +2,7 @@
 title: The Tri6 Element
 ---
 
-The **Tri6** element is a 6-node quadratic triangle, implemented in
-[`elements/tri6.py`](LIBROOT/elements/tri6.py) by the class `Tri6`. It lives on
+The **Tri6** element is a 6-node quadratic triangle. It lives on
 the same reference triangle as [Tri3](POSTROOT/elements/tri3/) but adds a node
 at the midpoint of each edge, giving three vertex nodes and three edge-midpoint
 nodes:
@@ -12,6 +11,9 @@ $$\hat{x}_0 = (0,0), \quad \hat{x}_1 = (1,0), \quad \hat{x}_2 = (0,1),$$
 $$\hat{x}_3 = \bigl(\tfrac{1}{2},0\bigr), \quad
   \hat{x}_4 = \bigl(\tfrac{1}{2},\tfrac{1}{2}\bigr), \quad
   \hat{x}_5 = \bigl(0,\tfrac{1}{2}\bigr).$$
+
+In the library, it is implemented in [`elements/tri6.py`](LIBROOT/elements/tri6.py)
+by the class `Tri6`.
 
 The shape functions are built from the barycentric coordinates
 $L_0 = 1 - \hat{x} - \hat{y}$, $L_1 = \hat{x}$, $L_2 = \hat{y}$ introduced in
