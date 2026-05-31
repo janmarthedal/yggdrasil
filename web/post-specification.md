@@ -29,6 +29,12 @@
 
 ## Posts
 
+Every "Refer to the class …" and "Library code: …" item below is to be written as
+a *skippable illustrative aside* per the library-reference convention in
+`web/CLAUDE.md`: the post must explain the underlying theory independently, and the
+library reference then shows that theory realized in code. Do not build a post's
+exposition around the API.
+
 1. `index.md` — **Introduction**
    - Short introduction to the finite element method
    - Short introduction to the yggdrasil library
