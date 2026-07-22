@@ -31,6 +31,20 @@ const PAGE_CSS = `
     display: block;
     margin: 0 auto;
   }
+  hr {
+    border: none;
+    text-align: center;
+    overflow: visible;
+  }
+  hr::after {
+    content: "• • •";
+    display: inline-block;
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    color: #999;
+    background: #fff;
+    padding: 0 0.5em;
+  }
 `;
 
 const md = new MarkdownIt({ html: true }).use(markdownItKatex.default);
