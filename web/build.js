@@ -47,7 +47,7 @@ const PAGE_CSS = `
   }
 `;
 
-const md = new MarkdownIt({ html: true }).use(markdownItKatex.default);
+const md = new MarkdownIt({ html: true }).use(markdownItKatex.default ?? markdownItKatex);
 
 const postsDir = 'posts';
 const mediaDir = 'media';

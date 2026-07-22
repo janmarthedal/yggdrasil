@@ -1,8 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "dev": "concurrently \"node build.js --watch\" \"browser-sync start --server _site --files '_site/**/*' --no-open\""
+    "build": "bun build.js",
+    "dev": "concurrently \"bun build.js --watch\" \"browser-sync start --server _site --files '_site/**/*' --no-open\""
   },
   "dependencies": {
     "@vscode/markdown-it-katex": "^1.1.2",

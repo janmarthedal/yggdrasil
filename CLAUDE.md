@@ -22,8 +22,8 @@ It should offer functionality such as:
 - Linting: `uv run ruff check`
 - Type checking: `uv run --group dev ty check`
 - Examples: `uv run --group examples python examples/<path>.py`
-- Web build: `cd web && npm run build` (outputs to `web/_site/`)
-- Web dev server: `cd web && npm run dev` (live reload via browser-sync)
+- Web build: `cd web && bun run build` (outputs to `web/_site/`)
+- Web dev server: `cd web && bun run dev` (live reload via browser-sync)
 
 ## File structure
 - `yggdrasil/` — library source
