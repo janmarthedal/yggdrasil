@@ -22,8 +22,6 @@ It should offer functionality such as:
 - Linting: `uv run ruff check`
 - Type checking: `uv run --group dev ty check`
 - Examples: `uv run --group examples python examples/<path>.py`
-- Web build: `cd web && bun run build` (outputs to `web/_site/`)
-- Web dev server: `cd web && bun run dev` (live reload via browser-sync)
 
 ## File structure
 - `yggdrasil/` — library source
@@ -42,10 +40,6 @@ It should offer functionality such as:
   - `unit/` — unit tests for individual modules (mesh, mapping, boundary, quadrature, elements, assembly)
   - `system/` — full PDE solutions compared against analytical solutions where possible
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
-- `web/`
-  - `posts/` — markdown posts describing the theoretical foundation of the library code (see `web/CLAUDE.md` for writing conventions)
-  - `media/` — images and media files for posts
-  - `media-generation/` — Python scripts that generate SVG/PNG assets for posts (shape functions, quadrature points, domain illustrations, etc.)
 
 ## Packages
 SciPy and NumPy are used as the foundation for all computations.
