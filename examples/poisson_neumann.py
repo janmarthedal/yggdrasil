@@ -42,7 +42,7 @@ def main():
 
     # Add Neumann contribution (∂u/∂n = 1 on right edge)
     neumann_mesh = select_boundary_faces(bnd, tag=2)
-    b += assemble_neumann_bc(neumann_mesh, g=1.0, quadrature_order=1, n_dofs=mesh.num_nodes)
+    b += assemble_neumann_bc(neumann_mesh, g=1.0, quadrature_order=1, dofs=mesh.num_nodes)
 
     # Apply Dirichlet BC (u = 0 on left edge)
     dirichlet_mesh = select_boundary_faces(bnd, tag=1)

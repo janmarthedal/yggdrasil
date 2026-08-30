@@ -328,20 +328,20 @@ class TestNeumannBC:
     def test_shape(self):
         """Result has shape (n_dofs,)."""
         bnd_mesh = self._make_unit_segment_boundary_mesh()
-        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, dofs=4)
         assert b.shape == (4,)
 
     def test_constant_g_sum_equals_length(self):
         """With g=1, sum of Neumann contribution equals the boundary length."""
         bnd_mesh = self._make_unit_segment_boundary_mesh()
-        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, dofs=4)
         # The edge from (1,0) to (1,1) has length 1; ∫_Γ 1 dS = 1.0
         np.testing.assert_allclose(b.sum(), 1.0, atol=1e-14)
 
     def test_scattered_to_correct_global_indices(self):
         """Neumann contribution is nonzero only at the original_node_index positions."""
         bnd_mesh = self._make_unit_segment_boundary_mesh()
-        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, n_dofs=4)
+        b = assemble_neumann_bc(bnd_mesh, g=1.0, quadrature_order=1, dofs=4)
         # Global nodes 1 and 2 should be nonzero; nodes 0 and 3 should be zero.
         assert b[0] == 0.0
         assert b[3] == 0.0
@@ -352,5 +352,5 @@ class TestNeumannBC:
         """Callable g integrating to a known value."""
         bnd_mesh = self._make_unit_segment_boundary_mesh()
         # g(x) = x[:,1] on the segment (1,0)-(1,1): ∫_0^1 y dy = 0.5
-        b = assemble_neumann_bc(bnd_mesh, g=lambda x: x[:, 1], quadrature_order=2, n_dofs=4)
+        b = assemble_neumann_bc(bnd_mesh, g=lambda x: x[:, 1], quadrature_order=2, dofs=4)
         np.testing.assert_allclose(b.sum(), 0.5, atol=1e-14)

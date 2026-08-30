@@ -42,7 +42,7 @@ def solve_poisson_neumann(n):
     bnd = tag_boundary_faces(bnd, lambda c: c[:, 0] > 1 - 1e-10, tag=2)  # right: Neumann
 
     neumann_mesh = select_boundary_faces(bnd, tag=2)
-    b += assemble_neumann_bc(neumann_mesh, g=1.0, quadrature_order=1, n_dofs=mesh.num_nodes)
+    b += assemble_neumann_bc(neumann_mesh, g=1.0, quadrature_order=1, dofs=mesh.num_nodes)
 
     dirichlet_mesh = select_boundary_faces(bnd, tag=1)
     bc_nodes = dirichlet_mesh.point_data["original_node_index"]

@@ -135,8 +135,7 @@ def assemble_neumann_bc(
     boundary_mesh: Mesh,
     g: float | Callable[[NDArray[np.float64]], NDArray[np.float64]],
     quadrature_order: int,
-    n_dofs: int,
-    dof_map: DOFMap | None = None,
+    dofs: int | DOFMap,
 ) -> NDArray[np.float64]:
     """Assemble the Neumann BC contribution ∫_Γ g v dS into the global load vector.
 
@@ -152,11 +151,10 @@ def assemble_neumann_bc(
         Callable signature: ``g(x) -> ndarray`` where x is (num_quad, spatial_dim).
     quadrature_order : int
         Quadrature order; use >= 2 * element.polynomial_degree for exactness.
-    n_dofs : int
-        Total DOFs in the global system (``mesh.num_nodes`` for scalar nodal FEM).
-    dof_map : DOFMap or None
-        When provided, ``n_dofs`` is ignored and replaced by ``dof_map.n_dofs``;
-        boundary scatter uses ``dof_map.boundary_dofs``.
+    dofs : int or DOFMap
+        Global DOF layout. An int is the total DOF count for scalar nodal FEM
+        (``mesh.num_nodes``), with boundary nodes scattering to their own index.
+        A ``DOFMap`` supplies both the count and the boundary-node scatter.
 
     Returns
     -------
@@ -164,14 +162,14 @@ def assemble_neumann_bc(
         Neumann contribution; scatter-add into the global load vector.
     """
     b_local = assemble_load_vector(boundary_mesh, g, quadrature_order)
-    if dof_map is not None:
-        n_dofs = dof_map.n_dofs
-    b_global = np.zeros(n_dofs)
     original_idx = boundary_mesh.point_data["original_node_index"]
-    if dof_map is not None:
-        scatter_idx = dof_map.boundary_dofs(original_idx)
+    if isinstance(dofs, DOFMap):
+        n_dofs = dofs.n_dofs
+        scatter_idx = dofs.boundary_dofs(original_idx)
     else:
+        n_dofs = dofs
         scatter_idx = original_idx
+    b_global = np.zeros(n_dofs)
     b_global[scatter_idx] += b_local
     return b_global
 
