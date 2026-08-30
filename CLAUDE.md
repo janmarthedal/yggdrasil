@@ -22,6 +22,8 @@ It should offer functionality such as:
 - Linting: `uv run ruff check`
 - Type checking: `uv run --group dev ty check`
 - Examples: `uv run --group examples python examples/<path>.py`
+- Benchmarks: `uv run --group bench pytest benchmarks/` (not collected by `uv run pytest`)
+- Benchmarks + scikit-fem comparison (opt-in): `uv run --group bench-compare pytest benchmarks/compare/`
 
 ## File structure
 - `yggdrasil/` — library source
@@ -40,6 +42,7 @@ It should offer functionality such as:
   - `unit/` — unit tests for individual modules (mesh, mapping, boundary, assembly, forms, error, dof_map, elements, refdomains)
   - `system/` — full PDE solutions compared against analytical solutions where possible
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
+- `benchmarks/` — `pytest-benchmark` timing suite (`--group bench`); `problems.py` holds shared solve-stage factories mirroring `tests/system/`; `compare/` is the opt-in scikit-fem comparison. See `benchmarks/README.md`.
 
 ## Packages
 SciPy and NumPy are used as the foundation for all computations.

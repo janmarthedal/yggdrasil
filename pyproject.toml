@@ -31,3 +31,11 @@ examples = [
     "matplotlib>=3.10",
     "meshio",
 ]
+bench = ["pytest-benchmark>=5.0"]
+bench-compare = [
+    { include-group = "bench" },
+    "scikit-fem>=10.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
