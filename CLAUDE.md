@@ -25,19 +25,19 @@ It should offer functionality such as:
 
 ## File structure
 - `yggdrasil/` — library source
-  - `assemble.py` — assembling matrices and vectors from (bilinear) functions
-  - `forms.py` — bilinear and linear form definitions (mass, stiffness, load)
-  - `dof_map.py` — DOF mapping for multi-field problems
-  - `error.py` — error computation utilities (L² error, H¹ error)
+  - `assemble.py` — assembling matrices and vectors from forms; Dirichlet condensation/projection
+  - `forms.py` — bilinear form definitions (`mass_form`, `grad_grad_form`)
+  - `dof_map.py` — node → global DOF mapping; scalar only today, seam for future vector/multi-field problems
+  - `error.py` — error computation utilities (L² error)
   - `io.py` — mesh I/O (reading/writing mesh files)
   - `refdomains/` — reference domain definitions (line, triangle, quadrilateral, tetrahedron, hexahedron) with quadrature rules
   - `elements/` — reference element implementations (shape functions and gradients) for each supported element type
   - `mapping.py` — Jacobian, physical-space gradients, and mapped quadrature utilities
-  - `boundary.py` — boundary mesh extraction (`extract_boundary`) and face selection (`select_boundary_faces`)
-  - `mesh.py` — `Mesh` class for storing nodes, connectivity, and auxiliary data
-  - `mesh_generators.py` — helper functions for creating structured meshes
+  - `boundary.py` — boundary mesh extraction (`extract_boundary`), tagging (`tag_boundary_faces`), and face selection (`select_boundary_faces`)
+  - `mesh.py` — immutable `Mesh` and `ElementGroup` classes for storing nodes, connectivity, and auxiliary data
+  - `mesh_generators.py` — structured mesh constructors and `map_mesh_points` (remap node coordinates)
 - `tests/`
-  - `unit/` — unit tests for individual modules (mesh, mapping, boundary, quadrature, elements, assembly)
+  - `unit/` — unit tests for individual modules (mesh, mapping, boundary, assembly, forms, error, dof_map, elements, refdomains)
   - `system/` — full PDE solutions compared against analytical solutions where possible
 - `examples/` — example scripts (require `--group examples` for extra dependencies like matplotlib)
 
@@ -61,6 +61,7 @@ The functionality is otherwise self-contained.
 	- Hex8 (8 nodes, trilinear)
 
 ## Key gotchas
-- **Dirichlet/Neumann ordering**: add Neumann contributions to RHS *before* applying `apply_dirichlet_bc`
+- **Dirichlet/Neumann ordering**: add Neumann contributions (`assemble_neumann_bc`) to the RHS *before* calling `condense_dirichlet_bc`
 - **Non-square Jacobians**: `mapping.py` handles `topo_dim < spatial_dim` via metric tensor `g = J^T J` — used for surface integrals in `boundary.py`
-- **`original_node_index`**: boundary meshes carry this in `point_data` to map local DOF indices back to global
+- **`original_node_index`**: boundary meshes carry this in `point_data` to map local node indices back to global
+- **Mesh immutability**: `Mesh`/`ElementGroup` are immutable — `nodes`/`connectivity` arrays are non-writeable, `element_groups` is a tuple, `point_data` is a `MappingProxyType`; operations like `tag_boundary_faces` and `map_mesh_points` return new meshes
