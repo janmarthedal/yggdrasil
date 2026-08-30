@@ -26,15 +26,11 @@ def extract_boundary(mesh: Mesh) -> Mesh:
             continue
 
         faces = elem.faces
-        # Number of corner nodes used for the canonical key
-        num_corner = face_elem.domain.topological_dimension + 1
-        if num_corner < 1:
-            num_corner = 1
 
         for cell_nodes in group.connectivity:
             for face in faces:
                 global_nodes = tuple(int(cell_nodes[i]) for i in face)
-                key = tuple(sorted(global_nodes[:num_corner]))
+                key = tuple(sorted(global_nodes))
                 canonical_keys.append(key)
                 face_records.append((key, global_nodes, face_elem))
 

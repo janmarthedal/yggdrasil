@@ -113,6 +113,46 @@ def test_single_hex8():
     assert group.num_elements == 6
 
 
+def test_two_hex8_shared_face():
+    """Two Hex8 cells sharing a face: shared face is interior -> 10 boundary faces.
+
+    Regression test: the shared quad face's node orientation differs between
+    the two cells, so the canonical key must use all 4 corner nodes (not
+    just the first 3) or the shared face is misclassified as boundary.
+    """
+    nodes = np.array([
+        [0.0, 0.0, 0.0],  # 0
+        [1.0, 0.0, 0.0],  # 1
+        [2.0, 0.0, 0.0],  # 2
+        [0.0, 1.0, 0.0],  # 3
+        [1.0, 1.0, 0.0],  # 4
+        [2.0, 1.0, 0.0],  # 5
+        [0.0, 0.0, 1.0],  # 6
+        [1.0, 0.0, 1.0],  # 7
+        [2.0, 0.0, 1.0],  # 8
+        [0.0, 1.0, 1.0],  # 9
+        [1.0, 1.0, 1.0],  # 10
+        [2.0, 1.0, 1.0],  # 11
+    ])
+    conn = np.array(
+        [
+            [0, 1, 4, 3, 6, 7, 10, 9],
+            [1, 2, 5, 4, 7, 8, 11, 10],
+        ],
+        dtype=np.intp,
+    )
+    mesh = Mesh(nodes, [ElementGroup(element=Hex8(), connectivity=conn)])
+
+    bnd = extract_boundary(mesh)
+
+    total_faces = sum(group.num_elements for group in bnd.element_groups)
+    assert total_faces == 10
+
+    orig_idx = set(bnd.point_data["original_node_index"].tolist())
+    # Shared-face nodes (x=1) still lie on the outer boundary via other faces.
+    assert {1, 4, 7, 10}.issubset(orig_idx)
+
+
 def test_original_node_index():
     """point_data['original_node_index'] correctly maps new -> original coords."""
     mesh = unit_square_tri_mesh(2)
