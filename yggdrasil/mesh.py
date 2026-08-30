@@ -1,4 +1,6 @@
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from types import MappingProxyType
 
 import numpy as np
 from numpy.typing import NDArray
@@ -6,9 +8,9 @@ from numpy.typing import NDArray
 from .elements.element import ReferenceElement
 
 
-@dataclass
+@dataclass(frozen=True)
 class ElementGroup:
-    """A group of elements sharing the same type."""
+    """An immutable group of elements sharing the same type."""
 
     element: ReferenceElement
     connectivity: NDArray[np.intp]
@@ -24,6 +26,9 @@ class ElementGroup:
                 f"connectivity has {self.connectivity.shape[1]} columns, "
                 f"expected {self.element.num_nodes} for {type(self.element).__name__}"
             )
+        self.connectivity.flags.writeable = False
+        for value in self.cell_data.values():
+            value.flags.writeable = False
 
     @property
     def num_elements(self) -> int:
@@ -49,15 +54,19 @@ class Mesh:
     def __init__(
         self,
         nodes: NDArray[np.float64],
-        element_groups: list[ElementGroup],
-        point_data: dict[str, NDArray] | None = None,
+        element_groups: Sequence[ElementGroup],
+        point_data: Mapping[str, NDArray] | None = None,
     ):
-        nodes = np.asarray(nodes, dtype=np.float64)
+        nodes = np.array(nodes, dtype=np.float64)
         if nodes.ndim != 2:
             raise ValueError(f"nodes must be 2D, got shape {nodes.shape}")
+        nodes.flags.writeable = False
         self._nodes = nodes
-        self._element_groups = list(element_groups)
-        self._point_data = dict(point_data) if point_data else {}
+        self._element_groups = tuple(element_groups)
+        point_data = dict(point_data) if point_data else {}
+        for value in point_data.values():
+            value.flags.writeable = False
+        self._point_data = MappingProxyType(point_data)
 
     @property
     def nodes(self) -> NDArray[np.float64]:
@@ -72,7 +81,7 @@ class Mesh:
         return self._nodes.shape[1]
 
     @property
-    def element_groups(self) -> list[ElementGroup]:
+    def element_groups(self) -> tuple[ElementGroup, ...]:
         return self._element_groups
 
     @property
@@ -80,7 +89,7 @@ class Mesh:
         return sum(g.num_elements for g in self._element_groups)
 
     @property
-    def point_data(self) -> dict[str, NDArray]:
+    def point_data(self) -> MappingProxyType:
         return self._point_data
 
     def iter_element_groups(self):

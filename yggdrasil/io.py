@@ -128,4 +128,8 @@ def to_meshio(mesh: Mesh):
             )
         cells.append(meshio.CellBlock(cell_type, group.connectivity))
 
-    return meshio.Mesh(points=mesh.nodes, cells=cells, point_data=mesh.point_data)  # type: ignore[arg-type]
+    return meshio.Mesh(
+        points=np.array(mesh.nodes),
+        cells=cells,
+        point_data={k: np.array(v) for k, v in mesh.point_data.items()},
+    )
