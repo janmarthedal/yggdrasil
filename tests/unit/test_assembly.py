@@ -284,12 +284,12 @@ class TestProjectDirichletBC:
         assert set(bc_nodes).issubset(set(range(mesh.num_nodes)))
 
     def test_insufficient_quadrature_order_raises(self):
-        """quadrature_order < 2*polynomial_degree must raise AssertionError."""
+        """quadrature_order < 2*polynomial_degree must raise ValueError."""
         import pytest
         from yggdrasil import extract_boundary
         mesh = self._make_unit_square_mesh()
         bnd = extract_boundary(mesh)
-        with pytest.raises(AssertionError, match="quadrature_order >= 2"):
+        with pytest.raises(ValueError, match="quadrature_order >= 2"):
             project_dirichlet_bc(bnd, g=3.0, quadrature_order=1)
 
     def test_projection_solves_poisson(self):

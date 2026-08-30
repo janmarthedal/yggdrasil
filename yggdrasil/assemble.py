@@ -299,12 +299,13 @@ def l2_project(
     """
     for group in mesh.iter_element_groups():
         min_order = 2 * group.element.polynomial_degree
-        assert quadrature_order >= min_order, (
-            f"{type(group.element).__name__} elements have polynomial degree "
-            f"{group.element.polynomial_degree}, so the mass matrix "
-            f"requires quadrature_order >= {min_order} "
-            f"(got {quadrature_order})"
-        )
+        if quadrature_order < min_order:
+            raise ValueError(
+                f"{type(group.element).__name__} elements have polynomial degree "
+                f"{group.element.polynomial_degree}, so the mass matrix "
+                f"requires quadrature_order >= {min_order} "
+                f"(got {quadrature_order})"
+            )
     M = assemble_bilinear_form(mesh, mass_form, quadrature_order)
     b = assemble_load_vector(mesh, g, quadrature_order)
     return scipy.sparse.linalg.spsolve(M, b)
