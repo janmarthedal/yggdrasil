@@ -4,7 +4,12 @@ from .dof_map import DOFMap
 from .error import l2_error
 from .forms import grad_grad_form, mass_form
 from .mesh import ElementGroup, Mesh
-from .mesh_generators import unit_cube_tet_mesh, unit_square_tri_mesh
+from .mesh_generators import (
+    map_mesh_points,
+    rectangular_tri_mesh,
+    unit_cube_tet_mesh,
+    unit_square_tri_mesh,
+)
 
 __all__ = [
     "CondensedSystem",
@@ -19,8 +24,10 @@ __all__ = [
     "grad_grad_form",
     "l2_error",
     "l2_project",
+    "map_mesh_points",
     "mass_form",
     "project_dirichlet_bc",
+    "rectangular_tri_mesh",
     "select_boundary_faces",
     "tag_boundary_faces",
     "unit_cube_tet_mesh",
